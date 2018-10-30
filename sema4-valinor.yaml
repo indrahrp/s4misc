@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create Valinor Scalable genomics workflows environment
+
+Resources:
+  VPCStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/valinor-us-east-1/sema4-vpc.yaml
+      TimeoutInMinutes: '5'
+  AMIStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - VPCStack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/valinor-us-east-1/create-custom-ami-existing-vpc.yaml
+      TimeoutInMinutes: '5'
+      Parameters:
+        VpcId: !Sub ${VPCStack.Outputs.VPCId}
+        PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
+        ScratchMountPoint: /scrach
+        ScratchVolumeSize: 200
+        UseEncryption: Yes
+        LatestECSAMI: /aws/service/ecs/optimized-ami/amazon-linux/recommended/image_id
+        AMIType: cromwell
+        AMIName: valinor-ami

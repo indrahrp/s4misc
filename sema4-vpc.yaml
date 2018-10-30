@@ -489,7 +489,7 @@ Outputs:
     Description: VPC Stack Name
     Value: !Ref AWS::StackName
     Export:
-      Name: !Sub ${AWS::StackName}-Name
+      Name: !Sub ${AWS::StackName}-VPC-Name
 
   VPCId:
     Description: VPC ID
