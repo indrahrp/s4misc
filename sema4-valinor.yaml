@@ -1,19 +1,95 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: Create Valinor Scalable genomics workflows environment
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Genomics Environment for AWS Batch Parameters"
+        Parameters:
+          - TemplatePath
+          - S3BucketName
+          - AMIName
+          - KeyPairName
+          - SpotBidPercentage
+          - DefaultCEMinvCpus
+          - DefaultCEMaxvCpus
+          - HighPriorityCEMinvCpus
+          - HighPriorityCEMaxvCpus
+          - DefaultRetryNumber
+    ParameterLabels:
+      TemplatePath:
+        default: S3 key object (direcotry) name where templates locate.
+      S3BucketName:
+        default: S3 Bucket Name
+      AMIName:
+        default: Customized AMI Name
+      KeyPairName:
+        default: EC2 Key Pair Name
+      SpotBidPercentage:
+        default: Spot Bid %
+      DefaultCEMinvCpus:
+        default: Default Min vCPU
+      DefaultCEMaxvCpus:
+        default: Default Max vCPU
+      HighPriorityCEMinvCpus:
+        default: High Priority Min vCPU
+      HighPriorityCEMaxvCpus:
+        default: High Priority Max vCPU
+      DefaultRetryNumber:
+        default: Job Retry Attempts
 
+Parameters:
+  TemplatePath:
+    Type: String
+    Description: S3Bucket Path where the templates are stored
+    Default: valinor-us-east-1
+  S3BucketName:
+    Description: A S3 bucket name for storing analysis results
+    Type: String
+  AMIName:
+    Type: String
+    Default: genomics-ami
+    Description: The name of the AMI that is created
+  KeyPairName:
+    Description: Key Pair name
+    Type: AWS::EC2::KeyPair::KeyName
+  SpotBidPercentage:
+    Description: The percent of on-demand pricing for max bid for Spot intances
+    Type: Number
+    Default: 100
+  DefaultCEMinvCpus:
+    Description: The minimum number of CPUs for the default Batch Compute Environment
+    Type: Number
+    Default: 0
+  DefaultCEMaxvCpus:
+    Description: The maximum number of CPUs for the default Batch Compute Environment
+    Type: Number
+    Default: 100
+  HighPriorityCEMinvCpus:
+    Description: The minimum number of CPUs for the high-priority Batch Compute Environment
+    Type: Number
+    Default: 0
+  HighPriorityCEMaxvCpus:
+    Description: The maximum number of CPUs for the high-priority Batch Compute Environment
+    Type: Number
+    Default: 100
+  DefaultRetryNumber:
+    Description: The default number of Job retry attempts
+    Type: Number
+    Default: 1
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://s3.amazonaws.com/valinor-us-east-1/sema4-vpc.yaml
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-vpc.yaml"
       TimeoutInMinutes: '5'
   AMIStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - VPCStack
     Properties:
-      TemplateURL: https://s3.amazonaws.com/valinor-us-east-1/create-custom-ami-existing-vpc.yaml
-      TimeoutInMinutes: '5'
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-custom-ami-novpc.yaml"
+      TimeoutInMinutes: '10'
       Parameters:
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
@@ -22,4 +98,59 @@ Resources:
         UseEncryption: Yes
         LatestECSAMI: /aws/service/ecs/optimized-ami/amazon-linux/recommended/image_id
         AMIType: cromwell
-        AMIName: valinor-ami
+        AMIName: !Ref AMIName
+  S3Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-s3.template.yaml"
+      TimeoutInMinutes: '5'
+      Parameters:
+        S3BucketName: !Ref S3BucketName
+  IamStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: S3Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-iam.template.yaml"
+      TimeoutInMinutes: '10'
+      Parameters:
+        S3BucketName: !Ref S3BucketName
+  BatchStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - IamStack
+      - VPCStack
+      - AMIStack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-batch.template.yaml"
+      TimeoutInMinutes: "15"
+      Parameters:
+        CustomAmiId: !Sub ${AMIStack.Outputs.AMI}
+        Ec2KeyPairName: !Ref KeyPairName
+        VpcId: !Sub ${VPCStack.Outputs.VPCId}
+        SubnetIds: !Sub "${VPCStack.Outputs.PrivateSubnet1},${VPCStack.Outputs.PrivateSubnet2}"
+        SpotBidPercentage: !Ref SpotBidPercentage
+        DefaultCEMinvCpus: !Ref DefaultCEMinvCpus
+        DefaultCEMaxvCpus: !Ref DefaultCEMaxvCpus
+        HighPriorityCEMinvCpus: !Ref HighPriorityCEMinvCpus
+        HighPriorityCEMaxvCpus: !Ref HighPriorityCEMaxvCpus
+        DefaultRetryNumber: !Ref DefaultRetryNumber
+        BatchServiceRoleArn: !Sub ${IamStack.Outputs.BatchServiceRoleArn}
+        Ec2InstanceProfileArn: !Sub ${IamStack.Outputs.BatchInstanceProfileArn}
+        SpotFleetRoleArn: !Sub ${IamStack.Outputs.BatchSpotFleetRoleArn}
+Outputs:
+  GenomicsEnvS3Bucket:
+    Value: !Sub ${S3Stack.Outputs.BucketName}
+    Export:
+        Name: !Sub "${AWS::StackName}-Genomics-S3Bucket"
+  GenomicsEnvBatchJobRoleArn:
+    Value: !Sub ${IamStack.Outputs.BatchJobRoleArn}
+    Export:
+        Name: !Sub "${AWS::StackName}-Genomics-BatchJobRoleArn"
+  GenomicsEnvDefaultJobQueueArn:
+    Value: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+    Export:
+        Name: !Sub "${AWS::StackName}-Genomics-DefaultJobQueueArn"
+  GenomicsEnvHighPriorityJobQueueArn:
+    Value: !Sub ${BatchStack.Outputs.HighPriorityJobQueueArn}
+    Export:
+        Name: !Sub "${AWS::StackName}-Genomics-HighPriorityJobQueueArn"
