@@ -16,6 +16,9 @@ Metadata:
           - HighPriorityCEMinvCpus
           - HighPriorityCEMaxvCpus
           - DefaultRetryNumber
+          - ServerInstanceType
+          - ServerInstanceName
+          - ServerSSHLocation
     ParameterLabels:
       TemplatePath:
         default: S3 key object (direcotry) name where templates locate.
@@ -37,6 +40,13 @@ Metadata:
         default: High Priority Max vCPU
       DefaultRetryNumber:
         default: Job Retry Attempts
+      ServerInstanceType:
+        default: Cromwell Server Instance Type
+      ServerInstanceName:
+        default: Cromwell Server Instance Name
+      ServerSSHLocation:
+        default: Cromwell Server SSH Location
+
 
 Parameters:
   TemplatePath:
@@ -77,6 +87,30 @@ Parameters:
     Description: The default number of Job retry attempts
     Type: Number
     Default: 1
+  ServerInstanceType:
+    Description: >-
+      EC2 instance type.  Cromwell itself does not require much compute power.
+      A t2.medium should be sufficient.  If you want to run this server on the
+      free tier, use a t2.micro.
+    Type: String
+    Default: t2.medium
+    AllowedValues:
+    - t2.micro
+    - t2.medium
+    - t2.large
+    ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large'."
+  ServerInstanceName:
+    Type: String
+    Default: cromwell-server
+    Description: The name of the instance that is created
+  ServerSSHLocation:
+    Description: " The IP address range that can be used to SSH to the EC2 instances"
+    Type: String
+    MinLength: '9'
+    MaxLength: '18'
+    Default: 0.0.0.0/0
+    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
@@ -137,6 +171,24 @@ Resources:
         BatchServiceRoleArn: !Sub ${IamStack.Outputs.BatchServiceRoleArn}
         Ec2InstanceProfileArn: !Sub ${IamStack.Outputs.BatchInstanceProfileArn}
         SpotFleetRoleArn: !Sub ${IamStack.Outputs.BatchSpotFleetRoleArn}
+  CromwellServerStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - BatchStack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
+      TimeoutInMinutes: "15"
+      Parameters:
+        InstanceType: !Ref ServerInstanceType
+        VpcId: !Sub ${VPCStack.Outputs.VPCId}
+        PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
+        LatestAmazonLinuxAMI: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2
+        InstanceName: !Ref ServerInstanceName
+        KeyName: !Ref KeyPairName
+        SSHLocation: !Ref ServerSSHLocation
+        S3BucketName: !Ref S3BucketName
+        BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+
 Outputs:
   GenomicsEnvS3Bucket:
     Value: !Sub ${S3Stack.Outputs.BucketName}
@@ -154,3 +206,16 @@ Outputs:
     Value: !Sub ${BatchStack.Outputs.HighPriorityJobQueueArn}
     Export:
         Name: !Sub "${AWS::StackName}-Genomics-HighPriorityJobQueueArn"
+
+  ServerEC2Instance:
+    Description: The EC2 Instance ID of your Cromwell Server
+    Value: !Sub ${CromwellServerStack.Outputs.EC2Instance}
+
+  ServerPublicIp:
+    Value: !Sub ${CromwellServerStack.Outputs.PublicIp}
+    Description: Cromwell server public IP address
+
+  ServerHostName:
+    Value: !Sub ${CromwellServerStack.Outputs.HostName}
+    Description: Cromwell server public DNS name
+
