@@ -21,7 +21,6 @@ Metadata:
           default: "Genomics Environment for AWS Batch Parameters"
         Parameters:
           - S3BucketName
-          - AMIName
           - KeyPairName
           - SpotBidPercentage
           - DefaultCEMinvCpus
@@ -29,6 +28,9 @@ Metadata:
           - HighPriorityCEMinvCpus
           - HighPriorityCEMaxvCpus
           - DefaultRetryNumber
+      - Label:
+          default: "Cromwell Server Parameters"
+        Parameters:
           - ServerInstanceType
           - ServerInstanceName
           - ServerSSHLocation
@@ -38,8 +40,6 @@ Metadata:
         default: S3 key object (direcotry) name where templates locate.
       S3BucketName:
         default: S3 Bucket Name
-      AMIName:
-        default: Customized AMI Name
       KeyPairName:
         default: EC2 Key Pair Name
       SpotBidPercentage:
@@ -100,10 +100,6 @@ Parameters:
     MinLength: 9
     MaxLength: 18
     Default: 10.80.191.192/26
-  AMIName:
-    Type: String
-    Default: genomics-ami
-    Description: The name of the AMI that is created
   KeyPairName:
     Description: Key Pair name
     Type: AWS::EC2::KeyPair::KeyName
@@ -118,7 +114,7 @@ Parameters:
   DefaultCEMaxvCpus:
     Description: The maximum number of CPUs for the default Batch Compute Environment
     Type: Number
-    Default: 100
+    Default: 1024
   HighPriorityCEMinvCpus:
     Description: The minimum number of CPUs for the high-priority Batch Compute Environment
     Type: Number
@@ -126,11 +122,11 @@ Parameters:
   HighPriorityCEMaxvCpus:
     Description: The maximum number of CPUs for the high-priority Batch Compute Environment
     Type: Number
-    Default: 100
+    Default: 1024
   DefaultRetryNumber:
     Description: The default number of Job retry attempts
     Type: Number
-    Default: 1
+    Default: 3
   ServerInstanceType:
     Description: >-
       EC2 instance type.  Cromwell itself does not require much compute power.
@@ -149,6 +145,14 @@ Parameters:
     Description: The name of the instance that is created
   ServerSSHLocation:
     Description: " The IP address range that can be used to SSH to the EC2 instances"
+    Type: String
+    MinLength: '9'
+    MaxLength: '18'
+    Default: 0.0.0.0/0
+    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  HTTPLocation:
+    Description: "The IP address range that has HTTP access to the EC2 instances"
     Type: String
     MinLength: '9'
     MaxLength: '18'
@@ -177,12 +181,11 @@ Resources:
       Parameters:
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
-        ScratchMountPoint: /scrach
+        ScratchMountPoint: /cromwell_root
         ScratchVolumeSize: 200
         UseEncryption: Yes
-        LatestECSAMI: /aws/service/ecs/optimized-ami/amazon-linux/recommended/image_id
         AMIType: cromwell
-        AMIName: !Ref AMIName
+        AMIName: !Join ["-", ["cromwell-genomics-ami", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
   S3Stack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -236,6 +239,7 @@ Resources:
         InstanceName: !Ref ServerInstanceName
         KeyName: !Ref KeyPairName
         SSHLocation: !Ref ServerSSHLocation
+        HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
 

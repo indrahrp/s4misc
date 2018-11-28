@@ -457,9 +457,6 @@ Resources:
       SubnetId: !Ref PrivateSubnet2
       RouteTableId: !Ref NatRouteTable2
 
- 
-
-
   S3Endpoint:
    Type: AWS::EC2::VPCEndpoint
    Properties:
@@ -562,3 +559,7 @@ Outputs:
     Value: !Ref AppIngressPort
     Export:
       Name: !Sub "${AWS::StackName}-AppIngressPort"
+
+  DefaultSecurityGroup:
+    Description: Default Security Group for this VPC
+    Value: !GetAtt
