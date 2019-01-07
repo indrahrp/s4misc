@@ -2,10 +2,10 @@
   "Parameters" : {
     "TemplatePath": "TEMPLATE_PATH_PLACEHOLDER",
     "GlobalCIDR": "10.80.175.128/26",
-    "PrivNet1": "10.80.175.128/28",
-    "PrivNet2": "10.80.175.144/28",
     "PubNet1": "10.80.175.160/28",
     "PubNet2": "10.80.175.176/28",
+    "PrivNet1": "10.80.175.128/28",
+    "PrivNet2": "10.80.175.144/28",
     "S3BucketName": "somatic-test",
     "KeyPairName": "somatic-test",
     "AMIName": "somatic-test",

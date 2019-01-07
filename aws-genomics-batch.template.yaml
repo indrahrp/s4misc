@@ -184,6 +184,7 @@ Resources:
     Properties:
       Priority: 1000
       State: ENABLED
+      JobQueueName: !Join ["-", ["GenomicsHighPriorityQueue", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
       ComputeEnvironmentOrder:
         - Order: 1
           ComputeEnvironment: !Ref GenomicsHighPriorityComputeEnv
@@ -195,6 +196,7 @@ Resources:
     Properties:
       Priority: 1
       State: ENABLED
+      JobQueueName: !Join ["-", ["GenomicsDefaultQueue", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
       ComputeEnvironmentOrder:
         - Order: 1
           ComputeEnvironment: !Ref GenomicsDefaultComputeEnv

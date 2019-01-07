@@ -559,7 +559,3 @@ Outputs:
     Value: !Ref AppIngressPort
     Export:
       Name: !Sub "${AWS::StackName}-AppIngressPort"
-
-  DefaultSecurityGroup:
-    Description: Default Security Group for this VPC
-    Value: !GetAtt
