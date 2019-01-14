@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Create Valinor Scalable genomics workflows environment
+Description: Create Scalable workflows bastion environment
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -30,7 +30,16 @@ Metadata:
           - HighPriorityCEMaxvCpus
           - DefaultRetryNumber
       - Label:
-          default: "Cromwell Server Parameters"
+          default: "Job Definition"
+        Parameters:
+          - JobDefinitionName
+          - Memory
+          - Vcpus
+          - Image
+          - Command
+
+      - Label:
+          default: "Batch Launcher Server Parameters"
         Parameters:
           - ServerInstanceType
           - ServerInstanceName
@@ -44,7 +53,7 @@ Metadata:
       KeyPairName:
         default: EC2 Key Pair Name
       ScratchVolumeSize:
-        default: Cromewll AMI Scratch Volume (GB)
+        default: Custom AMI initial scratch volume
       SpotBidPercentage:
         default: Spot Bid %
       DefaultCEMinvCpus:
@@ -58,11 +67,11 @@ Metadata:
       DefaultRetryNumber:
         default: Job Retry Attempts
       ServerInstanceType:
-        default: Cromwell Server Instance Type
+        default: Bastion Server Instance Type
       ServerInstanceName:
-        default: Cromwell Server Instance Name
+        default: Bastion Server Instance Name
       ServerSSHLocation:
-        default: Cromwell Server SSH Location
+        default: Bastion Server SSH Location
 
 
 Parameters:
@@ -103,14 +112,12 @@ Parameters:
     MinLength: 9
     MaxLength: 18
     Default: 10.80.191.192/26
-
-  ScratchVolumeSize:
-    Type: Number
-    Default: 200
-    Description: The initial size of the scratch volume for AMI
   KeyPairName:
     Description: Key Pair name
     Type: AWS::EC2::KeyPair::KeyName
+  ScratchVolumeSize:
+    Description: AMI initial scratch volume
+    Type: Number
   SpotBidPercentage:
     Description: The percent of on-demand pricing for max bid for Spot intances
     Type: Number
@@ -135,9 +142,31 @@ Parameters:
     Description: The default number of Job retry attempts
     Type: Number
     Default: 3
+
+  JobDefinitionName:
+    Description: Name of Job Definition
+    Type: String
+    Default: Image2Thumbnail
+  Memory :
+    Type: Number
+    Description: The hard limit (in MiB) of memory to present to the job container
+    Default: 2000
+  Vcpus :
+    Type: Number
+    Description: The number of vCPUs reserved for the job container.
+    Default: 2
+  Image :
+    Description: The image used to start a container.
+    Type: String
+    Default: 260062248592.dkr.ecr.us-east-1.amazonaws.com/s4-aws-batch-demo
+  Command:
+    Description: The command that is passed to the container.
+    Type: String
+    Default: python image_to_thumbnail.py
+
   ServerInstanceType:
     Description: >-
-      EC2 instance type.  Cromwell itself does not require much compute power.
+      EC2 instance type.  Bastion itself does not require much compute power.
       A t2.medium should be sufficient.  If you want to run this server on the
       free tier, use a t2.micro.
     Type: String
@@ -149,7 +178,7 @@ Parameters:
     ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large'."
   ServerInstanceName:
     Type: String
-    Default: cromwell-server
+    Default: bastion-server
     Description: The name of the instance that is created
   ServerSSHLocation:
     Description: " The IP address range that can be used to SSH to the EC2 instances"
@@ -189,12 +218,12 @@ Resources:
       Parameters:
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
-        ScratchMountPoint: /cromwell_root
+        ScratchMountPoint: /scratch
         ScratchVolumeSize: !Ref ScratchVolumeSize
         UseEncryption: Yes
         KeyName: !Ref KeyPairName
-        AMIType: cromwell
-        AMIName: !Join ["-", ["cromwell-genomics-ami", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
+        AMIType: default
+        AMIName: !Join ["-", ["bastion-ami", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
   S3Stack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -233,24 +262,38 @@ Resources:
         BatchServiceRoleArn: !Sub ${IamStack.Outputs.BatchServiceRoleArn}
         Ec2InstanceProfileArn: !Sub ${IamStack.Outputs.BatchInstanceProfileArn}
         SpotFleetRoleArn: !Sub ${IamStack.Outputs.BatchSpotFleetRoleArn}
-  CromwellServerStack:
+
+  BatchJobDefStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - BatchStack
     Properties:
-      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-example-jobdef.template.yaml"
+      TimeoutInMinutes: "30"
+      Parameters:
+        JobDefinitionName: !Ref JobDefinitionName
+        JobRoleArn: !Sub ${IamStack.Outputs.BatchJobRoleArn}
+        Vcpus: !Ref Vcpus
+        Memory: !Ref Memory
+        Image: !Ref Image
+
+  EC2InstanceStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - BatchJobDefStack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-ec2.template.yaml"
       TimeoutInMinutes: "30"
       Parameters:
         InstanceType: !Ref ServerInstanceType
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
-        LatestAmazonLinuxAMI: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2
         InstanceName: !Ref ServerInstanceName
         KeyName: !Ref KeyPairName
         SSHLocation: !Ref ServerSSHLocation
-        HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+        JobDefinition: !Ref JobDefinitionName
 
 Outputs:
   GenomicsEnvS3Bucket:
@@ -271,14 +314,14 @@ Outputs:
         Name: !Sub "${AWS::StackName}-Genomics-HighPriorityJobQueueArn"
 
   ServerEC2Instance:
-    Description: The EC2 Instance ID of your Cromwell Server
-    Value: !Sub ${CromwellServerStack.Outputs.EC2Instance}
+    Description: The EC2 Instance ID of your Bastion Server
+    Value: !Sub ${EC2InstanceStack.Outputs.EC2Instance}
 
   ServerPublicIp:
-    Value: !Sub ${CromwellServerStack.Outputs.PublicIp}
-    Description: Cromwell server public IP address
+    Value: !Sub ${EC2InstanceStack.Outputs.PublicIp}
+    Description: Bastion server public IP address
 
   ServerHostName:
-    Value: !Sub ${CromwellServerStack.Outputs.HostName}
-    Description: Cromwell server public DNS name
+    Value: !Sub ${EC2InstanceStack.Outputs.HostName}
+    Description: Bastion server public DNS name
 
