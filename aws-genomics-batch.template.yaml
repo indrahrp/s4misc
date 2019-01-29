@@ -158,6 +158,7 @@ Resources:
         SpotIamFleetRole: !Ref SpotFleetRoleArn
         Subnets: !Ref SubnetIds
         Type: SPOT
+        Tags: {"Name": !Join ["-", ["Default", !Select [1, !Split ["/", !Ref "AWS::StackId" ]]]]}
 
   GenomicsHighPriorityComputeEnv:
     Type: AWS::Batch::ComputeEnvironment
@@ -178,13 +179,14 @@ Resources:
           - !Ref GenomicsBatchSecurityGroup
         Subnets: !Ref SubnetIds
         Type: EC2
+        Tags: {"Name": !Join ["-", ["HighPriority", !Select [1, !Split ["/", !Ref "AWS::StackId" ]]]]}
 
   GenomicsHighPriorityQueue:
     Type: AWS::Batch::JobQueue
     Properties:
       Priority: 1000
       State: ENABLED
-      JobQueueName: !Join ["-", ["GenomicsHighPriorityQueue", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
+      JobQueueName: !Join ["-", ["GenomicsHighPriorityQueue", !Select [1, !Split ["/", !Ref "AWS::StackId" ]]]]
       ComputeEnvironmentOrder:
         - Order: 1
           ComputeEnvironment: !Ref GenomicsHighPriorityComputeEnv
@@ -196,7 +198,7 @@ Resources:
     Properties:
       Priority: 1
       State: ENABLED
-      JobQueueName: !Join ["-", ["GenomicsDefaultQueue", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
+      JobQueueName: !Join ["-", ["GenomicsDefaultQueue", !Select [1, !Split ["/", !Ref "AWS::StackId" ]]]]
       ComputeEnvironmentOrder:
         - Order: 1
           ComputeEnvironment: !Ref GenomicsDefaultComputeEnv
