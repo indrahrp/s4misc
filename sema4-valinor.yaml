@@ -11,6 +11,8 @@ Metadata:
       - Label:
          default: Network Global CIDR and Subnet Network - Ask IT Support for Unique Global CIDR for Routing Among VPC or Organizational Sub Account
         Parameters:
+          - AvailabilityZone1
+          - AvailabilityZone2
           - GlobalCIDR
           - PubNet1
           - PubNet2
@@ -73,6 +75,16 @@ Parameters:
   S3BucketName:
     Description: A S3 bucket name for storing analysis results
     Type: String
+  AvailabilityZone1:
+    Description: The first availability zone in the region
+    Type: AWS::EC2::AvailabilityZone::Name
+    ConstraintDescription: Must be a valid availability zone
+    Default: us-east-1c
+  AvailabilityZone2:
+    Description: The second availability zone in the region
+    Type: AWS::EC2::AvailabilityZone::Name
+    ConstraintDescription: Must be a valid availability zone
+    Default: us-east-1b
   GlobalCIDR:
     Description: Global CIDR of the VPC  ( i.e. 10.80.191.0/24 - Total 256 IPs )
     Type: String
@@ -174,6 +186,8 @@ Resources:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-vpc.yaml"
       TimeoutInMinutes: '20'
       Parameters:
+        AvailabilityZone1: !Ref AvailabilityZone1
+        AvailabilityZone2: !Ref AvailabilityZone2
         GlobalCIDR: !Ref GlobalCIDR
         PubNet1:  !Ref PubNet1
         PubNet2: !Ref PubNet2
