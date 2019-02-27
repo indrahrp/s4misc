@@ -1,6 +1,17 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Creates a custom AMI to be used with AWS Batch
 
+Mappings:
+  TagMap:
+    default:
+      architecture: "genomics-workflows"
+      solution: "default"
+      tags:
+        - Key: "architecture"
+          Value: "genomics-workflows"
+        - Key: "solution"
+          Value: "default"
+
 # Parameters
 Parameters:
   VpcId:
@@ -85,28 +96,14 @@ Resources:
                 sh /opt/ebs-autoscale/bin/init-ebs-autoscale.sh '${ScratchMountPoint}' /dev/sdc 2>&1 > /var/log/init-ebs-autoscale.log
               env:
                 PATH: "/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
-            03GetECSPatches:
-              command:
-                Fn::If:
-                  - UseCromwell
-                  - !Join [
-                      " ",
-                      [
-                        "wget",
-                        "https://aws-genomics-workflows.s3.amazonaws.com/artifacts/aws-ecs-patches.tgz",
-                        "&&",
-                        "tar",
-                        "-xzf",
-                        "aws-ecs-patches.tgz",
-                      ],
-                    ]
-                  - echo "OK"
+            03GetECSAdditions:
+              command: wget https://aws-genomics-workflows.s3.amazonaws.com/artifacts/aws-ecs-additions.tgz && tar -xzf aws-ecs-additions.tgz
               cwd: /opt
-            04InstallECSPatches:
+            04InstallECSAdditions:
               command:
                 Fn::If:
                   - UseCromwell
-                  - !Join [" ", ["sh", "/opt/ecs-patches/ecs-additions-cromwell.sh"]]
+                  - !Join [" ", ["sh", "/opt/ecs-additions/ecs-additions-cromwell.sh"]]
                   - echo "OK"
               env:
                 PATH: "/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
@@ -117,6 +114,10 @@ Resources:
       Tags:
         - Key: Name
           Value: genomics-base-ami
+        - Key: architecture
+          Value: !FindInMap ["TagMap", "default", "architecture"]
+        - Key: solution
+          Value: !Ref AMIType
       BlockDeviceMappings:
         - DeviceName: /dev/sdc
           Ebs:
@@ -126,6 +127,7 @@ Resources:
               Fn::If: [UseEncryptedVolume, true, false]
         - DeviceName: /dev/xvdcz
           Ebs:
+            VolumeType: gp2
             Encrypted:
               Fn::If: [UseEncryptedVolume, true, false]
       UserData:
@@ -151,6 +153,11 @@ Resources:
     Properties:
       ServiceToken: !GetAtt AMIFunction.Arn
       InstanceId: !Ref EC2Instance
+      Tags:
+        - Key: architecture
+          Value: !FindInMap ["TagMap", "default", "architecture"]
+        - Key: solution
+          Value: !Ref AMIType
   AMIFunction:
     Type: AWS::Lambda::Function
     Properties:
@@ -158,7 +165,7 @@ Resources:
       Role: !GetAtt LambdaExecutionRole.Arn
       Code:
         ZipFile: !Sub |
-          var response = require('cfn-response');
+           var response = require('cfn-response');
            var AWS = require('aws-sdk');
            exports.handler = function(event, context) {
              console.log("Request received:\n", JSON.stringify(event));

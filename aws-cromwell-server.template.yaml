@@ -1,6 +1,17 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Creates an EC2 Instance and Roles for a Cromwell Server
 
+Mappings:
+  TagMap:
+    default:
+      architecture: "genomics-workflows"
+      solution: "cromwell"
+      tags:
+        - Key: "architecture"
+          Value: "genomics-workflows"
+        - Key: "solution"
+          Value: "cromwell"
+
 # Parameters
 Parameters:
   InstanceType:
@@ -99,7 +110,8 @@ Resources:
               Resource:
                 - !Join ["", ["arn:aws:s3:::", !Ref S3BucketName]] 
                 - !Join ["", ["arn:aws:s3:::", !Ref S3BucketName, "/*"]]
-              Action: "*"
+              Action:
+                - "s3:*"
         
         - PolicyName: !Sub CromwellServer-CloudWatch-Access-${AWS::Region}
           PolicyDocument:
@@ -139,15 +151,19 @@ Resources:
       Tags:
         - Key: Name
           Value: cromwell-server-sg
+        - Key: architecture
+          Value: !FindInMap ["TagMap", "default", "architecture"]
+        - Key: solution
+          Value: !FindInMap ["TagMap", "default", "solution"]
       SecurityGroupIngress:
       - IpProtocol: tcp
-        FromPort: '22'
-        ToPort: '22'
+        FromPort: 22
+        ToPort: 22
         CidrIp:
           Ref: SSHLocation
       - IpProtocol: tcp
-        FromPort: '80'
-        ToPort: '80'
+        FromPort: 80
+        ToPort: 80
         CidrIp:
           Ref: HTTPLocation
 
@@ -223,6 +239,13 @@ Resources:
                   port = 8000
                 }
 
+                system {
+                  job-rate-control {
+                    jobs = 1
+                    per = 2 second
+                  }
+                }
+
                 aws {
                   application-name = "cromwell"
                   auths = [{
@@ -240,11 +263,10 @@ Resources:
                     AWSBATCH {
                       actor-factory = "cromwell.backend.impl.aws.AwsBatchBackendLifecycleActorFactory"
                       config {
-                        numSubmitAttempts = 3
-                        numCreateDefinitionAttempts = 3
+                        numSubmitAttempts = 10
+                        numCreateDefinitionAttempts = 10
                         root = "s3://${S3BucketName}/cromwell-execution"
                         auth = "default"
-                        concurrent-job-limit = 16
                         default-runtime-attributes { queueArn = "${BatchQueue}" }
                         filesystems { s3 { auth = "default" } }
                       }
@@ -419,7 +441,11 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref InstanceName
-      
+        - Key: architecture
+          Value: !FindInMap ["TagMap", "default", "architecture"]
+        - Key: solution
+          Value: !FindInMap ["TagMap", "default", "solution"]
+
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash -x

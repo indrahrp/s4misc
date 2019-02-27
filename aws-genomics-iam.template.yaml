@@ -24,7 +24,8 @@ Resources:
                   - "s3:ListBucket*"
               - Effect: Allow
                 Resource: !Join ["", ["arn:aws:s3:::", !Ref S3BucketName, "/*"]]
-                Action: "*"
+                Action:
+                  - "s3:*"
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -70,7 +71,8 @@ Resources:
                 Resource: 
                   - !Join ["", ["arn:aws:s3:::", !Ref S3BucketName]]
                   - !Join ["", ["arn:aws:s3:::", !Ref S3BucketName, "/*"]]
-                Action: "*"
+                Action:
+                  - "s3:*"
  
         - PolicyName: !Sub GenomicsEnv-Autoscale-EBS-${AWS::Region}
           PolicyDocument:
