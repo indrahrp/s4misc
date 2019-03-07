@@ -1,3 +1,6 @@
+First, look at readme for Tigris: https://github.com/sema4genomics/tigris
+
+
 Example Cromwell Run command to submit a job to a Valinor environment:
 
 java -Dconfig.file=Manifests/${SAMPLE}.aws.conf -jar ~/bin/cromwell-36.jar run \
