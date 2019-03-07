@@ -12,4 +12,4 @@ curl -H "accept: application/json" \
 -F "workflowSource=@/home/ec2-user/MAIN.wdl" \
 -F "workflowInputs=@/home/ec2-user/SAMPLE.json" \
 -F "workflowOptions=@/home/ec2-user/WORKFLOW_OPTIONS.json" \
--F "workflowDependencies=@WDL_DEPENDENCIES/IMPORTS.zip" -X POST "http://<EC2_IP>/api/workflows/v1"
+-F "workflowDependencies=@WDL_DEPENDENCIES.zip" -X POST "http://<EC2_IP>/api/workflows/v1"
