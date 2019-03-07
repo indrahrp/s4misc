@@ -1,0 +1,9 @@
+{
+    "default_runtime_attributes": {
+	"docker": "260062248592.dkr.ecr.us-east-1.amazonaws.com/s4-rhythm-wes:latest",
+    "zones" : "us-east-1",
+	"memory": "32 GB"
+    },
+
+  "workflow-failure-mode": "ContinueWhilePossible"	
+}

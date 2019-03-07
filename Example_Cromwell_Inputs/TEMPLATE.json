@@ -1,0 +1,56 @@
+{
+  "##_COMMENT1": "Input FPs",
+  "RtmGermline.fastqfp1": "FASTQ_FP1",
+  "RtmGermline.fastqfp2": "FASTQ_FP2",
+  "RtmGermline.fastqfp3": "FASTQ_FP3",
+  "RtmGermline.fastqfp4": "FASTQ_FP4",
+  
+  "##_COMMENT2": "Project settings",
+  "RtmGermline.dataset": "SAMPLEID",
+  "RtmGermline.RG_SM": "SAMPLEID",
+  "RtmGermline.RG_LB": "IDT_WESP",
+  "RtmGermline.RG_PL": "Illumina",
+  "RtmGermline.RG_PU": "NovaSeq",
+  "RtmGermline.intervals": "s3://s4-research-pbg-rhythm/WES/WESPlus_targets_merged.intervals",
+  "RtmGermline.probe_intervals": "s3://s4-research-pbg-rhythm/WES/WESPlus_targets_merged.intervals",
+  
+  "##_COMMENT3": "General pipeline settings",
+  "RtmGermline.java_options": "-Djava.io.tmpdir=''",
+  "RtmGermline.gatk_options": "",
+
+  "##_COMMENT4": "Function specific settings",
+  "RtmGermline.mincalldepth": "30",
+  "RtmGermline.HaplotypeCaller_options": "",
+
+  "##_COMMENT5": "General resource files",
+  "RtmGermline.ref_fasta": "s3://s4-pbg-valinor/references/hg19/ucsc.hg19.fasta",
+  "RtmGermline.bqsr_known_sites": [
+  	"s3://s4-pbg-valinor/references/hg19/dbsnp_138.hg19.vcf.gz", 
+  	"s3://s4-pbg-valinor/references/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz", 
+  	"s3://s4-pbg-valinor/references/hg19/1000G_phase1.indels.hg19.vcf.gz"],
+  "RtmGermline.bqsr_known_sites_indexes": [
+  	"s3://s4-pbg-valinor/references/hg19/dbsnp_138.hg19.vcf.gz.tbi", 
+  	"s3://s4-pbg-valinor/references/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz.tbi", 
+  	"s3://s4-pbg-valinor/references/hg19/1000G_phase1.indels.hg19.vcf.gz.tbi"],
+  "RtmGermline.dbSNP": "s3://s4-pbg-valinor/references/hg19/dbsnp_138.hg19.vcf.gz",
+  
+  "##_COMMENT6": "Commpute resources",
+  "RtmGermline.threads_bwa": "16",
+  "RtmGermline.mem_bwa": "48 GB",
+  "RtmGermline.threads_mutect2": "16",
+  "RtmGermline.mem_mutect2": "32 GB",
+  "RtmGermline.threads_hc": "16",
+  "RtmGermline.mem_hc": "32 GB",
+  "RtmGermline.threads_cg": "4",
+  "RtmGermline.mem_cg": "8 GB",
+  "RtmGermline.threads_genotype": "4",
+  "RtmGermline.mem_genotype": "12 GB",
+  "RtmGermline.threads_bqsr": "8",
+  "RtmGermline.mem_bqsr": "32 GB",
+  "RtmGermline.threads_dedup": "16",
+  "RtmGermline.mem_dedup": "48 GB",
+  "RtmGermline.threads_samsort": "8",
+  "RtmGermline.mem_samsort": "8 GB",
+  "RtmGermline.threads_hsmet": "8",
+  "RtmGermline.mem_hsmet": "16 GB"
+}
