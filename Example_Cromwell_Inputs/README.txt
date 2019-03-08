@@ -1,6 +1,4 @@
 First, look at readme for Tigris: https://github.com/sema4genomics/tigris
-
-
 Example Cromwell Run command to submit a job to a Valinor environment:
 
 java -Dconfig.file=Manifests/${SAMPLE}.aws.conf -jar ~/bin/cromwell-36.jar run \
@@ -8,6 +6,8 @@ java -Dconfig.file=Manifests/${SAMPLE}.aws.conf -jar ~/bin/cromwell-36.jar run \
                 ~/Rhythm/2019-02-23_WWP5/RhythmGermline.wdl \
                 -o ~/Rhythm/2019-02-23_WWP5/Rtm_wf_options2.json \
                 > ~/Rhythm/2019-02-23_WWP5/Logs/${SAMPLE}.${TS}.log 2>&1
+
+Notes: For the AWS config, the AWS profile that is referenced must be exported as AWS_PROFILE to the environment that the cromwell run command will be executed in Run mode.
 
 For Cromwell Server:
 
@@ -17,4 +17,4 @@ curl -H "accept: application/json" \
 -F "workflowOptions=@/home/ec2-user/WORKFLOW_OPTIONS.json" \
 -F "workflowDependencies=@WDL_DEPENDENCIES.zip" -X POST "http://<EC2_IP>/api/workflows/v1"
 
-WDL_DEPENDENCIES.zip are the sub-wdls called/referenced by the MAIN.wdl.
+Notes: WDL_DEPENDENCIES.zip are the sub-wdls called/referenced by the MAIN.wdl.
