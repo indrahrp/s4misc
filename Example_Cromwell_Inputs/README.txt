@@ -16,3 +16,5 @@ curl -H "accept: application/json" \
 -F "workflowInputs=@/home/ec2-user/SAMPLE.json" \
 -F "workflowOptions=@/home/ec2-user/WORKFLOW_OPTIONS.json" \
 -F "workflowDependencies=@WDL_DEPENDENCIES.zip" -X POST "http://<EC2_IP>/api/workflows/v1"
+
+WDL_DEPENDENCIES.zip are the sub-wdls called/referenced by the MAIN.wdl.
