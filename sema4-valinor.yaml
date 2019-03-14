@@ -185,6 +185,9 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-vpc.yaml"
       TimeoutInMinutes: '20'
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-VPC"
       Parameters:
         AvailabilityZone1: !Ref AvailabilityZone1
         AvailabilityZone2: !Ref AvailabilityZone2
@@ -200,6 +203,9 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-custom-ami.template.yaml"
       TimeoutInMinutes: '20'
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-AMI"
       Parameters:
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
@@ -214,6 +220,9 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-s3.template.yaml"
       TimeoutInMinutes: '10'
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-S3Stack"
       Parameters:
         S3BucketName: !Ref S3BucketName
   IamStack:
@@ -222,6 +231,9 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-iam.template.yaml"
       TimeoutInMinutes: '20'
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-IAM"
       Parameters:
         S3BucketName: !Ref S3BucketName
   BatchStack:
@@ -233,6 +245,9 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-batch.template.yaml"
       TimeoutInMinutes: "30"
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-Batch"
       Parameters:
         CustomAmiId: !Sub ${AMIStack.Outputs.AMI}
         Ec2KeyPairName: !Ref KeyPairName
@@ -254,6 +269,9 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
       TimeoutInMinutes: "30"
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-CromwellServer"
       Parameters:
         InstanceType: !Ref ServerInstanceType
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
