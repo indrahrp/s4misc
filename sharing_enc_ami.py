@@ -2,8 +2,8 @@ from sys import argv
 
 import boto3
 
-TARGET_ACCOUNT_ID = '417302553802'
-ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::417302553802:role/shareami'
+TARGET_ACCOUNT_ID = '470168895595'
+ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::470168895595:role/ITAdmin-Role'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 

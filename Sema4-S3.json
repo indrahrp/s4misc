@@ -1,0 +1,74 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Service Catalog: S3 Reference Architecture: Private restricted access bucket with S3-IA and Glacier transition rules(fdp-1oc5gsre6). Before you distribute this CloudFormation template to your organization, review the template. Check IAM permissions, Deletion policies, update stack behavior, and other aspects of the template and ensure that they are as per your expectations and processes. Sample CloudFormation templates may need updates before you can use them. Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.Licensed under the Apache License, Version 2.0 (the \\\"License\\\"). You may not use this file except in compliance with the License.A copy of the License is located at http://www.apache.org/licenses/LICENSE-2.0 or in the \\\"license\\\" file accompanying this file. This file is distributed on an \\\"AS IS\\\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.",
+  "Metadata": {
+    "AWS::CloudFormation::Interface": {
+      "ParameterGroups": [
+        {
+          "Label": {
+            "default": "Bucket Information"
+          },
+          "Parameters": [
+            "BucketName"
+          ]
+        }
+      ]
+    }
+  },
+  "Parameters": {
+    "BucketName": {
+      "Description": "Bucket Name",
+      "Type": "String",
+      "Default": "s4-test-cf-illl"
+    },
+    "LambdaArn": {
+      "Description": "Lamdba S3_Function Arn",
+      "Type": "String",
+      "Default": "arn:aws:lambda:us-east-1:011825642366:function:S3_Function"
+    }
+  },
+  "Resources": {
+    "S3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "BucketName": "fdafafdafafdafda",
+        "AccessControl": "Private",
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "fdaaf"
+          }
+        ]
+      }
+    },
+    "S3Lifecycle": {
+      "Type": "Custom::S3Lifecycle",
+      "DependsOn": "S3Bucket",
+      "Properties": {
+        "ServiceToken": 'fdafa',
+        "BucketName": 'afadfa'
+      }
+    }
+  },
+  "Outputs": {
+    "BucketName": {
+      "Value": 'fadfa'
+    },
+    "BucketARN": {
+      "Value": 'afaa'
+    }
+  }
+}

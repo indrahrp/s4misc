@@ -5,6 +5,7 @@ import boto3
 import uuid
 import pprint
 import argparse,sys
+import botocore
 
 iam_client = boto3.client('iam')
 sts_client = boto3.client('sts')
@@ -12,12 +13,9 @@ org_client = boto3.client('organizations')
 
 client = boto3.client('organizations')
 rootaccount="r-011825642366"
-#response = client.list_accounts_for_parent(ParentId=rootaccount,NextToken='ttt',MaxResults=12)
+
 response = client.list_accounts(MaxResults=20)
-#print response['Accounts']
 responsemore = client.list_accounts(NextToken=response['NextToken'])
-#for account in responsemore['Accounts']:
-#    print account['Id'], account['Name'], account['Arn']def main(argv):
 
 
 def main(argv):
@@ -27,12 +25,12 @@ def main(argv):
     # add args
     parser.add_argument('command',
                         type=str,
-                        choices=["sub-account-list", "s3-list","ebsvol-list"])
+                        choices=["sub-account-list", "s3-list","ebsvol-list","findec2byeip"])
     #parser.add_argument('--db_identifier',
     #                    help='db_instance_identifier ',
     #                    type=str)
-    #parser.add_argument('--snapshotid', help="Copy and Encrypt of a particular  Snapshot Identifier ", action='store')
-    #parser.add_argument('--restore_sub_account', help="Restore db snapshot to another sub acccount  ", action='store_true')
+    #parser.add_argument('--unencrypted', help="Flag to only show unencrypted Volume", action='store_true')
+    parser.add_argument('--findec2byeip', help="Find EC2 instance assigned to an elastic IP  ", action='store',required=True)
 
     # parse args
     args = parser.parse_args()
@@ -42,7 +40,9 @@ def main(argv):
     if command == 's3-list':
         s3list()
     elif command == 'ebsvol-list':
-        ebsvollist()
+        ebsvollist(args.unencrypted)
+    elif command == 'findec2byeip':
+        findec2byeip(args.findec2byeip)
 
 
     print("Starting in account: %s" % sts_client.get_caller_identity().get('Account'))
@@ -74,6 +74,22 @@ def getsession(acc):
 
     return sess
 
+def findec2byeip(eip):
+    ip=[]
+    ip.append(eip)
+    for acc in responsemore['Accounts']:
+        #print "accis " + str(acc['Id'])
+        sess=getsession(acc)
+
+        target_ec2 = sess.client('ec2')
+        filters = [{
+            'Name': 'ip-address',
+            'Values': ['18.213.58.126']
+        }]
+        result_list = target_ec2.describe_instances(Filters=filters)
+        print result_list
+
+
 
 def s3list():
 
@@ -81,21 +97,30 @@ def s3list():
         #print "accis " + str(acc['Id'])
         sess=getsession(acc)
 
-        target_s3 = sess.client('s3', region_name='us-east-1')
-        ## response = target_ec2.describe_instances()
-        #print response
-        #print ('user acount {}'.format(boto3.client('sts').get_caller_identity().get('Account')))
-        #print ('user acount {}'.format(sess.client('sts').get_caller_identity().get('Account')))
-        #for bucketinfo in target_s3.list_buckets():
+        target_s3 = sess.client('s3')
+        #target_s3 = sess.resource('s3')
+        ##bucketinfo = target_s3.buckets.all()
         bucketinfo = target_s3.list_buckets()
-
+        #print bucketinfo
         #print bucketinfo['Buckets'][0]
 
         #for bucket in bucketinfo['Buckets']:
         #    print bucket['Name']
 
         for bucket in bucketinfo['Buckets']:
-            print bucket['Name']
+            #bkt = target_s3.Bucket(bucket)
+            try:
+            #print bucket['buu']
+                print bucket['Name'], str(target_s3.get_bucket_lifecycle(Bucket = bucket['Name'])['Rules'][0]['ID']), \
+                str(target_s3.get_bucket_encryption(Bucket = bucket['Name'])['ServerSideEncryptionConfiguration']['Rules'][0]['ApplyServerSideEncryptionByDefault']['SSEAlgorithm']), \
+                str(target_s3.get_bucket_versioning(Bucket = bucket['Name']).get('Status','NA')), \
+                str(target_s3.get_bucket_logging(Bucket = bucket['Name']).get('LoggingEnabled',{}).get('TargetBucket','NA'))
+            except botocore.exceptions.ClientError:
+                continue
+
+
+
+            #print bucket
 
         #for key,val in bucketinfo.items():
         #    print key
@@ -111,7 +136,7 @@ def s3list():
         #for account in getListAccounts['Accounts']:
         #    print account['Id'], account['Name']
 
-def ebsvollist():
+def ebsvollist(unencrypted=False):
     for acc in responsemore['Accounts']:
       #print "accis " + str(acc['Id'])
         sess=getsession(acc)
@@ -131,13 +156,19 @@ def ebsvollist():
             #print "{0} {1} {2}".format(v.id, v.state, v.attachments[0]['InstanceId'])
             counter = counter + 1
             #print v.attachments
-            if  v.attachments:
-                #print "{0} {1}     {2}       {3}   {4}   {5}   {6}".format(counter,v.id, v.state, v.attachments[0]['InstanceId'], v.encrypted, v.size,v.kms_key_id)
-                print "{0} {1}     {2}       {3}   {4}        {5}    {6}   ".format(counter,v.id, v.state, v.attachments[0]['InstanceId'], v.encrypted, v.size,str(v.tags))
+            if unencrypted:
+                if not v.encrypted:
+                 if  v.attachments:
+                    print "{0} {1}     {2}       {3}   {4}        {5}    {6}   ".format(counter,v.id, v.state, v.attachments[0]['InstanceId'], v.encrypted, v.size,str(v.tags))
+                 else:
+                    print "{0} {1}  No Instance               {2}  {3}".format(counter,v.id, v.state, v.encrypted)
             else:
-                print "{0} {1}  No Instance               {2}  {3}".format(counter,v.id, v.state, v.encrypted)
+                if  v.attachments:
+                    print "{0} {1}     {2}       {3}   {4}        {5}    {6}   ".format(counter,v.id, v.state, v.attachments[0]['InstanceId'], v.encrypted, v.size,str(v.tags))
+                else:
+                     print "{0} {1}  No Instance               {2}  {3}".format(counter,v.id, v.state, v.encrypted)
 
-            #print "volume id {} with attachment {}".format(v.id, v.attachments)
+
 
 
 if __name__ == "__main__":

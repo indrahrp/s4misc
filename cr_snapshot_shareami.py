@@ -18,8 +18,8 @@ import botocore
 import argparse
 import pprint
 
-TARGET_ACCOUNT_ID = '417302553802'
-ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::417302553802:role/shareami'
+TARGET_ACCOUNT_ID = '316878946072'
+ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::316878946072:role/OrganizationAccountAccessRole'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
@@ -78,6 +78,7 @@ def main(argv):
     waiter_instance_stopped = client.get_waiter('instance_stopped')
     waiter_instance_running = client.get_waiter('instance_running')
     waiter_snapshot_complete = client.get_waiter('snapshot_completed')
+    waiter_snapshot_complete.config.max_attempts = 1000
     waiter_volume_available = client.get_waiter('volume_available')
 
     """ Check instance exists """
@@ -174,7 +175,7 @@ def main(argv):
             Description='Snapshot of volume ({})'.format(volume.id),
         )
 
-        waiter_snapshot_complete.config.max_attempts = 240
+        waiter_snapshot_complete.config.max_attempts = 1000
 
         try:
             waiter_snapshot_complete.wait(
@@ -198,13 +199,15 @@ def main(argv):
                 Encrypted=True,
                     )
         else:
+            print "Default KMS  can not be used to share AMI cross account"
+            sys.exit(1)
             # Use default key
-            snapshot_encrypted_dict = snapshot.copy(
-                SourceRegion=args.region,
-                Description='Encrypted copy of snapshot ({})'
-                    .format(snapshot.id),
-                Encrypted=True,
-                    )
+            #snapshot_encrypted_dict = snapshot.copy(
+            #    SourceRegion=args.region,
+            #    Description='Encrypted copy of snapshot ({})'
+            #        .format(snapshot.id),
+            #    Encrypted=True,
+            #        )
 
         snapshot_encrypted = ec2.Snapshot(snapshot_encrypted_dict['SnapshotId'])
 
@@ -257,8 +260,21 @@ def main(argv):
 
         # Wait for the copy to complete
         copied_snapshot = target_ec2.Snapshot(copy['SnapshotId'])
-        copied_snapshot.wait_until_completed()
-        device_snap[current_volume_data['DeviceName']]=copied_snapshot.id
+        #copied_snapshot.wait_until_completed()
+
+        waiter_snapshot_complete.config.max_attempts = 1000
+
+        try:
+            waiter_snapshot_complete.wait(
+                SnapshotIds=[
+                    copied_snapshot.snapshot_id,
+                ]
+            )
+        except botocore.exceptions.WaiterError as e:
+            copied_snapshot.delete()
+            sys.exit('ERROR: {}'.format(e))
+
+        device_snap[current_volume_data['DeviceName']]=copied_snapshot.snapshot_id
         print("Created target-owned copy of shared snapshot with id: " + copy['SnapshotId'])
 
     ##Build Block Device Mapping - BDM

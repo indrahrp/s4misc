@@ -266,4 +266,4 @@ def main(argv):
     print('Encryption finished')
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+        main(sys.argv[1:])
