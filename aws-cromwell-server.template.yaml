@@ -537,5 +537,5 @@ Outputs:
     Description: Cromwell server public DNS name
 
   EC2SecurityGroup:
-    Value: EC2SecurityGroup
+    Value: !Ref EC2SecurityGroup
 
