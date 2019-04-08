@@ -165,14 +165,16 @@ Parameters:
       A t2.medium should be sufficient.  If you want to run this server on the
       free tier, use a t2.micro.
     Type: String
-    Default: t2.medium
+    Default: t2.2xlarge
     AllowedValues:
       - t2.micro
       - t2.medium
       - t2.large
       - t2.xlarge
       - t2.2xlarge
-    ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large'."
+      - r5a.2xlarge
+      - r5a.4xlarge
+    ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge'."
   ServerInstanceName:
     Type: String
     Default: cromwell-server
@@ -317,7 +319,6 @@ Resources:
         HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
-
   ServerlessRDSStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
@@ -333,13 +334,8 @@ Resources:
         DatabaseName: cromwell
         DatabaseUsername: !Ref DatabaseUsername
         DatabasePassword: !Ref DatabasePassword
-        VpcSecurityGroupIds:
-          - !Sub ${BatchStack.Outputs.GenomicsBatchSecurityGroup}
-          - !Sub ${CromwellServerStack.Outputs.EC2SecurityGroup}
-        DatabaseSubnets:
-          - !Sub ${VPCStack.Outputs.PrivateSubnet1}
-          - !Sub ${VPCStack.Outputs.PrivateSubnet2}
-
+        VpcSecurityGroupIds: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup},  ${CromwellServerStack.Outputs.EC2SecurityGroup}"
+        DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
 
 Outputs:
   GenomicsEnvS3Bucket:

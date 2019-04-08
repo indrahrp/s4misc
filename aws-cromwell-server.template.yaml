@@ -17,8 +17,7 @@ Parameters:
   InstanceType:
     Description: >-
       EC2 instance type.  Cromwell itself does not require much compute power. 
-      A t2.medium should be sufficient.  If you want to run this server on the 
-      free tier, use a t2.micro.
+      A t2.medium should be sufficient.  t2.2xlarge is 32G memory, r5a.2xlarge 64G memory, r5a.4xlarge 128G memory
     Type: String
     Default: t2.medium
     AllowedValues:
@@ -27,7 +26,9 @@ Parameters:
     - t2.large
     - t2.xlarge
     - t2.2xlarge
-    ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge'."
+    - r5a.2xlarge
+    - r5a.4xlarge
+    ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge', or 'r5a.2xlarge', or 'r5a.4xlarge'"
   
   VpcId:
     Type: AWS::EC2::VPC::Id
