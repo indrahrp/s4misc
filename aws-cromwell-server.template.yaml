@@ -537,5 +537,7 @@ Outputs:
     Description: Cromwell server public DNS name
 
   EC2SecurityGroup:
-    Value: !Ref EC2SecurityGroup
+    Value: !GetAtt EC2SecurityGroup.GroupId
+    Export:
+      Name: !Sub "${AWS::StackName}-EC2SecurityGroupID"
 

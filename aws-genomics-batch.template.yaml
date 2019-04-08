@@ -223,4 +223,6 @@ Outputs:
   HighPriorityJobQueueArn:
     Value: !Ref GenomicsHighPriorityQueue
   GenomicsBatchSecurityGroup:
-    Value: !Ref GenomicsBatchSecurityGroup
+    Value: !GetAtt GenomicsBatchSecurityGroup.GroupId
+    Export:
+      Name: !Sub "${AWS::StackName}-GenomicsBatchSecurityGroupID"
