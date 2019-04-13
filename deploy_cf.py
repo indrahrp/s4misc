@@ -100,6 +100,7 @@ def stack_status(stack_name,sess):
     cf = sess.resource('cloudformation')
     ##python  deploy_cf.py --templatefile ..\ITProdSupport\DevOpsStam\AWS\cloudformation\Sema4-AWS-Template\Sema4-IT-Lambda.1.yaml
     ##--subaccount 333080083406  --name  test --stack_status itlamtest
+    ##python  deploy_cf.py --name test --templatefile Sema4-ITAdmin_Role.yaml --params "BucketName=s4-research-sanofi-dev&ITLambda=ITAdmin_Libraries"
     cfobj= cf.Stack(stack_name)
     print "status of the stack " + stack_name
     print str(cfobj.stack_name)
@@ -211,6 +212,7 @@ def getsession(acc):
 
 
 def main():
+    global deploylist
     ##python  deploy_cf.py --name test --templatefile Sema4-ITAdmin_Role.yaml --params "BucketName=s4-research-sanofi-dev&ITLambda=ITAdmin_Libraries"
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', type=str, required=False,
