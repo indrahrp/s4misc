@@ -165,7 +165,7 @@ Parameters:
       A t2.medium should be sufficient.  If you want to run this server on the
       free tier, use a t2.micro.
     Type: String
-    Default: t2.2xlarge
+    Default: t2.micro
     AllowedValues:
       - t2.micro
       - t2.medium
