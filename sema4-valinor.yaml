@@ -247,7 +247,7 @@ Resources:
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
         ScratchMountPoint: /cromwell_root
         ScratchVolumeSize: !Ref ScratchVolumeSize
-        UseEncryption: Yes
+        UseEncryption: "Yes"
         KeyName: !Ref KeyPairName
         AMIType: cromwell
         AMIName: !Join ["-", ["cromwell-genomics-ami", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
@@ -336,9 +336,9 @@ Resources:
         DatabasePassword: !Ref DatabasePassword
         VpcSecurityGroupIds: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup},  ${CromwellServerStack.Outputs.EC2SecurityGroup}"
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
-        VpcId: VpcId
-        CromwellSecurityGroup: CromwellServerStack.Outputs.EC2SecurityGroup
-        BatchSecurityGroup: CromwellServerStack.Outputs.EC2SecurityGroup
+        VpcId: !Sub ${VPCStack.Outputs.VPCId}
+        CromwellSecurityGroup: !Sub "${CromwellServerStack.Outputs.EC2SecurityGroup}"
+        BatchSecurityGroup: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup}"
 
 Outputs:
   GenomicsEnvS3Bucket:
