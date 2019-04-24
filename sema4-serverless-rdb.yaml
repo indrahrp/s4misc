@@ -34,7 +34,6 @@ Parameters:
     ConstraintDescription: must be list of security group ids.
     Description: A list of VPC security groups to associate with this DB cluster.
     Type: List<AWS::EC2::SecurityGroup::Id>
-
   DatabaseSubnets:
     ConstraintDescription: must be list of EC2 subnets.
     Description: A list of private subnetsto associate with this DB cluster.
