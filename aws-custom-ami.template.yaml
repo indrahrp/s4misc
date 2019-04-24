@@ -58,7 +58,7 @@ Parameters:
 
 # Conditions
 Conditions:
-  UseEncryptedVolume: !Equals [!Ref UseEncryption, Yes]
+  UseEncryptedVolume: !Equals [!Ref UseEncryption, "Yes"]
   UseCromwell: !Equals [!Ref AMIType, cromwell]
 
 # Resources
