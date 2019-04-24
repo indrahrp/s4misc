@@ -247,7 +247,7 @@ Resources:
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
         ScratchMountPoint: /cromwell_root
         ScratchVolumeSize: !Ref ScratchVolumeSize
-        UseEncryption: "Yes"
+        UseEncryption: Yes
         KeyName: !Ref KeyPairName
         AMIType: cromwell
         AMIName: !Join ["-", ["cromwell-genomics-ami", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
