@@ -30,13 +30,9 @@ Parameters:
     Type: AWS::EC2::SecurityGroup::Id
   BatchSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
-  VpcSecurityGroupIds:
-    ConstraintDescription: must be list of security group ids.
-    Description: A list of VPC security groups to associate with this DB cluster.
-    Type: List<AWS::EC2::SecurityGroup::Id>
   DatabaseSubnets:
     ConstraintDescription: must be list of EC2 subnets.
-    Description: A list of private subnetsto associate with this DB cluster.
+    Description: A list of private subnets to associate with this DB cluster.
     Type: List<AWS::EC2::Subnet::Id>
 
 Metadata:
@@ -49,7 +45,6 @@ Metadata:
           - DatabaseName
           - DatabaseUsername
           - DatabasePassword
-          - VpcSecurityGroupIds
           - DatabaseSubnets
     ParameterLabels:
       DBClusterIdentifier:
@@ -97,7 +92,7 @@ Resources:
       PreferredBackupWindow: 01:00-02:00
       PreferredMaintenanceWindow: mon:03:00-mon:04:00
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
-      VpcSecurityGroupIds: [RDSSecurityGroup]
+      VpcSecurityGroupIds: [!Ref RDSSecurityGroup]
       ScalingConfiguration:
         AutoPause:  true
         MaxCapacity: 2
