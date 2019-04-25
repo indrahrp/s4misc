@@ -227,7 +227,7 @@ Resources:
             "/home/ec2-user/get_cromwell.sh":
               content: !Sub |
                 #!/bin/bash
-                url=$(curl --silent "https://api.github.com/repos/broadinstitute/cromwell/releases/latest" | jq -r .assets[0].browser_download_url)
+                url=$(curl --silent "https://api.github.com/repos/broadinstitute/cromwell/releases/tags/36.1" | jq -r .assets[0].browser_download_url)
                 curl -LO $url
                 ln -s $(find . | grep "cromwell.*\.jar") cromwell-latest.jar
 
