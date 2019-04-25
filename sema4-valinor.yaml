@@ -334,7 +334,6 @@ Resources:
         DatabaseName: cromwell
         DatabaseUsername: !Ref DatabaseUsername
         DatabasePassword: !Ref DatabasePassword
-        VpcSecurityGroupIds: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup},  ${CromwellServerStack.Outputs.EC2SecurityGroup}"
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         CromwellSecurityGroup: !Sub "${CromwellServerStack.Outputs.EC2SecurityGroup}"
