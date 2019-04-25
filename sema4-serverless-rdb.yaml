@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >
-  A CloudFormation template for an Serverless RDS Aurora cluster.
+  A CloudFormation template for a Serverless RDS Aurora cluster.
 Parameters:
   DBClusterIdentifier:
     Type: String
