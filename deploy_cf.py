@@ -375,7 +375,11 @@ def main():
 
                           else:
                               print('Creating Stack {}'.format(args.name))
-                              yn=raw_input('Type Y to create the stack : ')
+                              yn='N'
+                              if  args.yes_all:
+                                  yn='Y'
+                              else:
+                                  yn=raw_input('Type Y to create the stack : ')
                               if yn == 'Y':
                                   response = clientcf.create_stack(**allparams)
                                   waiter = clientcf.get_waiter('stack_create_complete')
