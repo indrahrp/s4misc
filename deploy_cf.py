@@ -243,12 +243,15 @@ def main():
 
     parser.add_argument('--deploy_all',action="store_true",required=False,default=False,
                         help='True or False to deploy to  all  account.')
+    parser.add_argument('--yes_all',action="store_true",required=False,default=False,
+                        help='True or False to Yes All To deploy to All account.')
 
 
 
 
 
-    parser.add_argument('--stack_status', type=str, required=False,
+
+parser.add_argument('--stack_status', type=str, required=False,
                         help='the status of the stack.')
     parser.add_argument('--stack_delete', type=str, required=False,
                         help='to delete a stack. It needs to specify sub account where stack lives off.')
@@ -333,6 +336,7 @@ def main():
                 else:
                     # setup the model
                     #template_object = get_json(args.templateurl)
+                      yn='N'
                       params = make_kv_from_args(args.params, "Parameter", False) if args.params else []
                       print "parms " + str(params)
                       tags = make_kv_from_args(args.tags) if args.tags else []
@@ -351,7 +355,10 @@ def main():
                           print "stack name " + args.name
                           if _stack_exists(args.name,clientcf):
                               print('Updating Stack {}'.format(args.name))
-                              yn=raw_input('Type Y to update the stack : ')
+                              if  args.yes_all:
+                                  yn='Y'
+                              else
+                                  yn=raw_input('Type Y to update the stack : ')
                               if yn == 'Y':
                                   response = clientcf.update_stack(**allparams)
                                   waiter = clientcf.get_waiter('stack_update_complete')
