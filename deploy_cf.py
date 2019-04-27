@@ -357,7 +357,7 @@ def main():
                               print('Updating Stack {}'.format(args.name))
                               if  args.yes_all:
                                   yn='Y'
-                              else
+                              else:
                                   yn=raw_input('Type Y to update the stack : ')
                               if yn == 'Y':
                                   response = clientcf.update_stack(**allparams)
