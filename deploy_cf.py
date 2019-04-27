@@ -251,7 +251,7 @@ def main():
 
 
 
-parser.add_argument('--stack_status', type=str, required=False,
+    parser.add_argument('--stack_status', type=str, required=False,
                         help='the status of the stack.')
     parser.add_argument('--stack_delete', type=str, required=False,
                         help='to delete a stack. It needs to specify sub account where stack lives off.')
