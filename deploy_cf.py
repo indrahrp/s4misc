@@ -241,8 +241,10 @@ def main():
     parser.add_argument('--stack_status_all', type=str, required=False,
                         help='check a specific deployment in all  account.')
 
-    parser.add_argument('--deploy_all', type=str, required=False,
-                        help='deploy to  all  account.')
+    parser.add_argument('--deploy_all',action="store_true",required=False,default=False,
+                        help='True or False to deploy to  all  account.')
+
+
 
 
 
