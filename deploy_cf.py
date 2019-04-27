@@ -38,11 +38,17 @@ deploylist=['417302553802',
             '011825642366']
 
 def _stack_exists(stack_name,clientcf):
-    stacks = clientcf.list_stacks()['StackSummaries']
-    for stack in stacks:
+    #stacks = clientcf.list_stacks()['StackSummaries']
+    #print "stack exist stack_name " + stack_name
+    for stack in paginate(clientcf.list_stacks):
+        #print account['Id'], account['Name'], account['Arn']
+        #print str(stack['StackName']) + str(stack['StackStatus'])
+
+
+        #print "in stack loop " + stack['StackName']
         if stack['StackStatus'] == 'DELETE_COMPLETE':
             continue
-        if stack_name == stack['StackName']:
+        if stack_name.upper() == stack['StackName'].upper():
             return True
     return False
 
@@ -100,10 +106,11 @@ def stack_status(stack_name,sess):
     cf = sess.resource('cloudformation')
     ##python  deploy_cf.py --templatefile ..\ITProdSupport\DevOpsStam\AWS\cloudformation\Sema4-AWS-Template\Sema4-IT-Lambda.1.yaml
     ##--subaccount 333080083406  --name  test --stack_status itlamtest
-    ##python  deploy_cf.py --name test --templatefile Sema4-ITAdmin_Role.yaml --params "BucketName=s4-research-sanofi-dev&ITLambda=ITAdmin_Libraries"
+    #python  deploy_cf.py --name ITAdmin-Role --templatefile ..\ITProdSupport\DevOpsStam\AWS\cloudformation\Sema4-AWS-Template\Sema4-ITAdmin_Role.yaml --name ITAdmin-Role --subaccount 417302553802
+    #print "in stack_stauts"
     cfobj= cf.Stack(stack_name)
-    print "status of the stack " + stack_name
-    print str(cfobj.stack_name)
+    #print "status of the stack " + stack_name
+    #print str(cfobj.stack_name)
     print str(cfobj.stack_status)
     print str(cfobj.stack_status_reason)
     events=cfobj.events.all()
@@ -231,6 +238,13 @@ def main():
     parser.add_argument('--tags', type=str, required=False,
                         help='the tags to attach to the stack.')
 
+    parser.add_argument('--stack_status_all', type=str, required=False,
+                        help='check a specific deployment in all  account.')
+
+    parser.add_argument('--deploy_all', type=str, required=False,
+                        help='deploy to  all  account.')
+
+
 
     parser.add_argument('--stack_status', type=str, required=False,
                         help='the status of the stack.')
@@ -242,10 +256,17 @@ def main():
     parser.add_argument('--stack_list', action="store_true", default=False,required=False,
                         help='List Of Cloudformation Stack.')
     args = parser.parse_args()
-    if args.subaccount:
+    #print "args "+ str(args)
+    if args.subaccount or args.stack_delete:
         deploylist=[args.subaccount]
-    if args.stack_delete:
-            deploylist=[args.subaccount]
+        #print "in aotherremoving deploylist"
+    elif args.stack_status_all:
+        #print "removing deploylist"
+        deploylist=[]
+        #print "in aotherremoving deploylist"
+    elif args.deploy_all:
+        #print "removing deploylist"
+        deploylist=[]
 
 
     # init LOGGER
@@ -265,9 +286,9 @@ def main():
 
     client = boto3.client('organizations')
     for account in paginate(client.list_accounts):
-        #print "result  " + str(account['Id'])
-         if account['Id'] in deploylist or deploylist is []:
-            print account['Id'], account['Name'], account['Arn']
+         #print "result  " + str(account['Id'])
+         if account['Id'] in deploylist or len(deploylist) == 0:
+            #print account['Id'], account['Name'], account['Arn']
            ###     #if account['Id'] != rootaccount:
             if account['Id'] == rootaccount:
                 client_sess = boto3.session.Session()
@@ -278,10 +299,22 @@ def main():
                 client_sess = getsession(account)
                 clientcf=client_sess.client('cloudformation')
             try:
+                #print "args " + str(args.stack_status_all)
                 if args.stack_status:
-                    print "Stack " + args.stack_status + " Status "
+                    #print "Stack " + args.stack_status + " Status "
                     stack_status(args.stack_status,client_sess)
                     return
+                elif args.stack_status_all:
+                    try:
+                         #print "Stack " + args.stack_status_all + " Status all "
+                         stack_status(args.stack_status_all,client_sess)
+                    except:
+                         print "stack " + args.stack_status_all + " does not exist"
+                         #logging.critical("Validation error caught: {0}".format(v))
+                    finally:
+                         pass
+
+
                 elif args.stack_list:
                     print "List of Stack : " + account['Id']
                     stack_list(client_sess)
@@ -313,7 +346,7 @@ def main():
                               'Capabilities' :['CAPABILITY_IAM','CAPABILITY_NAMED_IAM'],
                               'Tags': tags
                           }
-
+                          print "stack name " + args.name
                           if _stack_exists(args.name,clientcf):
                               print('Updating Stack {}'.format(args.name))
                               yn=raw_input('Type Y to update the stack : ')
