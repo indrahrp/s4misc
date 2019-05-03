@@ -19,6 +19,8 @@ import argparse
 import pprint
 
 TARGET_ACCOUNT_ID = '470168895595'
+### Can  not use organizational-su  account to execute this. It has to be indra.harahap aws account
+### make sure indra.harahap at source account can assume role (trusted) by itadminrole in target account
 ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::470168895595:role/ITAdmin-Role'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
