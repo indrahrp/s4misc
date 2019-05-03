@@ -1,5 +1,20 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Description: Create Valinor Scalable genomics workflows environment
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  (WF-CROMWELL) Creates the complete set of resources needed to run
+  genomics workflows using Cromwell on AWS Batch
+
+Mappings:
+  TagMap:
+    default:
+      architecture: "genomics-workflows"
+      solution: "cromwell"
+      tags:
+        - Key: "architecture"
+          Value: "genomics-workflows"
+        - Key: "solution"
+          Value: "cromwell"
+
+
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -9,7 +24,7 @@ Metadata:
           - TemplatePath
 
       - Label:
-         default: Network Global CIDR and Subnet Network - Ask IT Support for Unique Global CIDR for Routing Among VPC or Organizational Sub Account
+         default: "Network Global CIDR and Subnet Network"
         Parameters:
           - AvailabilityZone1
           - AvailabilityZone2
@@ -23,6 +38,7 @@ Metadata:
           default: "Genomics Environment for AWS Batch Parameters"
         Parameters:
           - S3BucketName
+          - ExistingBucket
           - KeyPairName
           - ScratchVolumeSize
           - SpotBidPercentage
@@ -30,13 +46,14 @@ Metadata:
           - DefaultCEMaxvCpus
           - HighPriorityCEMinvCpus
           - HighPriorityCEMaxvCpus
-          - DefaultRetryNumber
       - Label:
-          default: "Cromwell Server Parameters"
-        Parameters:
-          - ServerInstanceType
-          - ServerInstanceName
-          - ServerSSHLocation
+          default: "Cromwell Server"
+          Parameters:
+            - CromwellVersion
+            - InstanceType
+            - InstanceName
+            - SSHLocation
+            - HTTPLocation
       - Label:
           default: "Serverless RDS Parameters"
           Parameters:
@@ -49,10 +66,12 @@ Metadata:
         default: S3 key object (direcotry) name where templates locate.
       S3BucketName:
         default: S3 Bucket Name
+      ExistingBucket:
+        default: Existing Bucket?
       KeyPairName:
         default: EC2 Key Pair Name
       ScratchVolumeSize:
-        default: Cromewll AMI Scratch Volume (GB)
+        default: Cromewll Scratch Volume (GB)
       SpotBidPercentage:
         default: Spot Bid %
       DefaultCEMinvCpus:
@@ -63,8 +82,6 @@ Metadata:
         default: High Priority Min vCPU
       HighPriorityCEMaxvCpus:
         default: High Priority Max vCPU
-      DefaultRetryNumber:
-        default: Job Retry Attempts
       ServerInstanceType:
         default: Cromwell Server Instance Type
       ServerInstanceName:
@@ -85,8 +102,20 @@ Parameters:
     Description: S3Bucket Path where the templates are stored
     Default: s4-valinor-cloudformation-templates
   S3BucketName:
-    Description: A S3 bucket name for storing analysis results
+    Description: >-
+      A S3 bucket name for storing analysis results.
+      The bucket name must respect the S3 bucket naming conventions
+      (can contain lowercase letters, numbers, periods and hyphens).
     Type: String
+    AllowedPattern: "(?=^.{3,63}$)(?!^(\\d+\\.)+\\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)*([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$)"
+    ConstraintDescription: "Must respect S3 bucket naming conventions"
+  ExistingBucket:
+    Type: String
+    Description: Does this bucket already exist? If not, it will be created.
+    AllowedValues:
+      - Yes
+      - No
+    Default: No
   AvailabilityZone1:
     Description: The first availability zone in the region
     Type: AWS::EC2::AvailabilityZone::Name
@@ -155,17 +184,13 @@ Parameters:
     Description: The maximum number of CPUs for the high-priority Batch Compute Environment
     Type: Number
     Default: 1024
-  DefaultRetryNumber:
-    Description: The default number of Job retry attempts
-    Type: Number
-    Default: 3
-  ServerInstanceType:
+  InstanceType:
     Description: >-
       EC2 instance type.  Cromwell itself does not require much compute power.
       A t2.medium should be sufficient.  If you want to run this server on the
       free tier, use a t2.micro.
     Type: String
-    Default: t2.micro
+    Default: t2.2xlarge
     AllowedValues:
       - t2.micro
       - t2.medium
@@ -175,11 +200,21 @@ Parameters:
       - r5a.2xlarge
       - r5a.4xlarge
     ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge'."
-  ServerInstanceName:
+  InstanceName:
     Type: String
     Default: cromwell-server
     Description: The name of the instance that is created
-  ServerSSHLocation:
+  CromwellVersion:
+    Type: String
+    Description: >-
+      Version of Cromwell to install. "latest" will retrieve the currently released
+      version of Cromwell from Github.
+    AllowedValues:
+      - latest
+      - 36.1
+      - 36
+    Default: 36.1
+  SSHLocation:
     Description: " The IP address range that can be used to SSH to the EC2 instances"
     Type: String
     MinLength: '9'
@@ -199,7 +234,6 @@ Parameters:
   DBClusterIdentifier:
     Type: String
     Description: The DB cluster identifier. This parameter is stored as a lowercase string
-
   DatabaseUsername:
     AllowedPattern: "[a-zA-Z0-9]+"
     ConstraintDescription: must be between 1 to 16 alphanumeric characters.
@@ -220,7 +254,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-vpc.yaml"
-      TimeoutInMinutes: 20
+      TimeoutInMinutes: '20'
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-VPC"
@@ -232,52 +266,40 @@ Resources:
         PubNet2: !Ref PubNet2
         PrivNet1: !Ref PrivNet1
         PrivNet2: !Ref PrivNet2
-  AMIStack:
-    Type: AWS::CloudFormation::Stack
-    DependsOn:
-      - VPCStack
-    Properties:
-      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-custom-ami.template.yaml"
-      TimeoutInMinutes: 20
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-AMI"
-      Parameters:
-        VpcId: !Sub ${VPCStack.Outputs.VPCId}
-        PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
-        ScratchMountPoint: /cromwell_root
-        ScratchVolumeSize: !Ref ScratchVolumeSize
-        UseEncryption: "Yes"
-        KeyName: !Ref KeyPairName
-        AMIType: cromwell
-        AMIName: !Join ["-", ["cromwell-genomics-ami", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
   S3Stack:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-s3.template.yaml"
-      TimeoutInMinutes: 10
+      TimeoutInMinutes: '10'
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-S3Stack"
       Parameters:
         S3BucketName: !Ref S3BucketName
+        ExistingBucket: !Ref ExistingBucket
   IamStack:
     Type: AWS::CloudFormation::Stack
     DependsOn: S3Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-iam.template.yaml"
-      TimeoutInMinutes: 20
+      TimeoutInMinutes: '20'
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-IAM"
       Parameters:
         S3BucketName: !Ref S3BucketName
+  LaunchTplStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-launch-template.template.yaml"
+      Parameters:
+        WorkflowOrchestrator: cromwell
   BatchStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - IamStack
       - VPCStack
-      - AMIStack
+      - LaunchTplStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-batch.template.yaml"
       TimeoutInMinutes: 30
@@ -285,7 +307,7 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-Batch"
       Parameters:
-        CustomAmiId: !Sub ${AMIStack.Outputs.AMI}
+        LaunchTemplateId: !Sub ${LaunchTplStack.Outputs.LaunchTemplateId}
         Ec2KeyPairName: !Ref KeyPairName
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         SubnetIds: !Sub "${VPCStack.Outputs.PrivateSubnet1},${VPCStack.Outputs.PrivateSubnet2}"
@@ -294,7 +316,6 @@ Resources:
         DefaultCEMaxvCpus: !Ref DefaultCEMaxvCpus
         HighPriorityCEMinvCpus: !Ref HighPriorityCEMinvCpus
         HighPriorityCEMaxvCpus: !Ref HighPriorityCEMaxvCpus
-        DefaultRetryNumber: !Ref DefaultRetryNumber
         BatchServiceRoleArn: !Sub ${IamStack.Outputs.BatchServiceRoleArn}
         Ec2InstanceProfileArn: !Sub ${IamStack.Outputs.BatchInstanceProfileArn}
         SpotFleetRoleArn: !Sub ${IamStack.Outputs.BatchSpotFleetRoleArn}
@@ -309,13 +330,13 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-CromwellServer"
       Parameters:
-        InstanceType: !Ref ServerInstanceType
+        InstanceType: !Ref InstanceType
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
-        LatestAmazonLinuxAMI: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2
-        InstanceName: !Ref ServerInstanceName
+        InstanceName: !Ref InstanceName
+        CromwellVersion: !Ref CromwellVersion
         KeyName: !Ref KeyPairName
-        SSHLocation: !Ref ServerSSHLocation
+        SSHLocation: !Ref SSHLocation
         HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
