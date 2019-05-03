@@ -12,6 +12,6 @@ print ('user acount {}'.format(boto3.client('sts').get_caller_identity().get('Ac
 
 rootaccount="r-011825642366"
 
-client = boto3.client('organizations')
+client= boto3.client('organizations')
 for account in paginate(client.list_accounts):
         print account['Id'], account['Name'], account['Arn']

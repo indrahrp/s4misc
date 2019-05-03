@@ -18,8 +18,8 @@ import botocore
 import argparse
 import pprint
 
-TARGET_ACCOUNT_ID = '316878946072'
-ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::316878946072:role/OrganizationAccountAccessRole'
+TARGET_ACCOUNT_ID = '470168895595'
+ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::470168895595:role/OrganizationAccountAccessRole'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
