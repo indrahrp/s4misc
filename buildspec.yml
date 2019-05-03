@@ -20,9 +20,7 @@ environment_variables:
       aws-cromwell-server.template.yaml
       sema4-serverless-rdb.yaml
     CONFIG_FILES: |
-      config-prod.json
       config-test.json
-      config-uat.json
 
 phases:
   install:
@@ -30,10 +28,10 @@ phases:
       npm install jsonlint -g
   pre_build:
     commands:
-      - echo "Validating CFN templates"
+      - echo "Validating Valinor templates"
       - |
         for template in $TEMPLATE_FILES; do
-          echo "Validating CloudFormation template file $cfn_template"
+          echo "Validating CloudFormation template file $template"
           aws cloudformation validate-template --template-body file://$template
         done
       - |
