@@ -16,25 +16,28 @@ Mappings:
 Parameters:
   InstanceType:
     Description: >-
-      EC2 instance type.  Cromwell itself does not require much compute power. 
-      A t2.medium should be sufficient.  If you want to run this server on the 
-      free tier, use a t2.micro.
+      EC2 instance type.  Cromwell itself does not require much compute power.
+      A t2.medium should be sufficient.  t2.2xlarge is 32G memory, r5a.2xlarge 64G memory, r5a.4xlarge 128G memory
     Type: String
     Default: t2.medium
     AllowedValues:
     - t2.micro
     - t2.medium
     - t2.large
-    ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large'."
-  
+    - t2.xlarge
+    - t2.2xlarge
+    - r5a.2xlarge
+    - r5a.4xlarge
+    ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge', or 'r5a.2xlarge', or 'r5a.4xlarge'"
+
   VpcId:
     Type: AWS::EC2::VPC::Id
     Description: Recommended to use the Default VPC here
-  
+
   PublicSubnetID:
     Type: AWS::EC2::Subnet::Id
     Description: Select a public subnet to launch into
-  
+
   LatestAmazonLinuxAMI:
     Description: The latest Amazon Linux AMI
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
@@ -46,12 +49,12 @@ Parameters:
     Type: String
     Default: cromwell-server
     Description: The name of the instance that is created
-  
+
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
     Type: AWS::EC2::KeyPair::KeyName
     ConstraintDescription: Must be the name of an existing EC2 KeyPair that is on your local machine.
-  
+
   SSHLocation:
     Description: "The IP address range that can be used to SSH to the EC2 instances"
     Type: String
@@ -60,7 +63,7 @@ Parameters:
     Default: 0.0.0.0/0
     AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
-  
+
   HTTPLocation:
     Description: "The IP address range that has HTTP access to the EC2 instances"
     Type: String
@@ -73,7 +76,7 @@ Parameters:
   S3BucketName:
     Description: S3 bucket you are using for workflow inputs and outputs
     Type: String
-  
+
   BatchQueue:
     Description: ARN of the AWS Batch Job Queue this server will use by default
     Type: String
@@ -108,11 +111,11 @@ Resources:
             Statement:
               Effect: Allow
               Resource:
-                - !Join ["", ["arn:aws:s3:::", !Ref S3BucketName]] 
+                - !Join ["", ["arn:aws:s3:::", !Ref S3BucketName]]
                 - !Join ["", ["arn:aws:s3:::", !Ref S3BucketName, "/*"]]
               Action:
                 - "s3:*"
-        
+
         - PolicyName: !Sub CromwellServer-CloudWatch-Access-${AWS::Region}
           PolicyDocument:
             Version: 2012-10-17
@@ -127,7 +130,9 @@ Resources:
 
       ManagedPolicyArns:
       - "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
-
+      - "arn:aws:iam::aws:policy/AmazonRDSDataFullAccess"
+      - "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
+      - "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -135,14 +140,14 @@ Resources:
           Principal:
             Service: ec2.amazonaws.com
           Action: sts:AssumeRole
-  
+
   EC2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
       Path: "/"
       Roles:
         - Ref: Ec2InstanceRole
-  
+
   EC2SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -186,7 +191,7 @@ Resources:
 
             python:
               supervisor: []
-          
+
           commands:
             00_install_java8:
               command: yum install -y java-1.8.0
@@ -198,8 +203,8 @@ Resources:
               content: !Sub
                 - |
                   [general]
-                  state_file = /var/lib/awslogs/agent-state        
-                  
+                  state_file = /var/lib/awslogs/agent-state
+
                   [cromwell-server]
                   file = /tmp/cromwell-server.log
                   log_group_name = cromwell-server
@@ -208,7 +213,7 @@ Resources:
               mode: 000664
               owner: root
               group: root
-            
+
             "/etc/awslogs/awscli.conf":
               content: !Sub |
                 [plugins]
@@ -218,7 +223,7 @@ Resources:
               mode: 000664
               owner: root
               group: root
-            
+
             "/home/ec2-user/get_cromwell.sh":
               content: !Sub |
                 #!/bin/bash
@@ -285,7 +290,7 @@ Resources:
               mode: "000755"
               owner: "ec2-user"
               group: "ec2-user"
-            
+
             "/home/ec2-user/supervisord.conf":
               mode: "000644"
               owner: "ec2-user"
@@ -293,7 +298,7 @@ Resources:
               content: !Sub |
                 [unix_http_server]
                 file=/tmp/supervisor.sock   ; the path to the socket file
-                
+
                 [supervisord]
                 logfile=/tmp/supervisord.log ; main log file; default $CWD/supervisord.log
                 logfile_maxbytes=50MB        ; max main logfile bytes b4 rotation; default 50MB
@@ -303,7 +308,7 @@ Resources:
                 nodaemon=false               ; start in foreground if true; default false
                 minfds=1024                  ; min. avail startup file descriptors; default 1024
                 minprocs=200                 ; min. avail process descriptors;default 200
-                
+
                 [rpcinterface:supervisor]
                 supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
 
@@ -316,7 +321,7 @@ Resources:
                 user=ec2-user                                  ; setuid to this UNIX account to run the program
                 redirect_stderr=true                           ; redirect proc stderr to stdout (default false)
                 stdout_logfile=/tmp/cromwell-server.log        ; stdout log path, NONE for none; default AUTO
-          
+
             "/etc/nginx/nginx.conf":
               mode: "000644"
               content: !Sub |
@@ -364,7 +369,7 @@ Resources:
                         listen       [::]:80 default_server;
                         server_name  localhost;
                         root         /usr/share/nginx/html;
-                
+
                 #        # Config options for a TLS enabled server
                 #        listen       80;
                 #        listen       443 ssl http2 default_server;
@@ -382,7 +387,7 @@ Resources:
                 #        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
                 #        ssl_ciphers HIGH:SEED:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!RSAPSK:!aDH:!aECDH:!EDH-DSS-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA:!SRP;
                 #        ssl_prefer_server_ciphers on;
-                
+
                         # Load configuration files for the default server block.
                         include /etc/nginx/default.d/*.conf;
 
@@ -408,13 +413,13 @@ Resources:
           commands:
             00_enable_awslogs:
               command: "chkconfig awslogs on"
-            
+
             01_start_awslogs:
               command: "service awslogs start"
-            
+
             02_enable_nginx:
               command: "chkconfig nginx on"
-            
+
             03_start_nginx:
               command: "service nginx start"
 
@@ -423,16 +428,16 @@ Resources:
             00_get_cromwell:
               cwd: "/home/ec2-user/"
               command: "./get_cromwell.sh"
-            
+
             01_chown_cromwell:
               cwd: "/home/ec2-user/"
               command: "chown ec2-user:ec2-user cromwell*.jar"
-                        
+
             02_start_cromwell:
               cwd: "/home/ec2-user"
               command: "sudo -u ec2-user /usr/local/bin/supervisord"
-        
-            
+
+
     Properties:
       ImageId: !Ref LatestAmazonLinuxAMI
       InstanceType: !Ref InstanceType
@@ -453,7 +458,7 @@ Resources:
           yum install -y aws-cfn-bootstrap
           /opt/aws/bin/cfn-init --verbose --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region}
           /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region}
-      
+
       NetworkInterfaces:
         - AssociatePublicIpAddress: true
           DeviceIndex: "0"
@@ -488,7 +493,7 @@ Metadata:
         Parameters:
           - S3BucketName
           - BatchQueue
-      
+
     ParameterLabels:
       VpcId:
         default: "VPC ID"
@@ -517,8 +522,13 @@ Outputs:
   PublicIp:
     Value: !GetAtt EC2Instance.PublicIp
     Description: Cromwell server public IP address
-  
+
   HostName:
     Value: !GetAtt EC2Instance.PublicDnsName
     Description: Cromwell server public DNS name
+
+  EC2SecurityGroup:
+    Value: !GetAtt EC2SecurityGroup.GroupId
+    Export:
+      Name: !Sub "${AWS::StackName}-EC2SecurityGroupID"
 
