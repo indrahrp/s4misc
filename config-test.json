@@ -82,14 +82,14 @@
   },
   {
     "ParameterKey": "DBClusterIdentifier",
-    "ParameterValue": "DBNameDev"
+    "ParameterValue": "ValinorDBNameDev"
   },
   {
     "ParameterKey": "DatabaseUsername",
-    "ParameterValue": "DBUserNameDev"
+    "ParameterValue": "ValinorDBUserNameDev"
   },
   {
     "ParameterKey": "DatabasePassword",
-    "ParameterValue": "DBPasswordDev"
+    "ParameterValue": "ValinorDBPasswordDev"
   }
 ]
