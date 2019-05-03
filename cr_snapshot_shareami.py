@@ -19,7 +19,7 @@ import argparse
 import pprint
 
 TARGET_ACCOUNT_ID = '470168895595'
-ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::470168895595:role/OrganizationAccountAccessRole'
+ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::470168895595:role/ITAdmin-Role'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
