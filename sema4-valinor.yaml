@@ -319,6 +319,20 @@ Resources:
         HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable access to RDS
+      VpcId: !Sub ${VPCStack.Outputs.VPCId}
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Sub "${CromwellServerStack.Outputs.EC2SecurityGroup}"
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup}"
   ServerlessRDSStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
@@ -334,10 +348,8 @@ Resources:
         DatabaseName: cromwell
         DatabaseUsername: !Ref DatabaseUsername
         DatabasePassword: !Ref DatabasePassword
+        VpcSecurityGroupIds: [!Ref RDSSecurityGroup]
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
-        VpcId: !Sub ${VPCStack.Outputs.VPCId}
-        CromwellSecurityGroup: !Sub "${CromwellServerStack.Outputs.EC2SecurityGroup}"
-        BatchSecurityGroup: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup}"
 
 Outputs:
   GenomicsEnvS3Bucket:

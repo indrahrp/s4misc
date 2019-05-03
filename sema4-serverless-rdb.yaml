@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >
-  A CloudFormation template for a Serverless RDS Aurora cluster.
+  A CloudFormation template for an Serverless RDS Aurora cluster.
 Parameters:
   DBClusterIdentifier:
     Type: String
@@ -23,13 +23,12 @@ Parameters:
     MinLength: '8'
     NoEcho: 'true'
     Type: String
-  VpcId:
-    Type: AWS::EC2::VPC::Id
-    Description: Recommended to use the Default VPC here
-  CromwellSecurityGroup:
-    Type: AWS::EC2::SecurityGroup::Id
-  BatchSecurityGroup:
-    Type: AWS::EC2::SecurityGroup::Id
+
+  VpcSecurityGroupIds:
+    ConstraintDescription: must be list of security group ids.
+    Description: A list of VPC security groups to associate with this DB cluster.
+    Type: List<AWS::EC2::SecurityGroup::Id>
+
   DatabaseSubnets:
     ConstraintDescription: must be list of EC2 subnets.
     Description: A list of private subnets to associate with this DB cluster.
@@ -45,6 +44,7 @@ Metadata:
           - DatabaseName
           - DatabaseUsername
           - DatabasePassword
+          - VpcSecurityGroupIds
           - DatabaseSubnets
     ParameterLabels:
       DBClusterIdentifier:
@@ -65,20 +65,7 @@ Resources:
     Properties:
       DBSubnetGroupDescription: CloudFormation managed DB subnet group.
       SubnetIds: !Ref DatabaseSubnets
-  RDSSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Enable access to RDS
-      VpcId: !Ref VpcId
-      SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 3306
-        ToPort: 3306
-        SourceSecurityGroupId: !Ref CromwellSecurityGroup
-      - IpProtocol: tcp
-        FromPort: 3306
-        ToPort: 3306
-        SourceSecurityGroupId: !Ref BatchSecurityGroup
+
   RDSCluster:
     Type: AWS::RDS::DBCluster
     Properties:
@@ -92,7 +79,7 @@ Resources:
       PreferredBackupWindow: 01:00-02:00
       PreferredMaintenanceWindow: mon:03:00-mon:04:00
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
-      VpcSecurityGroupIds: [!Ref RDSSecurityGroup]
+      VpcSecurityGroupIds: !Ref VpcSecurityGroupIds
       ScalingConfiguration:
         AutoPause:  true
         MaxCapacity: 2
