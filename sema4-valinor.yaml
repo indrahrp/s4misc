@@ -49,6 +49,8 @@ Metadata:
         default: S3 key object (direcotry) name where templates locate.
       S3BucketName:
         default: S3 Bucket Name
+      ExistingBucket:
+        default: false
       KeyPairName:
         default: EC2 Key Pair Name
       ScratchVolumeSize:
@@ -87,6 +89,13 @@ Parameters:
   S3BucketName:
     Description: A S3 bucket name for storing analysis results
     Type: String
+  ExistingBucket:
+    Type: String
+    Description: Does this bucket already exist? If not, it will be created.
+    AllowedValues:
+      - Yes
+      - No
+    Default: No
   AvailabilityZone1:
     Description: The first availability zone in the region
     Type: AWS::EC2::AvailabilityZone::Name
@@ -197,7 +206,7 @@ Parameters:
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
 
   DBClusterIdentifier:
-    Type: String
+    Type: AWS::SSM::Parameter::Value<String>
     Description: The DB cluster identifier. This parameter is stored as a lowercase string
 
   DatabaseUsername:
@@ -206,7 +215,7 @@ Parameters:
     Description: The database admin account user name, between 1 to 16 alphanumeric characters.
     MaxLength: '16'
     MinLength: '1'
-    Type: String
+    Type: AWS::SSM::Parameter::Value<String>
   DatabasePassword:
     AllowedPattern: "[a-zA-Z0-9]+"
     ConstraintDescription: must be between 8 to 41 alphanumeric characters.
@@ -214,7 +223,7 @@ Parameters:
     MaxLength: '41'
     MinLength: '8'
     NoEcho: 'true'
-    Type: String
+    Type: AWS::SSM::Parameter::Value<String>
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack

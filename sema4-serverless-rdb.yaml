@@ -69,7 +69,7 @@ Resources:
   RDSCluster:
     Type: AWS::RDS::DBCluster
     Properties:
-      DBClusterIdentifier: !Ref DBClusterIdentifier
+      DBClusterIdentifier: !Sub  "${AWS::StackName}-${DBClusterIdentifier}"
       DatabaseName: !Ref DatabaseName
       MasterUsername: !Ref DatabaseUsername
       MasterUserPassword: !Ref DatabasePassword

@@ -445,7 +445,7 @@ Resources:
       KeyName: !Ref KeyName
       Tags:
         - Key: Name
-          Value: !Ref InstanceName
+          Value: !Sub  "${AWS::StackName}-${InstanceName}"
         - Key: architecture
           Value: !FindInMap ["TagMap", "default", "architecture"]
         - Key: solution
