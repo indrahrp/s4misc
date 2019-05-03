@@ -14,16 +14,16 @@ Resources:
             Version: 2012-10-17
             Statement:
               - Effect: Deny
-                Resource: !Join ["", ["arn:aws:s3:::", !Ref S3BucketName]]
+                Resource: "arn:aws:s3:::*"
                 Action:
                   - "s3:Delete*"
-                  - "s3:PutBucket*"
               - Effect: Allow
-                Resource: !Join ["", ["arn:aws:s3:::", !Ref S3BucketName]]
+                Resource: "arn:aws:s3:::*"
                 Action:
                   - "s3:ListBucket*"
+                  - "s3:PutBucket*"
               - Effect: Allow
-                Resource: !Join ["", ["arn:aws:s3:::", !Ref S3BucketName, "/*"]]
+                Resource: "arn:aws:s3:::*/*"
                 Action:
                   - "s3:*"
       AssumeRolePolicyDocument:
@@ -69,8 +69,8 @@ Resources:
               - Sid: S3BucketAllowAllObjectOps
                 Effect: Allow
                 Resource: 
-                  - !Join ["", ["arn:aws:s3:::", !Ref S3BucketName]]
-                  - !Join ["", ["arn:aws:s3:::", !Ref S3BucketName, "/*"]]
+                  - "arn:aws:s3:::*"
+                  - "arn:aws:s3:::*/*"
                 Action:
                   - "s3:*"
  
@@ -90,6 +90,9 @@ Resources:
       - "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
       - "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
       - "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+      - "arn:aws:iam::aws:policy/AmazonRDSDataFullAccess"
+      - "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
+      - "arn:aws:iam::aws:policy/AmazonSSMReadOnlyAccess"
   GenomicsEnvBatchInstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:

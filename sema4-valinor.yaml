@@ -37,6 +37,12 @@ Metadata:
           - ServerInstanceType
           - ServerInstanceName
           - ServerSSHLocation
+      - Label:
+          default: "Serverless RDS Parameters"
+          Parameters:
+            - DBClusterIdentifier
+            - DatabaseUsername
+            - DatabasePassword
 
     ParameterLabels:
       TemplatePath:
@@ -66,6 +72,12 @@ Metadata:
       ServerSSHLocation:
         default: Cromwell Server SSH Location
 
+      DBClusterIdentifier:
+        default: DB Cluster ID
+      DatabaseUsername:
+        default: Database Username
+      DatabasePassword:
+        default: Database Password
 
 Parameters:
   TemplatePath:
@@ -153,12 +165,16 @@ Parameters:
       A t2.medium should be sufficient.  If you want to run this server on the
       free tier, use a t2.micro.
     Type: String
-    Default: t2.medium
+    Default: t2.micro
     AllowedValues:
-    - t2.micro
-    - t2.medium
-    - t2.large
-    ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large'."
+      - t2.micro
+      - t2.medium
+      - t2.large
+      - t2.xlarge
+      - t2.2xlarge
+      - r5a.2xlarge
+      - r5a.4xlarge
+    ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge'."
   ServerInstanceName:
     Type: String
     Default: cromwell-server
@@ -179,12 +195,35 @@ Parameters:
     Default: 0.0.0.0/0
     AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+
+  DBClusterIdentifier:
+    Type: String
+    Description: The DB cluster identifier. This parameter is stored as a lowercase string
+
+  DatabaseUsername:
+    AllowedPattern: "[a-zA-Z0-9]+"
+    ConstraintDescription: must be between 1 to 16 alphanumeric characters.
+    Description: The database admin account user name, between 1 to 16 alphanumeric characters.
+    MaxLength: '16'
+    MinLength: '1'
+    Type: String
+  DatabasePassword:
+    AllowedPattern: "[a-zA-Z0-9]+"
+    ConstraintDescription: must be between 8 to 41 alphanumeric characters.
+    Description: The database admin account password, between 8 to 41 alphanumeric characters.
+    MaxLength: '41'
+    MinLength: '8'
+    NoEcho: 'true'
+    Type: String
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-vpc.yaml"
-      TimeoutInMinutes: '20'
+      TimeoutInMinutes: 20
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-VPC"
       Parameters:
         AvailabilityZone1: !Ref AvailabilityZone1
         AvailabilityZone2: !Ref AvailabilityZone2
@@ -199,13 +238,16 @@ Resources:
       - VPCStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-custom-ami.template.yaml"
-      TimeoutInMinutes: '20'
+      TimeoutInMinutes: 20
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-AMI"
       Parameters:
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
         ScratchMountPoint: /cromwell_root
         ScratchVolumeSize: !Ref ScratchVolumeSize
-        UseEncryption: Yes
+        UseEncryption: "Yes"
         KeyName: !Ref KeyPairName
         AMIType: cromwell
         AMIName: !Join ["-", ["cromwell-genomics-ami", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
@@ -213,7 +255,10 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-s3.template.yaml"
-      TimeoutInMinutes: '10'
+      TimeoutInMinutes: 10
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-S3Stack"
       Parameters:
         S3BucketName: !Ref S3BucketName
   IamStack:
@@ -221,7 +266,10 @@ Resources:
     DependsOn: S3Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-iam.template.yaml"
-      TimeoutInMinutes: '20'
+      TimeoutInMinutes: 20
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-IAM"
       Parameters:
         S3BucketName: !Ref S3BucketName
   BatchStack:
@@ -232,7 +280,10 @@ Resources:
       - AMIStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-batch.template.yaml"
-      TimeoutInMinutes: "30"
+      TimeoutInMinutes: 30
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-Batch"
       Parameters:
         CustomAmiId: !Sub ${AMIStack.Outputs.AMI}
         Ec2KeyPairName: !Ref KeyPairName
@@ -253,7 +304,10 @@ Resources:
       - BatchStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
-      TimeoutInMinutes: "30"
+      TimeoutInMinutes: 30
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-CromwellServer"
       Parameters:
         InstanceType: !Ref ServerInstanceType
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
@@ -265,6 +319,37 @@ Resources:
         HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable access to RDS
+      VpcId: !Sub ${VPCStack.Outputs.VPCId}
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Sub "${CromwellServerStack.Outputs.EC2SecurityGroup}"
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup}"
+  ServerlessRDSStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - CromwellServerStack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-serverless-rdb.yaml"
+      TimeoutInMinutes: 30
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-ServerlessRDS"
+      Parameters:
+        DBClusterIdentifier: !Ref DBClusterIdentifier
+        DatabaseName: cromwell
+        DatabaseUsername: !Ref DatabaseUsername
+        DatabasePassword: !Ref DatabasePassword
+        VpcSecurityGroupIds: [!Ref RDSSecurityGroup]
+        DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
 
 Outputs:
   GenomicsEnvS3Bucket:

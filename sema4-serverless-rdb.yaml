@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  A CloudFormation template for an Serverless RDS Aurora cluster.
+Parameters:
+  DBClusterIdentifier:
+    Type: String
+    Description: The DB cluster identifier. This parameter is stored as a lowercase string
+  DatabaseName:
+    Type: String
+    Description: The name of the database.
+  DatabaseUsername:
+    AllowedPattern: "[a-zA-Z0-9]+"
+    ConstraintDescription: must be between 1 to 16 alphanumeric characters.
+    Description: The database admin account user name, between 1 to 16 alphanumeric characters.
+    MaxLength: '16'
+    MinLength: '1'
+    Type: String
+  DatabasePassword:
+    AllowedPattern: "[a-zA-Z0-9]+"
+    ConstraintDescription: must be between 8 to 41 alphanumeric characters.
+    Description: The database admin account password, between 8 to 41 alphanumeric characters.
+    MaxLength: '41'
+    MinLength: '8'
+    NoEcho: 'true'
+    Type: String
+
+  VpcSecurityGroupIds:
+    ConstraintDescription: must be list of security group ids.
+    Description: A list of VPC security groups to associate with this DB cluster.
+    Type: List<AWS::EC2::SecurityGroup::Id>
+
+  DatabaseSubnets:
+    ConstraintDescription: must be list of EC2 subnets.
+    Description: A list of private subnets to associate with this DB cluster.
+    Type: List<AWS::EC2::Subnet::Id>
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Database Configuration
+        Parameters:
+          - DBClusterIdentifier
+          - DatabaseName
+          - DatabaseUsername
+          - DatabasePassword
+          - VpcSecurityGroupIds
+          - DatabaseSubnets
+    ParameterLabels:
+      DBClusterIdentifier:
+        default: DB Cluster ID
+      DatabaseName:
+        default: Database Name
+      DatabaseUsername:
+        default: Database Username
+      DatabasePassword:
+        default: Database Password
+      VpcSecurityGroupIds:
+        default: Security Group Ids
+      DatabaseSubnets:
+        default: Subnets
+Resources:
+  DatabaseSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: CloudFormation managed DB subnet group.
+      SubnetIds: !Ref DatabaseSubnets
+
+  RDSCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      DBClusterIdentifier: !Ref DBClusterIdentifier
+      DatabaseName: !Ref DatabaseName
+      MasterUsername: !Ref DatabaseUsername
+      MasterUserPassword: !Ref DatabasePassword
+      Engine: aurora
+      EngineMode: serverless
+      BackupRetentionPeriod: 7
+      PreferredBackupWindow: 01:00-02:00
+      PreferredMaintenanceWindow: mon:03:00-mon:04:00
+      DBSubnetGroupName: !Ref DatabaseSubnetGroup
+      VpcSecurityGroupIds: !Ref VpcSecurityGroupIds
+      ScalingConfiguration:
+        AutoPause:  true
+        MaxCapacity: 2
+        MinCapacity: 2
+        SecondsUntilAutoPause: 300
+
+Outputs:
+  EndpointAddress:
+    Value: !GetAtt RDSCluster.Endpoint.Address
+  EndpointPort:
+    Value: !GetAtt RDSCluster.Endpoint.Port
+
+

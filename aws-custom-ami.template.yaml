@@ -30,11 +30,11 @@ Parameters:
     Description: The initial size of the scratch volume
   UseEncryption:
     Type: String
-    Default: Yes
+    Default: "Yes"
     Description: Whether or not to encrypt the addtional volumes on the EC2 instance
     AllowedValues:
-      - Yes
-      - No
+      - "Yes"
+      - "No"
   LatestECSAMI:
     Description: The latest Linux ECS Optimized AMI
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
@@ -58,7 +58,7 @@ Parameters:
 
 # Conditions
 Conditions:
-  UseEncryptedVolume: !Equals [!Ref UseEncryption, Yes]
+  UseEncryptedVolume: !Equals [!Ref UseEncryption, "Yes"]
   UseCromwell: !Equals [!Ref AMIType, cromwell]
 
 # Resources

@@ -107,6 +107,9 @@ Resources:
     Type: AWS::EC2::SecurityGroup
     Properties:
       GroupDescription: SG for genomics workflows on Batch
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-GenomicsBatchSecurityGroup"
       VpcId:
         Ref: VpcId
   SGSSHIngress:
@@ -115,8 +118,8 @@ Resources:
     Properties:
       GroupId: !Ref GenomicsBatchSecurityGroup
       IpProtocol: tcp
-      FromPort: '22'
-      ToPort: '22'
+      FromPort: 22
+      ToPort: 22
       CidrIp: 0.0.0.0/0
   SGAllTcpEgress:
     Type: AWS::EC2::SecurityGroupEgress
@@ -124,8 +127,8 @@ Resources:
     Properties:
       GroupId: !Ref GenomicsBatchSecurityGroup
       IpProtocol: tcp
-      FromPort: '0'
-      ToPort: '65535'
+      FromPort: 0
+      ToPort: 65535
       CidrIp: 0.0.0.0/0
   SGAllTcpSelfIngress:
     Type: AWS::EC2::SecurityGroupIngress
@@ -133,8 +136,8 @@ Resources:
     Properties:
       GroupId: !Ref GenomicsBatchSecurityGroup
       IpProtocol: tcp
-      FromPort: '0'
-      ToPort: '65535'
+      FromPort: 0
+      ToPort: 65535
       SourceSecurityGroupId: !Ref GenomicsBatchSecurityGroup
 
   GenomicsDefaultComputeEnv:
@@ -210,3 +213,7 @@ Outputs:
     Value: !Ref GenomicsDefaultQueue
   HighPriorityJobQueueArn:
     Value: !Ref GenomicsHighPriorityQueue
+  GenomicsBatchSecurityGroup:
+    Value: !GetAtt GenomicsBatchSecurityGroup.GroupId
+    Export:
+      Name: !Sub "${AWS::StackName}-GenomicsBatchSecurityGroupID"
