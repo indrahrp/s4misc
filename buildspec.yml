@@ -36,7 +36,7 @@ phases:
         done
       - |
         for conf in $CONFIG_FILES; do
-          echo "Validating CFN parameters config file $conf"
+          echo "Validating CF parameters config file $conf"
           jsonlint -q $conf
         done
   build:
