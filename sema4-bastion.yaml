@@ -16,6 +16,8 @@ Metadata:
           - PubNet2
           - PrivNet1
           - PrivNet2
+          - AvailabilityZone1
+          - AvailabilityZone2
 
       - Label:
           default: "Genomics Environment for AWS Batch Parameters"
@@ -82,6 +84,16 @@ Parameters:
   S3BucketName:
     Description: A S3 bucket name for storing analysis results
     Type: String
+  AvailabilityZone1:
+    Description: The first availability zone in the region
+    Type: AWS::EC2::AvailabilityZone::Name
+    ConstraintDescription: Must be a valid availability zone
+    Default: us-east-1a
+  AvailabilityZone2:
+    Description: The second availability zone in the region
+    Type: AWS::EC2::AvailabilityZone::Name
+    ConstraintDescription: Must be a valid availability zone
+    Default: us-east-1b
   GlobalCIDR:
     Description: Global CIDR of the VPC  ( i.e. 10.80.191.0/24 - Total 256 IPs )
     Type: String
@@ -208,6 +220,8 @@ Resources:
         PubNet2: !Ref PubNet2
         PrivNet1: !Ref PrivNet1
         PrivNet2: !Ref PrivNet2
+        AvailabilityZone1: !Ref AvailabilityZone1
+        AvailabilityZone2: !Ref AvailabilityZone2
   AMIStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
