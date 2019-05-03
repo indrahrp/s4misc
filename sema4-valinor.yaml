@@ -220,7 +220,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-vpc.yaml"
-      TimeoutInMinutes: '20'
+      TimeoutInMinutes: 20
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-VPC"
@@ -238,7 +238,7 @@ Resources:
       - VPCStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-custom-ami.template.yaml"
-      TimeoutInMinutes: '20'
+      TimeoutInMinutes: 20
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-AMI"
@@ -247,7 +247,7 @@ Resources:
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
         ScratchMountPoint: /cromwell_root
         ScratchVolumeSize: !Ref ScratchVolumeSize
-        UseEncryption: Yes
+        UseEncryption: "Yes"
         KeyName: !Ref KeyPairName
         AMIType: cromwell
         AMIName: !Join ["-", ["cromwell-genomics-ami", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
@@ -255,7 +255,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-s3.template.yaml"
-      TimeoutInMinutes: '10'
+      TimeoutInMinutes: 10
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-S3Stack"
@@ -266,7 +266,7 @@ Resources:
     DependsOn: S3Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-iam.template.yaml"
-      TimeoutInMinutes: '20'
+      TimeoutInMinutes: 20
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-IAM"
@@ -280,7 +280,7 @@ Resources:
       - AMIStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-batch.template.yaml"
-      TimeoutInMinutes: "30"
+      TimeoutInMinutes: 30
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-Batch"
@@ -304,7 +304,7 @@ Resources:
       - BatchStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
-      TimeoutInMinutes: "30"
+      TimeoutInMinutes: 30
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-CromwellServer"
@@ -325,7 +325,7 @@ Resources:
       - CromwellServerStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-serverless-rdb.yaml"
-      TimeoutInMinutes: "30"
+      TimeoutInMinutes: 30
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-ServerlessRDS"
@@ -334,8 +334,10 @@ Resources:
         DatabaseName: cromwell
         DatabaseUsername: !Ref DatabaseUsername
         DatabasePassword: !Ref DatabasePassword
-        VpcSecurityGroupIds: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup},  ${CromwellServerStack.Outputs.EC2SecurityGroup}"
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
+        VpcId: !Sub ${VPCStack.Outputs.VPCId}
+        CromwellSecurityGroup: !Sub "${CromwellServerStack.Outputs.EC2SecurityGroup}"
+        BatchSecurityGroup: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup}"
 
 Outputs:
   GenomicsEnvS3Bucket:
