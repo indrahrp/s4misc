@@ -199,6 +199,7 @@ Resources:
               awslogs: []
               nginx: []
               httpd-tools: []
+              openssl: []
 
             python:
               supervisor: []
@@ -210,11 +211,10 @@ Resources:
               command: alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
             02_set_cromwell_basic_auth_password:
               command: !Sub "htpasswd -bc /etc/nginx/.htpasswd cromwell ${CromwellPassword}"
-            03_create_cromwell_ssl_cert:
-              command: mkdir /etc/ssl/private; sudo openssl req -new -x509 -days 3650 -nodes \
-                        -out /etc/ssl/certs/cromwell.pem \
-                        -keyout /etc/ssl/private/cromwell.pem \
-                        -subj "/C=US/ST=Connecticut/L=Stamford/O=Sema4/OU=Bioinformatics/CN=cromwell-server"
+            03_mkdir_ssl_private:
+              command: mkdir /etc/ssl/private
+            04_create_cromwell_ssl_cert:
+              command:  openssl req -new -x509 -days 3650 -nodes -out /etc/ssl/certs/cromwell.pem -keyout /etc/ssl/private/cromwell.pem -subj "/C=US/ST=Connecticut/L=Stamford/O=Sema4/OU=Bioinformatics/CN=cromwell-server"
 
           files:
             "/etc/awslogs/awslogs.conf":
