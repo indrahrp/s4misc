@@ -3,7 +3,7 @@ Description: >
   A CloudFormation template for an Serverless RDS Aurora cluster.
 Parameters:
   DBClusterIdentifier:
-    Type: String
+    Type: AWS::SSM::Parameter::Value<String>
     Description: The DB cluster identifier. This parameter is stored as a lowercase string
   DatabaseName:
     Type: String
@@ -14,7 +14,7 @@ Parameters:
     Description: The database admin account user name, between 1 to 16 alphanumeric characters.
     MaxLength: '16'
     MinLength: '1'
-    Type: String
+    Type: AWS::SSM::Parameter::Value<String>
   DatabasePassword:
     AllowedPattern: "[a-zA-Z0-9]+"
     ConstraintDescription: must be between 8 to 41 alphanumeric characters.
@@ -23,7 +23,9 @@ Parameters:
     MinLength: '8'
     NoEcho: 'true'
     Type: String
-
+  DBPwdParamVersion:
+    Type: Number
+    Default: 1
   VpcSecurityGroupIds:
     ConstraintDescription: must be list of security group ids.
     Description: A list of VPC security groups to associate with this DB cluster.
@@ -72,7 +74,13 @@ Resources:
       DBClusterIdentifier: !Sub  "${AWS::StackName}-${DBClusterIdentifier}"
       DatabaseName: !Ref DatabaseName
       MasterUsername: !Ref DatabaseUsername
-      MasterUserPassword: !Ref DatabasePassword
+      MasterUserPassword: !Join
+                            - ''
+                            - - '{{resolve:ssm-secure:'
+                              - !Ref DatabasePassword
+                              - ':'
+                              - !Ref DBPwdParamVersion
+                              - '}}'
       Engine: aurora
       EngineMode: serverless
       BackupRetentionPeriod: 7

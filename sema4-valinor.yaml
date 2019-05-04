@@ -206,16 +206,16 @@ Parameters:
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
 
   DBClusterIdentifier:
-    Type: AWS::SSM::Parameter::Value<String>
+    Type: String
     Description: The DB cluster identifier. This parameter is stored as a lowercase string
 
   DatabaseUsername:
     AllowedPattern: "[a-zA-Z0-9]+"
-    ConstraintDescription: must be between 1 to 16 alphanumeric characters.
-    Description: The database admin account user name, between 1 to 16 alphanumeric characters.
-    MaxLength: '16'
+    ConstraintDescription: must be between 1 to 41 alphanumeric characters.
+    Description: The database admin account user name, between 1 to 41 alphanumeric characters.
+    MaxLength: '41'
     MinLength: '1'
-    Type: AWS::SSM::Parameter::Value<String>
+    Type: String
   DatabasePassword:
     AllowedPattern: "[a-zA-Z0-9]+"
     ConstraintDescription: must be between 8 to 41 alphanumeric characters.
@@ -223,7 +223,7 @@ Parameters:
     MaxLength: '41'
     MinLength: '8'
     NoEcho: 'true'
-    Type: AWS::SSM::Parameter::Value<String>
+    Type: String
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
@@ -356,7 +356,7 @@ Resources:
         DBClusterIdentifier: !Ref DBClusterIdentifier
         DatabaseName: cromwell
         DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Ref DatabasePassword
+        DatabasePassword:  !Ref DatabasePassword
         VpcSecurityGroupIds: [!Ref RDSSecurityGroup]
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
 
