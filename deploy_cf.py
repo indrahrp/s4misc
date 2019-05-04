@@ -229,10 +229,11 @@ def main():
     parser.add_argument('--subaccount', type=str, required=False,
                         help='a specific account to deploy')
     parser.add_argument('--params', type=str, required=False,
-                        help="input parameters of the stack i.e. -params 'BucketName=s4-research-sanofi&ITLambda=ITAdmin'")
+                        help="input parameters of the stack i.e. --params 'BucketName=s4-research-sanofi&ITLambda=ITAdmin'")
 
     parser.add_argument('--topicarn', type=str, required=False,
                         help='the SNS topic arn for notifications to be sent to.')
+
     parser.add_argument('--log', type=str, default="INFO", required=False,
                         help='which log level. DEBUG, INFO, WARNING, CRITICAL')
     parser.add_argument('--tags', type=str, required=False,
