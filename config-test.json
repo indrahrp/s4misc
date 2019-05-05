@@ -10,7 +10,7 @@
     "PrivNet2": "10.80.175.144/28",
     "S3BucketName": "s4-valinor",
     "ExistingBucket": "false",
-    "KeyPairName": "valinor-key",
+    "KeyPairName": "gondor-dev",
     "ScratchVolumeSize": "1000",
     "SpotBidPercentage": "100",
     "DefaultCEMinvCpus": "0",
