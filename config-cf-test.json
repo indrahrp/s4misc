@@ -76,6 +76,7 @@
     "ParameterKey": "ServerInstanceName",
     "ParameterValue": "cromwell-server"
   },
+
   {
     "ParameterKey": "ServerSSHLocation",
     "ParameterValue": "0.0.0.0/0"
