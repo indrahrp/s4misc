@@ -45,9 +45,9 @@ phases:
       - |
         for child_template in $CHILD_TEMPLATES; do
           if [ "X$TEMPLATE_PREFIX" = "X" ]; then
-            aws s3 cp "$child_template" "s3://$TEMPLATE_BUCKET/$child_template" --sse AES256
+            aws s3 cp "$child_template" "s3://$TEMPLATE_BUCKET/$child_template" --sse aws:kms
           else
-            aws s3 cp "$child_template" "s3://$TEMPLATE_BUCKET/$TEMPLATE_PREFIX/$child_template" --sse AES256
+            aws s3 cp "$child_template" "s3://$TEMPLATE_BUCKET/$TEMPLATE_PREFIX/$child_template" --sse aws:kms
           fi
         done
       - echo "Updating template configuration files to use the appropriate values"
