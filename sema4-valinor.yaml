@@ -356,8 +356,8 @@ Resources:
         DBClusterIdentifier: !Ref DBClusterIdentifier
         DatabaseName: cromwell
         DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword:  !Ref DatabasePassword
-        VpcSecurityGroupIds: [!Ref RDSSecurityGroup]
+        DatabasePassword: !Ref DatabasePassword
+        VpcSecurityGroupIds: !Ref RDSSecurityGroup
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
 
 Outputs:
