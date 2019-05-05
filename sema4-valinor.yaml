@@ -269,7 +269,7 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-S3Stack"
       Parameters:
-        S3BucketName:  !Join ["-", [${S3BucketName} , !Ref "AWS::StackId" ]]
+        S3BucketName:  !Join ["-", [!Ref S3BucketName , !Ref "AWS::StackId" ]]
   IamStack:
     Type: AWS::CloudFormation::Stack
     DependsOn: S3Stack
