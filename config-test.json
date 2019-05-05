@@ -1,95 +1,27 @@
-[
-  {
-    "ParameterKey": "TemplatePath",
-    "ParameterValue": "TEMPLATE_PATH_PLACEHOLDER"
-  },
-  {
-    "ParameterKey": "GlobalCIDR",
-    "ParameterValue": "10.80.175.128/26"
-  },
-  {
-    "ParameterKey": "AvailabilityZone1",
-    "ParameterValue": "us-east-1c"
-  },
-  {
-    "ParameterKey": "AvailabilityZone2",
-    "ParameterValue": "us-east-1b"
-  },
-  {
-    "ParameterKey": "PubNet1",
-    "ParameterValue": "10.80.175.160/28"
-  },
-  {
-    "ParameterKey": "PubNet2",
-    "ParameterValue": "10.80.175.176/28"
-  },
-  {
-    "ParameterKey": "PrivNet1",
-    "ParameterValue": "10.80.175.128/28"
-  },
-  {
-    "ParameterKey": "PrivNet2",
-    "ParameterValue": "10.80.175.144/28"
-  },
-  {
-    "ParameterKey": "S3BucketName",
-    "ParameterValue": "s4-valinor"
-  },
-  {
-    "ParameterKey": "ExistingBucket",
-    "ParameterValue": "false"
-  },
-  {
-    "ParameterKey": "KeyPairName",
-    "ParameterValue": "valinor-key"
-  },
-  {
-    "ParameterKey": "ScratchVolumeSize",
-    "ParameterValue": "1000"
-  },
-  {
-    "ParameterKey": "SpotBidPercentage",
-    "ParameterValue": "100"
-  },
-  {
-    "ParameterKey": "DefaultCEMinvCpus",
-    "ParameterValue": "0"
-  },
-  {
-    "ParameterKey": "DefaultCEMaxvCpus",
-    "ParameterValue": "1024"
-  },
-  {
-    "ParameterKey": "HighPriorityCEMinvCpus",
-    "ParameterValue": "0"
-  },
-  {
-    "ParameterKey": "HighPriorityCEMaxvCpus",
-    "ParameterValue": "1024"
-  },
-
-  {
-    "ParameterKey": "ServerInstanceType",
-    "ParameterValue": "t2.2xlarge"
-  },
-  {
-    "ParameterKey": "ServerInstanceName",
-    "ParameterValue": "cromwell-server"
-  },
-  {
-    "ParameterKey": "ServerSSHLocation",
-    "ParameterValue": "0.0.0.0/0"
-  },
-  {
-    "ParameterKey": "DBClusterIdentifier",
-    "ParameterValue": "ValinorDBNameDev"
-  },
-  {
-    "ParameterKey": "DatabaseUsername",
-    "ParameterValue": "ValinorDBUserNameDev"
-  },
-  {
-    "ParameterKey": "DatabasePassword",
-    "ParameterValue": "ValinorDBPasswordDev"
+{
+  "Parameters": {
+    "TemplatePath": "TEMPLATE_PATH_PLACEHOLDER",
+    "GlobalCIDR": "10.80.175.128/26",
+    "AvailabilityZone1": "us-east-1c",
+    "AvailabilityZone2": "us-east-1b",
+    "PubNet1": "10.80.175.160/28",
+    "PubNet2": "10.80.175.176/28",
+    "PrivNet1": "10.80.175.128/28",
+    "PrivNet2": "10.80.175.144/28",
+    "S3BucketName": "s4-valinor",
+    "ExistingBucket": "false",
+    "KeyPairName": "valinor-key",
+    "ScratchVolumeSize": "1000",
+    "SpotBidPercentage": "100",
+    "DefaultCEMinvCpus": "0",
+    "DefaultCEMaxvCpus": "1024",
+    "HighPriorityCEMinvCpus": "0",
+    "HighPriorityCEMaxvCpus": "1024",
+    "ServerInstanceType": "t2.2xlarge",
+    "ServerInstanceName": "cromwell-server",
+    "ServerSSHLocation": "0.0.0.0/0",
+    "DBClusterIdentifier": "ValinorDBNameDev",
+    "DatabaseUsername": "ValinorDBUserNameDev",
+    "DatabasePassword": "ValinorDBPasswordDev"
   }
-]
+}
