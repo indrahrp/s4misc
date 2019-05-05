@@ -26,6 +26,7 @@ phases:
   install:
     commands:
       npm install jsonlint -g
+      apt-get install jq
   pre_build:
     commands:
       - echo "Validating Valinor templates"
@@ -60,9 +61,10 @@ phases:
             echo "Replacing \"TEMPLATE_PATH_PLACEHOLDER\" for \"$TEMPLATE_BUCKET/$TEMPLATE_PREFIX\" in $conf"
             sed -i -e "s/TEMPLATE_PATH_PLACEHOLDER/$TEMPLATE_BUCKET\/$TEMPLATE_PREFIX/" $conf
           fi
+          jq '{ Parameters: [ .[] |  { (.ParameterKey): .ParameterValue }  ] | add } ' < $conf > config.json
         done
 
 artifacts:
   files:
     - sema4-valinor.yaml
-    - config-*.json
+    - config.json
