@@ -269,7 +269,7 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-S3Stack"
       Parameters:
-        S3BucketName:  !Join ["-", [ ${AWS::StackName} , !Ref S3BucketName]]
+        S3BucketName:  !Join ["-", [!Ref S3BucketName, ${AWS::AccountId}]]
   IamStack:
     Type: AWS::CloudFormation::Stack
     DependsOn: S3Stack
@@ -359,6 +359,16 @@ Resources:
         DatabasePassword: !Ref DatabasePassword
         VpcSecurityGroupIds: !Ref RDSSecurityGroup
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
+
+
+  DBHostParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Ref DBClusterIdentifier
+      Type: "String"
+      Value: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
+      Description: "SSM Parameter for valinor DB Host."
+      AllowedPattern: "^[a-zA-Z]{1,10}$"
 
 Outputs:
   GenomicsEnvS3Bucket:
