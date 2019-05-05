@@ -269,7 +269,7 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-S3Stack"
       Parameters:
-        S3BucketName: !Ref S3BucketName
+        S3BucketName:  !Join ["-", [${S3BucketName} , ${"AWS::StackId"} ]]
   IamStack:
     Type: AWS::CloudFormation::Stack
     DependsOn: S3Stack
@@ -280,7 +280,7 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-IAM"
       Parameters:
-        S3BucketName: !Ref S3BucketName
+        S3BucketName: !Sub ${S3Stack.Outputs.BucketName}
   BatchStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
@@ -326,7 +326,7 @@ Resources:
         KeyName: !Ref KeyPairName
         SSHLocation: !Ref ServerSSHLocation
         HTTPLocation: !Ref HTTPLocation
-        S3BucketName: !Ref S3BucketName
+        S3BucketName: !Sub ${S3Stack.Outputs.BucketName}
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
