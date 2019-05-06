@@ -38,7 +38,7 @@ deploylist=['417302553802',
             '011825642366']
 
 def _stack_exists(stack_name,clientcf):
-    #stacks = clientcf.list_stacks()['StackSummaries']
+    ###stacks = clientcf.list_stacks()['StackSummaries']
     #print "stack exist stack_name " + stack_name
     for stack in paginate(clientcf.list_stacks):
         #print account['Id'], account['Name'], account['Arn']
