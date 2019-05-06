@@ -351,6 +351,7 @@ def main():
                               'TemplateBody' : f.read(),
                               'Parameters': params,
                               'Capabilities' :['CAPABILITY_IAM','CAPABILITY_NAMED_IAM'],
+                              'UsePreviousTemplate=True',
                               'Tags': tags
                           }
                           print "stack name " + args.name
