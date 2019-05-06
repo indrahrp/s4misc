@@ -348,7 +348,7 @@ Resources:
         DatabaseName: cromwell
         DatabaseUsername: !Ref DatabaseUsername
         DatabasePassword: !Ref DatabasePassword
-        VpcSecurityGroupIds: [!Ref RDSSecurityGroup]
+        VpcSecurityGroupIds: !Ref RDSSecurityGroup
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
 
 Outputs:
