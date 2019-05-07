@@ -361,7 +361,7 @@ def main():
                               else:
                                   yn=raw_input('Type Y to update the stack : ')
                               if yn == 'Y':
-                                  print str(allparams)
+                                  #print str(allparams)
                                   response = clientcf.update_stack(**allparams)
                                   waiter = clientcf.get_waiter('stack_update_complete')
                                   waiter.wait(StackName=args.name)
