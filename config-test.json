@@ -22,6 +22,7 @@
     "ServerSSHLocation": "0.0.0.0/0",
     "DBClusterIdentifier": "ValinorDBNameDev",
     "DatabaseUsername": "ValinorDBUserNameDev",
-    "DatabasePassword": "ValinorDBPasswordDev"
+    "DatabasePassword": "ValinorDBPasswordDev",
+    "DBHostParam": "ValinorDBHostDev"
   }
 }

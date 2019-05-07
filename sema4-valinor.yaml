@@ -80,6 +80,8 @@ Metadata:
         default: Database Username
       DatabasePassword:
         default: Database Password
+      DBHostParam:
+        default: Database cluster EndPoint
 
 Parameters:
   TemplatePath:
@@ -224,6 +226,8 @@ Parameters:
     MinLength: '8'
     NoEcho: 'true'
     Type: String
+  DBHostParam:
+    Type: String
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
@@ -364,11 +368,10 @@ Resources:
   DBHostParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Ref DBClusterIdentifier
+      Name: !Ref DBHostParam
       Type: "String"
       Value: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
       Description: "SSM Parameter for valinor DB Host."
-      AllowedPattern: "^[a-zA-Z]{1,10}$"
 
 Outputs:
   GenomicsEnvS3Bucket:
