@@ -248,6 +248,7 @@ def main(argv):
             RoleSessionName='share-admin-temp-session'
         )
         target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
+        target_ec2_client = target_session.client('ec2', region_name=TARGET_REGION)
         # A shared snapshot, owned by source account
         shared_snapshot = target_ec2.Snapshot(source_snapshot.id)
 
@@ -268,7 +269,7 @@ def main(argv):
         #copied_snapshot.wait_until_completed()
 
 
-        waiter_snapshot_complete = target_ec2.get_waiter('snapshot_completed')
+        waiter_snapshot_complete = target_ec2_client.get_waiter('snapshot_completed')
         waiter_snapshot_complete.config.max_attempts = 1000
 
         try:
