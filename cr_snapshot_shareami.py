@@ -264,7 +264,7 @@ def main(argv):
 
         # Wait for the copy to complete
         copied_snapshot = target_ec2.Snapshot(copy['SnapshotId'])
-        #copied_snapshot.wait_until_completed()
+        copied_snapshot.wait_until_completed()
 
         waiter_snapshot_complete.config.max_attempts = 1000
 
