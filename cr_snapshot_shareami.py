@@ -262,7 +262,7 @@ def main(argv):
             Encrypted=True,
         )
 
-        # Wait for the copy to complete
+        ## Wait for the copy to complete
         copied_snapshot = target_ec2.Snapshot(copy['SnapshotId'])
         copied_snapshot.wait_until_completed()
 
