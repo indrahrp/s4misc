@@ -252,6 +252,7 @@ def main(argv):
         shared_snapshot = target_ec2.Snapshot(source_snapshot.id)
 
         # Ensure source snapshot is completed, cannot be copied otherwise
+        ##sleep(30)
         if shared_snapshot.state != "completed":
             print("Shared snapshot not in completed state, got: " + shared_snapshot.state)
             exit(1)
@@ -262,10 +263,12 @@ def main(argv):
             Encrypted=True,
         )
 
-        ## Wait for the copy to complete
+        # Wait for the copy to complete
         copied_snapshot = target_ec2.Snapshot(copy['SnapshotId'])
-        copied_snapshot.wait_until_completed()
+        #copied_snapshot.wait_until_completed()
 
+
+        waiter_snapshot_complete = target_ec2.get_waiter('snapshot_completed')
         waiter_snapshot_complete.config.max_attempts = 1000
 
         try:
