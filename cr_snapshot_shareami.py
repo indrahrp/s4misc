@@ -18,12 +18,12 @@ import botocore
 import argparse
 import pprint
 
-TARGET_ACCOUNT_ID = '470168895595'
+TARGET_ACCOUNT_ID = '909119180557'
 ## take instance snapshot and reencrypting it using particular KMS key  and creating  image on different account
 ### Can  not use organizational-su  account to execute this. It has to be indra.harahap aws account
 ### make sure indra.harahap at source account can assume role (trusted) by itadminrole in target account
 ### python cr_snapshot_shareami.py  -i i-02512372733e3e1e1 -key cfc354c4-6d95-4662-9f37-66309efbf1aa -r us-east-1
-ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::470168895595:role/ITAdmin-Role'
+ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::909119180557:role/ITAdmin-Role'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
