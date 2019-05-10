@@ -23,6 +23,7 @@ TARGET_ACCOUNT_ID = '909119180557'
 ### Can  not use organizational-su  account to execute this. It has to be indra.harahap aws account
 ### make sure indra.harahap at source account can assume role (trusted) by itadminrole in target account
 ### python cr_snapshot_shareami.py  -i i-02512372733e3e1e1 -key cfc354c4-6d95-4662-9f37-66309efbf1aa -r us-east-1
+###  ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
 ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::909119180557:role/ITAdmin-Role'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
@@ -296,11 +297,11 @@ def main(argv):
     pp.pprint(all_sub_mappings)
 
     #print block_device_mappings
-
+    ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
     new_image = target_ec2.register_image(
         Name='copy-' + copied_snapshot.snapshot_id,
         Architecture='x86_64',
-        RootDeviceName='/dev/sda1',
+        RootDeviceName='/dev/xvda1',
         BlockDeviceMappings=all_sub_mappings,
         VirtualizationType='hvm'
     )
