@@ -301,7 +301,7 @@ def main(argv):
     new_image = target_ec2.register_image(
         Name='copy-' + copied_snapshot.snapshot_id,
         Architecture='x86_64',
-        RootDeviceName='/dev/xvda1',
+        RootDeviceName='/dev/xvda',
         BlockDeviceMappings=all_sub_mappings,
         VirtualizationType='hvm'
     )
