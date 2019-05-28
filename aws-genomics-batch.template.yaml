@@ -71,17 +71,17 @@ Parameters:
   HighPriorityCEMinvCpus:
     Type: Number
     Description: Minimum number of CPUs in the high-priority compute environment. Default 0.
-    Default: 4
+    Default: 0
     MinValue: 0
   HighPriorityCEMaxvCpus:
     Type: Number
     Description: Maximum number of CPUs in the high-priority compute environment. Should be >= than MinCpus
-    Default: 64
+    Default: 100
     MinValue: 0
   DefaultCEMinvCpus:
     Type: Number
     Description: Minimum number of CPUs in the default compute environment. Default 0.
-    Default: 4
+    Default: 0
     MinValue: 0
   DefaultCEMaxvCpus:
     Type: Number
@@ -141,6 +141,9 @@ Resources:
     Type: AWS::Batch::ComputeEnvironment
     DependsOn: GenomicsBatchSecurityGroup
     Properties:
+      ComputeEnvironmentName: !Sub
+       - spot-${StackGuid}
+       - StackGuid: !Select [ 2, !Split [ "/", !Ref "AWS::StackId" ]]
       ServiceRole: !Ref BatchServiceRoleArn
       Type: MANAGED
       State: ENABLED
@@ -159,12 +162,18 @@ Resources:
         SpotIamFleetRole: !Ref SpotFleetRoleArn
         Subnets: !Ref SubnetIds
         Type: SPOT
-        Tags: {"Name": !Join ["-", ["Default", !Select [1, !Split ["/", !Ref "AWS::StackId" ]]]]}
+        Tags:
+          Name: !Sub
+            - batch-spot-worker-${StackGuid}
+            - StackGuid: !Select [ 2, !Split [ "/", !Ref "AWS::StackId" ]]
 
   GenomicsHighPriorityComputeEnv:
     Type: AWS::Batch::ComputeEnvironment
     DependsOn: GenomicsBatchSecurityGroup
     Properties:
+      ComputeEnvironmentName: !Sub
+       - ondemand-${StackGuid}
+       - StackGuid: !Select [ 2, !Split [ "/", !Ref "AWS::StackId" ]]
       ServiceRole: !Ref BatchServiceRoleArn
       Type: MANAGED
       State: ENABLED
@@ -181,14 +190,19 @@ Resources:
           - !Ref GenomicsBatchSecurityGroup
         Subnets: !Ref SubnetIds
         Type: EC2
-        Tags: {"Name": !Join ["-", ["HighPriority", !Select [1, !Split ["/", !Ref "AWS::StackId" ]]]]}
+        Tags:
+          Name: !Sub
+            - batch-ondemand-worker-${StackGuid}
+            - StackGuid: !Select [ 2, !Split [ "/", !Ref "AWS::StackId" ]]
 
   GenomicsHighPriorityQueue:
     Type: AWS::Batch::JobQueue
     Properties:
+      JobQueueName: !Sub
+        - highpriority-${StackGuid}
+        - StackGuid: !Select [ 2, !Split [ "/", !Ref "AWS::StackId" ]]
       Priority: 1000
       State: ENABLED
-      JobQueueName: !Join ["-", ["GenomicsHighPriorityQueue", !Select [1, !Split ["/", !Ref "AWS::StackId" ]]]]
       ComputeEnvironmentOrder:
         - Order: 1
           ComputeEnvironment: !Ref GenomicsHighPriorityComputeEnv
@@ -198,9 +212,11 @@ Resources:
   GenomicsDefaultQueue:
     Type: AWS::Batch::JobQueue
     Properties:
+      JobQueueName: !Sub
+        - default-${StackGuid}
+        - StackGuid: !Select [ 2, !Split [ "/", !Ref "AWS::StackId" ]]
       Priority: 1
       State: ENABLED
-      JobQueueName: !Join ["-", ["GenomicsDefaultQueue", !Select [1, !Split ["/", !Ref "AWS::StackId" ]]]]
       ComputeEnvironmentOrder:
         - Order: 1
           ComputeEnvironment: !Ref GenomicsDefaultComputeEnv

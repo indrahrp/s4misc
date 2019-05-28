@@ -184,6 +184,11 @@ Parameters:
     Description: The maximum number of CPUs for the high-priority Batch Compute Environment
     Type: Number
     Default: 1024
+  ArtifactRootUrl:
+    Type: String
+    Default: https://s3.amazonaws.com/aws-genomics-workflows/artifacts
+    Description: >-
+      Root URL for where artifacts / additions scripts are stored
   InstanceType:
     Description: >-
       EC2 instance type.  Cromwell itself does not require much compute power.
@@ -255,9 +260,7 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-vpc.yaml"
       TimeoutInMinutes: '20'
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-VPC"
+      Tags: !FindInMap ["TagMap", "default", "tags"]
       Parameters:
         AvailabilityZone1: !Ref AvailabilityZone1
         AvailabilityZone2: !Ref AvailabilityZone2
@@ -271,9 +274,7 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-s3.template.yaml"
       TimeoutInMinutes: '10'
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-S3Stack"
+      Tags: !FindInMap ["TagMap", "default", "tags"]
       Parameters:
         S3BucketName: !Ref S3BucketName
         ExistingBucket: !Ref ExistingBucket
@@ -283,17 +284,18 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-iam.template.yaml"
       TimeoutInMinutes: '20'
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-IAM"
+      Tags: !FindInMap ["TagMap", "default", "tags"]
       Parameters:
         S3BucketName: !Ref S3BucketName
   LaunchTplStack:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-launch-template.template.yaml"
+      Tags: !FindInMap ["TagMap", "default", "tags"]
+      TimeoutInMinutes: 5
       Parameters:
         WorkflowOrchestrator: cromwell
+        ArtifactRootUrl: !Ref ArtifactRootUrl
   BatchStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
@@ -303,9 +305,7 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-batch.template.yaml"
       TimeoutInMinutes: 30
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-Batch"
+      Tags: !FindInMap ["TagMap", "default", "tags"]
       Parameters:
         LaunchTemplateId: !Sub ${LaunchTplStack.Outputs.LaunchTemplateId}
         Ec2KeyPairName: !Ref KeyPairName
@@ -326,9 +326,7 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
       TimeoutInMinutes: 30
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-CromwellServer"
+      Tags: !FindInMap ["TagMap", "default", "tags"]
       Parameters:
         InstanceType: !Ref InstanceType
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
@@ -340,6 +338,7 @@ Resources:
         HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
