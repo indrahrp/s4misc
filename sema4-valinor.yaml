@@ -206,7 +206,7 @@ Parameters:
     Default: 0.0.0.0/0
     AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
-  ServerUrlParam:
+  CromwellServerParam:
     Type: String
   DBClusterIdentifier:
     Type: String
@@ -226,7 +226,7 @@ Parameters:
     MinLength: '8'
     NoEcho: 'true'
     Type: String
-  DBHostParam:
+  DBHostParamName:
     Type: String
 Resources:
   VPCStack:
@@ -368,7 +368,7 @@ Resources:
   DBHostParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Ref DBHostParam
+      Name: !Ref DBHostParamName
       Type: "String"
       Value: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
       Description: "SSM Parameter for valinor DB Host."
@@ -376,7 +376,7 @@ Resources:
   CromwellServerUrlParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Ref ServerUrlParam
+      Name: !Ref CromwellServerParam
       Type: "String"
       Value: !Sub "http://${CromwellServerStack.Outputs.HostName}"
       Description: "SSM Parameter for valinor cromwell server."
