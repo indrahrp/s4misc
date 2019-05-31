@@ -56,12 +56,13 @@ phases:
           if [ "X$TEMPLATE_PREFIX" = "X" ]; then
             echo "Replacing \"TEMPLATE_PATH_PLACEHOLDER\" for \"$TEMPLATE_BUCKET\" in $conf"
             sed -i -e "s/TEMPLATE_PATH_PLACEHOLDER/$TEMPLATE_BUCKET/" $conf
-            sed -i -e "s/DB_HOST/$DB_HOST/" $conf
+            sed -i -e "s/DB_HOST_PLACEHOLDER/$DB_HOST_PARAM/" $conf
+            sed -i -e "s/CROMWELL_SERVER_URL_PLACEHOLDER/$CROMWELL_SERVER_URL_PARAM" $conf
           else
             echo "Replacing \"TEMPLATE_PATH_PLACEHOLDER\" for \"$TEMPLATE_BUCKET/$TEMPLATE_PREFIX\" in $conf"
             sed -i -e "s/TEMPLATE_PATH_PLACEHOLDER/$TEMPLATE_BUCKET\/$TEMPLATE_PREFIX/" $conf
-            sed -i -e "s/DB_HOST/$DB_HOST/" $conf
-            sed -i -e "s/CROMWELL_SERVER_URL/$CROMWELL_SERVER_URL" $conf
+            sed -i -e "s/DB_HOST_PLACEHOLDER/$DB_HOST_PARAM/" $conf
+            sed -i -e "s/CROMWELL_SERVER_URL_PLACEHOLDER/$CROMWELL_SERVER_URL_PARAM" $conf
           fi
         done
 

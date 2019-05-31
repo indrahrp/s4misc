@@ -24,7 +24,7 @@
     "DBClusterIdentifier": "DBClusterName",
     "DatabaseUsername": "DB_USER",
     "DatabasePassword": "DB_PASSWORD",
-    "DBHostParam": "DB_HOST",
-    "ServerUrlParam": "CROMWELL_SERVER_URL"
+    "DBHostParamName": "DB_HOST_PLACEHOLDER",
+    "CromwellServerParam": "CROMWELL_SERVER_URL_PLACEHOLDER"
   }
 }
