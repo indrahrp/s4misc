@@ -3,7 +3,7 @@ Description: >
   A CloudFormation template for an Serverless RDS Aurora cluster.
 Parameters:
   DBClusterIdentifier:
-    Type: AWS::SSM::Parameter::Value<String>
+    Type: String
     Description: The DB cluster identifier. This parameter is stored as a lowercase string
   DatabaseName:
     Type: String
