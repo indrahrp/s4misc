@@ -20,9 +20,11 @@
     "ServerInstanceType": "t2.2xlarge",
     "ServerInstanceName": "cromwell-server",
     "ServerSSHLocation": "0.0.0.0/0",
-    "DBClusterIdentifier": "ValinorDBNameDev",
-    "DatabaseUsername": "ValinorDBUserNameDev",
-    "DatabasePassword": "ValinorDBPasswordDev",
-    "DBHostParam": "ValinorDBHostDev"
+    "CreateDB": "true",
+    "DBClusterIdentifier": "DBClusterName",
+    "DatabaseUsername": "DB_USER",
+    "DatabasePassword": "DB_PASSWORD",
+    "DBHostParam": "DB_HOST",
+    "ServerUrlParam": "CROMWELL_SERVER_URL"
   }
 }

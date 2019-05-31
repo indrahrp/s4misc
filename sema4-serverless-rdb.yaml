@@ -85,8 +85,8 @@ Resources:
       VpcSecurityGroupIds: !Ref VpcSecurityGroupIds
       ScalingConfiguration:
         AutoPause:  true
-        MaxCapacity: 2
-        MinCapacity: 2
+        MaxCapacity: 64
+        MinCapacity: 16
         SecondsUntilAutoPause: 300
 
 Outputs:
