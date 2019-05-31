@@ -14,4 +14,7 @@ rootaccount="r-011825642366"
 
 client = boto3.client('organizations')
 for account in paginate(client.list_accounts):
-        print '- identifier: '+ account['Name'] + '\n' + '  number: ' + account['Id']
+        ###print '- identifier: '+ account['Name'] + '\n' + '  number: ' + account['Id']
+        #print '\"arn:aws:iam::'+ account['Id']  + ':role/OrganizationAccountAccessRole\",'
+        #"arn:aws:iam::961993542416:root"
+        print '\"arn:aws:iam::'+ account['Id']  + ':root\",'
