@@ -211,7 +211,7 @@ Parameters:
     Type: String
     Description: The DB cluster identifier. This parameter is stored as a lowercase string
   DatabaseUsername:
-    AllowedPattern: "[a-zA-Z0-9]+"
+    AllowedPattern: "[a-zA-Z0-9_]+"
     ConstraintDescription: must be between 1 to 41 alphanumeric characters.
     Description: The database admin account user name, between 1 to 41 alphanumeric characters.
     MaxLength: '41'
