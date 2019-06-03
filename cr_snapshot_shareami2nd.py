@@ -175,23 +175,23 @@ def main(argv):
         #    sys.exit('ERROR: {}'.format(e))
 
         """ Step 2: Take snapshot of volume """
-        print('---Create snapshot of volume ({})'.format(volume.id))
-        snapshot = ec2.create_snapshot(
-            VolumeId=volume.id,
-            Description='Snapshot of volume ({})'.format(volume.id),
-        )
+        #print('---Create snapshot of volume ({})'.format(volume.id))
+        #snapshot = ec2.create_snapshot(
+        #    VolumeId=volume.id,
+        #    Description='Snapshot of volume ({})'.format(volume.id),
+        #)
 
-        waiter_snapshot_complete.config.max_attempts = 1000
+        #waiter_snapshot_complete.config.max_attempts = 1000
 
-        try:
-            waiter_snapshot_complete.wait(
-                SnapshotIds=[
-                    snapshot.id,
-                ]
-            )
-        except botocore.exceptions.WaiterError as e:
-            snapshot.delete()
-            sys.exit('ERROR: {}'.format(e))
+        #try:
+        #    waiter_snapshot_complete.wait(
+        #        SnapshotIds=[
+        #            snapshot.id,
+        #        ]
+        #    )
+        #except botocore.exceptions.WaiterError as e:
+        #    snapshot.delete()
+        #    sys.exit('ERROR: {}'.format(e))
 
         """ Step 3: Create encrypted copy snapshot """
         print('---Create encrypted copy of snapshot')
@@ -271,12 +271,11 @@ def main(argv):
         #copied_snapshot.wait_until_completed()
 
 
-        waitert_snapshot_complete = target_ec2_client.get_waiter('snapshot_completed')
-        waitert_snapshot_complete.config.max_attempts = 1000
+        waiter_snapshot_complete = target_ec2_client.get_waiter('snapshot_completed')
+        waiter_snapshot_complete.config.max_attempts = 1000
 
         try:
-            print "waiting for snapshot to complete"
-            waitert_snapshot_complete.wait(
+            waiter_snapshot_complete.wait(
                 SnapshotIds=[
                     copied_snapshot.snapshot_id,
                 ]
