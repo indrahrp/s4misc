@@ -282,10 +282,32 @@ def main(argv):
                 ]
             )
         except botocore.exceptions.WaiterError as e:
-            copied_snapshot.delete()
-            sys.exit('ERROR: {}'.format(e))
+            #copied_snapshot.delete()
+            #sys.exit('ERROR: {}'.format(e))
+            target_session = role_arn_to_session(
+                RoleArn=ROLE_ON_TARGET_ACCOUNT,
+                RoleSessionName='share-admin-temp-session'
+            )
+            target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
+            target_ec2_client = target_session.client('ec2', region_name=TARGET_REGION)
 
-        device_snap[current_volume_data['DeviceName']]=copied_snapshot.snapshot_id
+            waitert_snapshot_complete = target_ec2_client.get_waiter('snapshot_completed')
+            waitert_snapshot_complete.config.max_attempts = 1000
+            copied_snapshot = target_ec2.Snapshot(copy['SnapshotId'])
+
+            try:
+                print "waiting for snapshot to complete"
+                waitert_snapshot_complete.wait(
+                    SnapshotIds=[
+                        copied_snapshot.id,
+                    ]
+                )
+            except botocore.exceptions.WaiterError as e:
+            #copied_snapshot.delete()
+                sys.exit('ERROR: {}'.format(e))
+
+
+    device_snap[current_volume_data['DeviceName']]=copied_snapshot.snapshot_id
         print("Created target-owned copy of shared snapshot with id: " + copy['SnapshotId'])
 
     ##Build Block Device Mapping - BDM
