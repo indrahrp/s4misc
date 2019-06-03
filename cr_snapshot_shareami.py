@@ -307,7 +307,7 @@ def main(argv):
                 sys.exit('ERROR: {}'.format(e))
 
 
-    device_snap[current_volume_data['DeviceName']]=copied_snapshot.snapshot_id
+    device_snap[current_volume_data['DeviceName']]=copied_snapshot.id
     print("Created target-owned copy of shared snapshot with id: " + copy['SnapshotId'])
 
     ##Build Block Device Mapping - BDM
