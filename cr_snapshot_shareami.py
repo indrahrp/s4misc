@@ -308,7 +308,7 @@ def main(argv):
 
 
     device_snap[current_volume_data['DeviceName']]=copied_snapshot.snapshot_id
-        print("Created target-owned copy of shared snapshot with id: " + copy['SnapshotId'])
+    print("Created target-owned copy of shared snapshot with id: " + copy['SnapshotId'])
 
     ##Build Block Device Mapping - BDM
     #volsnap={"vol1":"snap1aa","vol2":"snap2aa"}
