@@ -278,7 +278,7 @@ def main(argv):
             print "waiting for snapshot to complete"
             waitert_snapshot_complete.wait(
                 SnapshotIds=[
-                    copied_snapshot.snapshot_id,
+                    copied_snapshot.id,
                 ]
             )
         except botocore.exceptions.WaiterError as e:
