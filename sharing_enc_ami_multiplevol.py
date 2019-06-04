@@ -146,7 +146,7 @@ def sharing_ami(ami,TARGET_ACCOUNT_ID,role_arn,customer_master_key):
 if __name__ == "__main__":
 
     TARGET_ACCOUNT_ID = '880407937848'
-    customer_master_key='c1596c6d-3524-49fd-8960-924394651aa3'
+    customer_master_key='1ced910d-cc36-4d69-ade9-10aee01d8c96'
     #role_arn="arn:aws:iam::" + TARGET_ACCOUNT_ID+ ":role/OrganizationAccountAccessRole"
     role_arn="arn:aws:iam::880407937848:role/ITAdmin-Role"
     sharing_ami('ami-01b3039aedec39a2e',TARGET_ACCOUNT_ID,role_arn,customer_master_key)
