@@ -132,9 +132,9 @@ def sharing_ami(ami,TARGET_ACCOUNT_ID,role_arn,customer_master_key):
     print 'blockdevmap ' + str(blockdevmap)
     ###RootDevicename has to be matched with blockdevmap
     new_image = target_ec2.register_image(
-        Name='aminame1' ,
+        Name='eywa03192019A' ,
         Architecture='x86_64',
-        RootDeviceName='/dev/sda1',
+        RootDeviceName='/dev/xvda',
         BlockDeviceMappings=blockdevmap,
         VirtualizationType='hvm'
     )
@@ -145,7 +145,8 @@ def sharing_ami(ami,TARGET_ACCOUNT_ID,role_arn,customer_master_key):
 
 if __name__ == "__main__":
 
-    TARGET_ACCOUNT_ID = '316878946072'
-    customer_master_key='3af37823-7137-413b-8049-524a69c83cfe'
-    role_arn="arn:aws:iam::" + TARGET_ACCOUNT_ID+ ":role/OrganizationAccountAccessRole"
-    sharing_ami('ami-028067d38a48702ad',TARGET_ACCOUNT_ID,role_arn,customer_master_key)
+    TARGET_ACCOUNT_ID = '880407937848'
+    customer_master_key='c1596c6d-3524-49fd-8960-924394651aa3'
+    #role_arn="arn:aws:iam::" + TARGET_ACCOUNT_ID+ ":role/OrganizationAccountAccessRole"
+    role_arn="arn:aws:iam::880407937848:role/ITAdmin-Role"
+    sharing_ami('ami-00a635fe45d7b25b0',TARGET_ACCOUNT_ID,role_arn,customer_master_key)

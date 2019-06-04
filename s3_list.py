@@ -89,6 +89,14 @@ def main():
                         help='list eip in all sub accounts')
 
 
+    parser.add_argument('--dbclusterparam', type=str, required=False,
+                        help='create db cluster parameter group')
+
+    parser.add_argument('--dbdbparam', type=str, required=False,
+                        help='create db database parameter group')
+
+
+
 
     args = parser.parse_args()
     if args.s3list:
@@ -101,6 +109,71 @@ def main():
         shareamiallsub(args.shareami)
     elif args.eip:
         eiplistallsub(args.eip)
+    elif args.dbclusterparam:
+        dbclusterparam(args.dbclusterparam)
+    elif args.dbdbparam:
+        dbdbparam(args.dbdbparam)
+
+
+
+def dbclusterparam(dbclusterparam='sema4auroramysql57',family='aurora-mysql5.7'):
+    print "create db cluster parameter group " + dbdbparam
+    client = boto3.client('organizations')
+    for account in paginate(client.list_accounts):
+        #print "result  " + str(account['Id'])
+
+        print account['Id'], account['Name'], account['Arn']
+        ###     #if account['Id'] != rootaccount:
+        if account['Id'] != rootaccount:
+
+            client_sess = getsession(account)
+            #clientcf=client_sess.client('cloudformation')
+            sc_client=client_sess.client('rds', region_name='us-east-1')
+            try:
+                response = sc_client.create_db_cluster_parameter_group(
+                    DBClusterParameterGroupName=dbclusterparam,
+                    DBParameterGroupFamily=family,
+                    Description=family)
+                print response['DBClusterParameterGroup']['DBClusterParameterGroupName']
+                inp=raw_input('pause ')
+
+
+            except:
+                print("Error getting")
+
+
+
+def dbdbparam(dbdbparam='sema4auroramysql57',family='aurora-mysql5.7'):
+    print "create db parameter group " + dbdbparam
+    client = boto3.client('organizations')
+    for account in paginate(client.list_accounts):
+        #print "result  " + str(account['Id'])
+
+        print account['Id'], account['Name'], account['Arn']
+        ###     #if account['Id'] != rootaccount:
+        if account['Id'] != rootaccount:
+
+            client_sess = getsession(account)
+            #clientcf=client_sess.client('cloudformation')
+            sc_client=client_sess.client('rds', region_name='us-east-1')
+            try:
+                response = sc_client.create_db_parameter_group(
+                    DBParameterGroupName=dbdbparam,
+                    DBParameterGroupFamily=family,
+                    Description=family
+
+                )
+                print response['DBParameterGroup']['DBParameterGroupName']
+
+
+
+                #inp=raw_input('pause ')
+
+
+            except Exception as err:
+                print("Error getting" + str(err))
+
+
 
 
 
