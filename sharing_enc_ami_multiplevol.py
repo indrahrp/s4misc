@@ -149,4 +149,4 @@ if __name__ == "__main__":
     customer_master_key='c1596c6d-3524-49fd-8960-924394651aa3'
     #role_arn="arn:aws:iam::" + TARGET_ACCOUNT_ID+ ":role/OrganizationAccountAccessRole"
     role_arn="arn:aws:iam::880407937848:role/ITAdmin-Role"
-    sharing_ami('ami-00a635fe45d7b25b0',TARGET_ACCOUNT_ID,role_arn,customer_master_key)
+    sharing_ami('ami-01b3039aedec39a2e',TARGET_ACCOUNT_ID,role_arn,customer_master_key)
