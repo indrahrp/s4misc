@@ -338,7 +338,7 @@ Resources:
         InstanceType: !Ref InstanceType
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
-        InstanceName: !Ref InstanceName
+        InstanceName:  !Sub "${AWS::StackName}-${InstanceName}"
         CromwellVersion: !Ref CromwellVersion
         KeyName: !Ref KeyPairName
         SSHLocation: !Ref SSHLocation
