@@ -142,7 +142,7 @@ def main(argv):
 
     print('---Preparing instance')
     """ Get volume and check if it is  already encrypted """
-    volumes = [v for v in instance.volumes.all()]
+    volumelist = [v for v in instance.volumes.all()]
 
 def snapvolumes_task(volume):
 
