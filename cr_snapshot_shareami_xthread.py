@@ -59,8 +59,6 @@ def role_arn_to_session(**args):
         aws_session_token=response['Credentials']['SessionToken'])
 
 
-)
-
 
 def main(argv):
 
@@ -409,5 +407,6 @@ def snapvolumes_task(volume):
 target_session = role_arn_to_session(
     RoleArn=ROLE_ON_TARGET_ACCOUNT,
     RoleSessionName='share-admin-temp-session'
+)
 if __name__ == "__main__":
     main(sys.argv[1:])
