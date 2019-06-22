@@ -167,7 +167,7 @@ def main(argv):
 
     pp.pprint(all_sub_mappings)
 
-    '''
+
     #print block_device_mappings
     ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
     new_image = target_ec2.register_image(
@@ -182,7 +182,7 @@ def main(argv):
     
     
     
-    '''
+
 
 
 
