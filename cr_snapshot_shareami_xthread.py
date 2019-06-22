@@ -32,6 +32,10 @@ SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
 
+global device_snap
+global ec2
+global waiter_snapshot_complete
+
 def role_arn_to_session(**args):
     """
     Lets you assume a role and returns a session ready to use
@@ -83,9 +87,7 @@ def main(argv):
     print ("customer master key {}".format(customer_master_key))
 
     client = session.client('ec2')
-    global device_snap
-    global ec2
-    global waiter_snapshot_complete
+
     ec2 = session.resource('ec2')
 
     waiter_instance_exists = client.get_waiter('instance_exists')
