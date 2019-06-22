@@ -69,7 +69,9 @@ def main(argv):
     parser.add_argument('-i', '--instance',
                         help='Instance to encrypt volume on.', required=True)
     parser.add_argument('-key', '--customer_master_key',
-                        help='Customer master key', required=True)
+                        help='Source account Customer master key', required=True)
+    parser.add_argument('-key', '--target_master_key',
+                        help='target account Customer master key', required=True)
     parser.add_argument('-p', '--profile',
                         help='Profile to use', required=False)
     parser.add_argument('-r', '--region',
@@ -87,9 +89,11 @@ def main(argv):
         session = boto3.session.Session()
 
     # Get CMK
-    global customer_master_key
+    global customer_master_key,target_master_key
     customer_master_key = args.customer_master_key
+    target_master_key=args.target_master_key
     print ("customer master key {}".format(customer_master_key))
+    print ("target master key {}".format(target_master_key))
 
     client = session.client('ec2')
     global ec2
@@ -347,6 +351,7 @@ def snapvolumes_task(volume):
     copy = shared_snapshot.copy(
         SourceRegion=SOURCE_REGION,
         Encrypted=True,
+        KmsKeyId=target_master_key,
     )
 
     # Wait for the copy to complete
