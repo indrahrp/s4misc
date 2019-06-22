@@ -350,7 +350,7 @@ def snapvolumes_task(volume):
     )
 
     # Wait for the copy to complete
-    global copied_snapshot
+
     copied_snapshot = target_ec2.Snapshot(copy['SnapshotId'])
     #copied_snapshot.wait_until_completed()
 
@@ -389,6 +389,7 @@ def snapvolumes_task(volume):
 
 
     device_snap[current_volume_data['DeviceName']]=copied_snapshot.id
+
     print("Created target-owned copy of shared snapshot with id: " + copy['SnapshotId'])
 
     ##Build Block Device Mapping - BDM
