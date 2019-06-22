@@ -333,65 +333,65 @@ def snapvolumes_task(volume):
     #volsnap={"vol1":"snap1aa","vol2":"snap2aa"}
 
 
-pool = ThreadPool(10)
-results = pool.map(snapvolumes_task, volumelist)
-pool.close()
-pool.join()
-for r in results:
-    print "result " + str(r)
+    pool = ThreadPool(10)
+    results = pool.map(snapvolumes_task, volumelist)
+    pool.close()
+    pool.join()
+    for r in results:
+        print "result " + str(r)
 
 
 
-for key  in device_snap:
-    for map in all_sub_mappings:
-        if map['DeviceName']== key:
-          map["Ebs"]["SnapshotId"]= device_snap[key]
+    for key  in device_snap:
+        for map in all_sub_mappings:
+            if map['DeviceName']== key:
+              map["Ebs"]["SnapshotId"]= device_snap[key]
 
-pp.pprint(all_sub_mappings)
+    pp.pprint(all_sub_mappings)
 
-'''
-#print block_device_mappings
-## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
-new_image = target_ec2.register_image(
-    Name='copy-' + copied_snapshot.snapshot_id,
-    Architecture='x86_64',
-    RootDeviceName='/dev/sda',
-    BlockDeviceMappings=all_sub_mappings,
-    VirtualizationType='hvm'
-)
+    '''
+    #print block_device_mappings
+    ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
+    new_image = target_ec2.register_image(
+        Name='copy-' + copied_snapshot.snapshot_id,
+        Architecture='x86_64',
+        RootDeviceName='/dev/sda',
+        BlockDeviceMappings=all_sub_mappings,
+        VirtualizationType='hvm'
+    )
+    
+    print("New AMI created: " + str(new_image))
+    
+    
+    
+    '''
 
-print("New AMI created: " + str(new_image))
 
 
+    ##for bdm in volume_data:
+    ##    # Modify instance attributes
+    ##    instance.modify_attribute(
+    ##        BlockDeviceMappings=[
+    ##            {
+    ##                'DeviceName': bdm['DeviceName'],
+    ##                'Ebs': {
+    ##                    'DeleteOnTermination':
+    ##                        bdm['DeleteOnTermination'],
+    ##                },
+    ##            },
+    ##       ],
+    ##    )
+    """ Step 7: Clean up """
+    print('---Clean up resources')
+    for cleanup in volume_data:
+        print('---Remove snapshot {}'.format(cleanup['snapshot'].id))
+        cleanup['snapshot'].delete()
+        print('---Remove encrypted snapshot {}'.format(cleanup['snapshot_encrypted'].id))
+        cleanup['snapshot_encrypted'].delete()
+        ##print('---Remove original volume {}'.format(cleanup['volume'].id))
+        ##cleanup['volume'].delete()
 
-'''
-
-
-
-##for bdm in volume_data:
-##    # Modify instance attributes
-##    instance.modify_attribute(
-##        BlockDeviceMappings=[
-##            {
-##                'DeviceName': bdm['DeviceName'],
-##                'Ebs': {
-##                    'DeleteOnTermination':
-##                        bdm['DeleteOnTermination'],
-##                },
-##            },
-##       ],
-##    )
-""" Step 7: Clean up """
-print('---Clean up resources')
-for cleanup in volume_data:
-    print('---Remove snapshot {}'.format(cleanup['snapshot'].id))
-    cleanup['snapshot'].delete()
-    print('---Remove encrypted snapshot {}'.format(cleanup['snapshot_encrypted'].id))
-    cleanup['snapshot_encrypted'].delete()
-    ##print('---Remove original volume {}'.format(cleanup['volume'].id))
-    ##cleanup['volume'].delete()
-
-print('Encryption finished')
+    print('Encryption finished')
 
 
 
