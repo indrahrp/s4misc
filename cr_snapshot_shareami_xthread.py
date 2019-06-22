@@ -34,7 +34,7 @@ SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
 
-global device_snap
+device_snap={}
 global ec2
 global waiter_snapshot_complete
 global volumelist
@@ -62,7 +62,7 @@ def role_arn_to_session(**args):
 
 def main(argv):
 
-    device_snap = {}
+    global device_snap
     global pp
     pp=pprint.PrettyPrinter(indent=4)
 
