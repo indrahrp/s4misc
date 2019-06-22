@@ -173,7 +173,7 @@ def main(argv):
     new_image = target_ec2.register_image(
         Name='ami_transfer_between_account',
         Architecture='x86_64',
-        RootDeviceName='/dev/sda',
+        RootDeviceName='/dev/sda1',
         BlockDeviceMappings=all_sub_mappings,
         VirtualizationType='hvm'
     )
