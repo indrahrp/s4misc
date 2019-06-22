@@ -91,7 +91,7 @@ def main(argv):
     client = session.client('ec2')
     global ec2
     ec2 = session.resource('ec2')
-
+    global waiter_snapshot_complete
     waiter_instance_exists = client.get_waiter('instance_exists')
     waiter_instance_stopped = client.get_waiter('instance_stopped')
     waiter_instance_running = client.get_waiter('instance_running')
