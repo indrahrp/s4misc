@@ -68,9 +68,9 @@ def main(argv):
     parser = argparse.ArgumentParser(description='Encrypts EC2 root volume.')
     parser.add_argument('-i', '--instance',
                         help='Instance to encrypt volume on.', required=True)
-    parser.add_argument('-key', '--customer_master_key',
+    parser.add_argument('-sourcekey', '--customer_master_key',
                         help='Source account Customer master key', required=True)
-    parser.add_argument('-key', '--target_master_key',
+    parser.add_argument('-targetkey', '--target_master_key',
                         help='target account Customer master key', required=True)
     parser.add_argument('-p', '--profile',
                         help='Profile to use', required=False)
