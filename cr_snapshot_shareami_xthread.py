@@ -38,7 +38,7 @@ device_snap={}
 global ec2
 global waiter_snapshot_complete
 global volumelist
-global target_ec2
+
 
 
 
@@ -170,6 +170,7 @@ def main(argv):
 
     #print block_device_mappings
     ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
+    target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
     new_image = target_ec2.register_image(
         Name='copy-' + copied_snapshot.snapshot_id,
         Architecture='x86_64',
