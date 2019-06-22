@@ -36,6 +36,7 @@ global device_snap
 global ec2
 global waiter_snapshot_complete
 global volumelist
+global target_ec2
 
 def role_arn_to_session(**args):
     """
@@ -329,7 +330,7 @@ def snapvolumes_task(volume):
         RoleArn=ROLE_ON_TARGET_ACCOUNT,
         RoleSessionName='share-admin-temp-session'
     )
-    global target_ec2
+
     target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
     target_ec2_client = target_session.client('ec2', region_name=TARGET_REGION)
     # A shared snapshot, owned by source account
