@@ -89,7 +89,7 @@ def main(argv):
     print ("customer master key {}".format(customer_master_key))
 
     client = session.client('ec2')
-
+    global ec2
     ec2 = session.resource('ec2')
 
     waiter_instance_exists = client.get_waiter('instance_exists')
