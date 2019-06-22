@@ -36,7 +36,6 @@ TARGET_REGION = 'us-east-1'
 
 device_snap={}
 global ec2
-global waiter_snapshot_complete
 global volumelist
 
 
@@ -172,7 +171,7 @@ def main(argv):
     ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
     target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
     new_image = target_ec2.register_image(
-        Name='copy-' + copied_snapshot.snapshot_id,
+        Name='ami_transfer_between_account',
         Architecture='x86_64',
         RootDeviceName='/dev/sda',
         BlockDeviceMappings=all_sub_mappings,
