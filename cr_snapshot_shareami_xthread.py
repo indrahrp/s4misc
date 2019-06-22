@@ -25,11 +25,11 @@ TARGET_ACCOUNT_ID = '909119180557'
 ### Can  not use organizational-su  account to execute this. It has to be indra.harahap aws account
 ### make sure indra.harahap at source account can assume role (trusted) by itadminrole in target account
 ### make sure indra.harahap has access to KMS key used
-### python cr_snapshot_shareami.py  -i i-02512372733e3e1e1 -key cfc354c4-6d95-4662-9f37-66309efbf1aa -r us-east-1
-###  ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
+###python cr_snapshot_shareami_xthread.py -i i-0dc3ea97c881b9055 -source_key bb940838-f400-4f7d-9b75-56cb8f33bd24
+##-r us-east-1 -target_key  cfc354c4-6d95-4662-9f37-66309efbf1aa
+##  ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
+
 ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::909119180557:role/ITAdmin-Role'
-
-
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
@@ -269,7 +269,8 @@ def snapvolumes_task(volume):
         VolumeId=volume.id,
         Description='Snapshot of volume ({})'.format(volume.id),
     )
-
+    client=boto3.client('ec2')
+    waiter_snapshot_complete = client.get_waiter('snapshot_completed')
     waiter_snapshot_complete.config.max_attempts = 1000
 
     try:
