@@ -35,6 +35,7 @@ TARGET_REGION = 'us-east-1'
 global device_snap
 global ec2
 global waiter_snapshot_complete
+global volumelist
 
 def role_arn_to_session(**args):
     """
@@ -333,7 +334,7 @@ def snapvolumes_task(volume):
 
 
 pool = ThreadPool(10)
-results = pool.map(snapvolumes_task(), volumelist)
+results = pool.map(snapvolumes_task, volumelist)
 pool.close()
 pool.join()
 for r in results:
