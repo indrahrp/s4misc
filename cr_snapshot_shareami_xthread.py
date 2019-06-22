@@ -28,6 +28,8 @@ TARGET_ACCOUNT_ID = '909119180557'
 ### python cr_snapshot_shareami.py  -i i-02512372733e3e1e1 -key cfc354c4-6d95-4662-9f37-66309efbf1aa -r us-east-1
 ###  ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
 ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::909119180557:role/ITAdmin-Role'
+
+
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
@@ -37,6 +39,8 @@ global ec2
 global waiter_snapshot_complete
 global volumelist
 global target_ec2
+
+
 
 def role_arn_to_session(**args):
     """
@@ -54,6 +58,8 @@ def role_arn_to_session(**args):
         aws_secret_access_key=response['Credentials']['SecretAccessKey'],
         aws_session_token=response['Credentials']['SessionToken'])
 
+
+)
 
 
 def main(argv):
@@ -326,10 +332,7 @@ def snapvolumes_task(volume):
                 UserIds=[TARGET_ACCOUNT_ID]
          )
 
-    target_session = role_arn_to_session(
-        RoleArn=ROLE_ON_TARGET_ACCOUNT,
-        RoleSessionName='share-admin-temp-session'
-    )
+
 
     target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
     target_ec2_client = target_session.client('ec2', region_name=TARGET_REGION)
@@ -367,10 +370,7 @@ def snapvolumes_task(volume):
     except botocore.exceptions.WaiterError as e:
         #copied_snapshot.delete()
         #sys.exit('ERROR: {}'.format(e))
-        target_session = role_arn_to_session(
-            RoleArn=ROLE_ON_TARGET_ACCOUNT,
-            RoleSessionName='share-admin-temp-session'
-        )
+
         target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
         target_ec2_client = target_session.client('ec2', region_name=TARGET_REGION)
 
@@ -406,6 +406,8 @@ def snapvolumes_task(volume):
 
 
 
-
+target_session = role_arn_to_session(
+    RoleArn=ROLE_ON_TARGET_ACCOUNT,
+    RoleSessionName='share-admin-temp-session'
 if __name__ == "__main__":
     main(sys.argv[1:])
