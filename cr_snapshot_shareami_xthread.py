@@ -151,16 +151,19 @@ def main(argv):
 
     print('---Preparing instance')
     """ Get volume and check if it is  already encrypted """
+
+
     volumelist = [v for v in instance.volumes.all()]
-
-
-    pool = ThreadPool(10)
-    results = pool.map(snapvolumes_task, volumelist)
-    pool.close()
-    pool.join()
-    for r in results:
-        print "result " + str(r)
-
+    step=4
+    print "Running batch of  Batch of " + str(step)
+    for cnt in range((len(volumelist)/step) + 1):
+        pool = ThreadPool(5)
+        var=[ v for v in  volumelist[(step * cnt):((step*cnt)+step)]  ]
+        results = pool.map(snapvolumes_task,var)
+        pool.close()
+        pool.join()
+        for r in results:
+            print "result " + str(r)
 
 
     for key  in device_snap:
