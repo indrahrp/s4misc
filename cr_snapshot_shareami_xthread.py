@@ -20,7 +20,7 @@ import pprint
 from multiprocessing.dummy import Pool as ThreadPool
 from functools import partial
 
-TARGET_ACCOUNT_ID = '909119180557'
+TARGET_ACCOUNT_ID = '417302553802'
 ## take instance snapshot and reencrypting it using particular KMS key  and creating  image on different account
 ### Can  not use organizational-su  account to execute this. It has to be indra.harahap aws account
 ### make sure indra.harahap at source account can assume role (trusted) by itadminrole in target account
@@ -29,7 +29,7 @@ TARGET_ACCOUNT_ID = '909119180557'
 ##-r us-east-1 -target_key  cfc354c4-6d95-4662-9f37-66309efbf1aa
 ##  ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
 
-ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::909119180557:role/ITAdmin-Role'
+ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::417302553802:role/ITAdmin-Role'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
