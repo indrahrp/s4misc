@@ -95,9 +95,9 @@ def main(argv):
     print ("customer master key {}".format(customer_master_key))
     print ("target master key {}".format(target_master_key))
 
-    client = session.client('ec2')
+    client = session.client('ec2',region_name=TARGET_REGION)
     global ec2
-    ec2 = session.resource('ec2')
+    ec2 = session.resource('ec2',region_name=TARGET_REGION)
     global waiter_snapshot_complete
     waiter_instance_exists = client.get_waiter('instance_exists')
     waiter_instance_stopped = client.get_waiter('instance_stopped')
@@ -269,7 +269,7 @@ def snapvolumes_task(volume):
         VolumeId=volume.id,
         Description='Snapshot of volume ({})'.format(volume.id),
     )
-    client=boto3.client('ec2')
+    client=boto3.client('ec2',region_name=TARGET_REGION)
     waiter_snapshot_complete = client.get_waiter('snapshot_completed')
     waiter_snapshot_complete.config.max_attempts = 1000
 
