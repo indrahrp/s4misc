@@ -240,7 +240,7 @@ def snapvolumes_task(volume):
 
     # Exit if instance is pending, shutting-down, or terminated
     instance_exit_states = [0, 32, 48]
-    if instance.state['Code'] in instance_exit_states:
+    if instance.state['Code'] in instance_exit_states:9
         sys.exit(
             'ERROR: Instance is {} please make sure this instance is active.'
                 .format(instance.state['Name'])
