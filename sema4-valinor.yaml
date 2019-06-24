@@ -348,6 +348,9 @@ Resources:
           FromPort: 3306
           ToPort: 3306
           SourceSecurityGroupId: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup}"
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-RDSSecurityGroup"
   ServerlessRDSStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
