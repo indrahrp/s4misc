@@ -34,12 +34,6 @@ SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
 
-device_snap={}
-global ec2
-global volumelist
-
-
-
 
 def role_arn_to_session(**args):
     """
@@ -52,7 +46,7 @@ def role_arn_to_session(**args):
     """
     client = boto3.client('sts')
     response = client.assume_role(**args)
-    print "assume role response is  " + str(response)
+    print "assume role will expired on   " + str(response['Expiration'])
     return boto3.Session(
         aws_access_key_id=response['Credentials']['AccessKeyId'],
         aws_secret_access_key=response['Credentials']['SecretAccessKey'],
@@ -75,11 +69,14 @@ def main(argv):
                         help='Region of source volume', required=True)
     global args
     args = parser.parse_args()
+    global all_mappings
+    global all_sub_mappings
     global device_snap
     global pp,TARGET_ACCOUNT_ID,ROLE_ON_TARGET_ACCOUNT
     global customer_master_key,target_master_key
 
     pp=pprint.PrettyPrinter(indent=4)
+    device_snap={}
     TARGET_ACCOUNT_ID=args.targetaccountid
     ROLE_ON_TARGET_ACCOUNT='arn:aws:iam::' + TARGET_ACCOUNT_ID + ':role/ITAdmin-Role'
     print "role on target account " + ROLE_ON_TARGET_ACCOUNT
@@ -121,8 +118,7 @@ def main(argv):
     except botocore.exceptions.WaiterError as e:
         sys.exit('ERROR: {}'.format(e))
 
-    global all_mappings
-    global all_sub_mappings
+
     all_mappings = []
     all_sub_mappings = []
 
