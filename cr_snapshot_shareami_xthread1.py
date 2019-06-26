@@ -7,7 +7,7 @@ Params:
     ID for EC2 instance
     Customer Master Key (CMK) (optional)
     Profile to use
-Conditions:
+Conditions :
     Return if volume already encrypted
     Use named profiles from credentials file
 """
