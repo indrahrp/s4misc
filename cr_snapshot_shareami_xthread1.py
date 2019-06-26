@@ -77,7 +77,7 @@ def main(argv):
     args = parser.parse_args()
     global device_snap
     global pp,TARGET_ACCOUNT_ID,ROLE_ON_TARGET_ACCOUNT
-    global customer_master_key,target_master
+    global customer_master_key,target_master_key
 
     pp=pprint.PrettyPrinter(indent=4)
     TARGET_ACCOUNT_ID=args.targetaccountid
@@ -172,6 +172,13 @@ def main(argv):
                 map["Ebs"]["SnapshotId"]= device_snap[key]
 
     pp.pprint(all_sub_mappings)
+
+    target_session = role_arn_to_session(
+        RoleArn=ROLE_ON_TARGET_ACCOUNT,
+        RoleSessionName='share-admin-temp-session',
+        DurationSeconds = 40000
+    )
+
 
 
     #print block_device_mappings
