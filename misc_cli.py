@@ -429,7 +429,7 @@ def shareamiallsub(ami):
                     }
                 )
 
-                yn=raw_input()
+                #yn=raw_input('Enter')
 
                 source_snapshot = source_ec2.Snapshot(source_ami.block_device_mappings[0]['Ebs']['SnapshotId'])
                 print ("source_snapshot " + str(source_snapshot))

@@ -416,7 +416,8 @@ def snapvolumes_task(volume):
 
 target_session = role_arn_to_session(
     RoleArn=ROLE_ON_TARGET_ACCOUNT,
-    RoleSessionName='share-admin-temp-session'
+    RoleSessionName='share-admin-temp-session',
+    DurationSeconds = 40000
 )
 if __name__ == "__main__":
     main(sys.argv[1:])
