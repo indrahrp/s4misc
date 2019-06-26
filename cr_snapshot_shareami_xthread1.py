@@ -20,7 +20,7 @@ import pprint
 from multiprocessing.dummy import Pool as ThreadPool
 from functools import partial
 
-TARGET_ACCOUNT_ID = '417302553802'
+#TARGET_ACCOUNT_ID = '417302553802'
 ## take instance snapshot and reencrypting it using particular KMS key  and creating  image on different account
 ### Can  not use organizational-su  account to execute this. It has to be indra.harahap aws account
 ### make sure indra.harahap at source account can assume role (trusted) by itadminrole in target account
@@ -29,7 +29,7 @@ TARGET_ACCOUNT_ID = '417302553802'
 ##-r us-east-1 -target_key  cfc354c4-6d95-4662-9f37-66309efbf1aa
 ##  ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
 
-ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::417302553802:role/ITAdmin-Role'
+##ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::417302553802:role/ITAdmin-Role'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
@@ -62,10 +62,6 @@ def role_arn_to_session(**args):
 
 def main(argv):
 
-    global device_snap
-    global pp
-    pp=pprint.PrettyPrinter(indent=4)
-
     parser = argparse.ArgumentParser(description='Encrypts EC2 root volume.')
     parser.add_argument('-i', '--instance',
                         help='Instance to encrypt volume on.', required=True)
@@ -73,12 +69,22 @@ def main(argv):
                         help='Source account Customer master key', required=True)
     parser.add_argument('-target_key', '--target_master_key',
                         help='target account Customer master key', required=True)
-    parser.add_argument('-p', '--profile',
-                        help='Profile to use', required=False)
+    parser.add_argument('-t', '--targetaccountid',
+                        help='Target Account ID of destination ', required=False)
     parser.add_argument('-r', '--region',
                         help='Region of source volume', required=True)
     global args
     args = parser.parse_args()
+    global device_snap
+    global pp
+    pp=pprint.PrettyPrinter(indent=4)
+    global ROLE_ON_TARGET_ACCOUNT
+    global TARGET_ACCOUNT_ID
+    global customer_master_key,target_master_key
+
+    TARGET_ACCOUNT_ID=args.targetaccountid
+    ROLE_ON_TARGET_ACCOUNT='arn:aws:iam::' + TARGET_ACCOUNT_ID + ':role/ITAdmin-Role'
+
 
     """ Set up AWS Session + Client + Resources + Waiters """
     if args.profile:
@@ -90,7 +96,7 @@ def main(argv):
         session = boto3.session.Session()
 
     # Get CMK
-    global customer_master_key,target_master_key
+
     customer_master_key = args.customer_master_key
     target_master_key=args.target_master_key
     print ("customer master key {}".format(customer_master_key))
