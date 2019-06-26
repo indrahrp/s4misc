@@ -85,6 +85,7 @@ def main(argv):
 
     TARGET_ACCOUNT_ID=args.targetaccountid
     ROLE_ON_TARGET_ACCOUNT='arn:aws:iam::' + TARGET_ACCOUNT_ID + ':role/ITAdmin-Role'
+    print "role on target account " + ROLE_ON_TARGET_ACCOUNT
     target_session = role_arn_to_session(
         RoleArn=ROLE_ON_TARGET_ACCOUNT,
         RoleSessionName='share-admin-temp-session',
