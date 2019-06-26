@@ -77,6 +77,7 @@ def main(argv):
     args = parser.parse_args()
     global device_snap
     global pp
+    global target_session
     pp=pprint.PrettyPrinter(indent=4)
     global ROLE_ON_TARGET_ACCOUNT
     global TARGET_ACCOUNT_ID
@@ -84,6 +85,11 @@ def main(argv):
 
     TARGET_ACCOUNT_ID=args.targetaccountid
     ROLE_ON_TARGET_ACCOUNT='arn:aws:iam::' + TARGET_ACCOUNT_ID + ':role/ITAdmin-Role'
+    target_session = role_arn_to_session(
+        RoleArn=ROLE_ON_TARGET_ACCOUNT,
+        RoleSessionName='share-admin-temp-session',
+        DurationSeconds = 40000
+    )
 
 
     """ Set up AWS Session + Client + Resources + Waiters """
@@ -415,10 +421,6 @@ def snapvolumes_task(volume):
 
 
 
-target_session = role_arn_to_session(
-    RoleArn=ROLE_ON_TARGET_ACCOUNT,
-    RoleSessionName='share-admin-temp-session',
-    DurationSeconds = 40000
-)
+
 if __name__ == "__main__":
     main(sys.argv[1:])
