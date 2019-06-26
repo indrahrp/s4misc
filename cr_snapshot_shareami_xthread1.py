@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-Overview:
+Overview :
     Iterate through each attached volume and encrypt it for EC2.
 Params:
     ID for EC2 instance
@@ -29,7 +29,7 @@ from functools import partial
 ##-r us-east-1 -target_key  cfc354c4-6d95-4662-9f37-66309efbf1aa
 ##  ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
 
-##ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::417302553802:role/ITAdmin-Role'
+###ROLE_ON_TARGET_ACCOUNT = 'arn:aws:iam::417302553802:role/ITAdmin-Role'
 SOURCE_REGION = 'us-east-1'
 TARGET_REGION = 'us-east-1'
 
