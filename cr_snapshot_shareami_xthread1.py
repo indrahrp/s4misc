@@ -76,22 +76,13 @@ def main(argv):
     global args
     args = parser.parse_args()
     global device_snap
-    global pp
-    global target_session
-    pp=pprint.PrettyPrinter(indent=4)
-    global ROLE_ON_TARGET_ACCOUNT
-    global TARGET_ACCOUNT_ID
-    global customer_master_key,target_master_key
+    global pp,TARGET_ACCOUNT_ID,ROLE_ON_TARGET_ACCOUNT
+    global customer_master_key,target_master
 
+    pp=pprint.PrettyPrinter(indent=4)
     TARGET_ACCOUNT_ID=args.targetaccountid
     ROLE_ON_TARGET_ACCOUNT='arn:aws:iam::' + TARGET_ACCOUNT_ID + ':role/ITAdmin-Role'
     print "role on target account " + ROLE_ON_TARGET_ACCOUNT
-    target_session = role_arn_to_session(
-        RoleArn=ROLE_ON_TARGET_ACCOUNT,
-        RoleSessionName='share-admin-temp-session',
-        DurationSeconds = 40000
-    )
-
 
     """ Set up AWS Session + Client + Resources + Waiters """
 
@@ -105,9 +96,9 @@ def main(argv):
     print ("target master key {}".format(target_master_key))
 
     client = session.client('ec2',region_name=TARGET_REGION)
-    global ec2
+
     ec2 = session.resource('ec2',region_name=TARGET_REGION)
-    global waiter_snapshot_complete
+
     waiter_instance_exists = client.get_waiter('instance_exists')
     waiter_instance_stopped = client.get_waiter('instance_stopped')
     waiter_instance_running = client.get_waiter('instance_running')
@@ -231,6 +222,19 @@ def main(argv):
 
 def snapvolumes_task(volume):
 
+    target_session = role_arn_to_session(
+        RoleArn=ROLE_ON_TARGET_ACCOUNT,
+        RoleSessionName='share-admin-temp-session',
+        DurationSeconds = 40000
+    )
+
+    session = boto3.session.Session()
+
+    # Get CMK
+
+
+    client = session.client('ec2',region_name=TARGET_REGION)
+    ec2 = session.resource('ec2',region_name=TARGET_REGION)
     volume_encrypted = volume.encrypted
 
     current_volume_data = {}
@@ -281,7 +285,6 @@ def snapvolumes_task(volume):
         VolumeId=volume.id,
         Description='Snapshot of volume ({})'.format(volume.id),
     )
-    client=boto3.client('ec2',region_name=TARGET_REGION)
     waiter_snapshot_complete = client.get_waiter('snapshot_completed')
     waiter_snapshot_complete.config.max_attempts = 1000
 
