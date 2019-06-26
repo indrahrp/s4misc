@@ -94,13 +94,8 @@ def main(argv):
 
 
     """ Set up AWS Session + Client + Resources + Waiters """
-    if args.profile:
-        # Create custom session
-        print('Using profile {}'.format(args.profile))
-        session = boto3.session.Session(profile_name=args.profile)
-    else:
-        # Use default session
-        session = boto3.session.Session()
+
+    session = boto3.session.Session()
 
     # Get CMK
 
