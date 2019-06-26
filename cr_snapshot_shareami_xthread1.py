@@ -46,7 +46,7 @@ def role_arn_to_session(**args):
     """
     client = boto3.client('sts')
     response = client.assume_role(**args)
-    print "assume role will expired on   " + str(response['Expiration'])
+    print "assume role will expired on   " + str(response['Credentials']['Expiration'])
     return boto3.Session(
         aws_access_key_id=response['Credentials']['AccessKeyId'],
         aws_secret_access_key=response['Credentials']['SecretAccessKey'],
