@@ -153,7 +153,7 @@ def main(argv):
     volumelist = [v for v in instance.volumes.all()]
     print "Source Volume to be transfered "
     for vol in volumelist:
-        print str(vol)
+        print str(vol.id)
     step=4
     print "Running batch of  Batch of " + str(step)
     for cnt in range((len(volumelist)/step) + 1):
