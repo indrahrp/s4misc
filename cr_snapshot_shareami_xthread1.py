@@ -228,7 +228,7 @@ def main(argv):
 
 
 def snapvolumes_task(volume):
-    print "starting snapvolumes_task thread at " + str(datetime.datetime.now())
+    print "starting snapvolumes_task thread of " + volume + " at " + str(datetime.datetime.now())
     target_session = role_arn_to_session(
         RoleArn=ROLE_ON_TARGET_ACCOUNT,
         RoleSessionName='share-admin-temp-session',
@@ -352,7 +352,7 @@ def snapvolumes_task(volume):
             and source_sharing['CreateVolumePermissions'][0]['UserId'] != TARGET_ACCOUNT_ID:
         print("Snapshot already shared with account, creating a copy")
     else:
-         print("Sharing with target account")
+         print "Sharing with target account volume " + volume
          source_snapshot.modify_attribute(
                 Attribute='createVolumePermission',
                 OperationType='add',
@@ -421,7 +421,7 @@ def snapvolumes_task(volume):
     device_snap[current_volume_data['DeviceName']]=copied_snapshot.id
 
     print("Created target-owned copy of shared snapshot with id: " + copy['SnapshotId'])
-    print "snapvolumes_task  thread of volume " +copy['SnapshotId'] + "  ended at " + str(datetime.datetime.now())
+    print "snapvolumes_task  thread of volume " + volume + "  completed  at " + str(datetime.datetime.now())
 
     ##Build Block Device Mapping - BDM
     #volsnap={"vol1":"snap1aa","vol2":"snap2aa"}
