@@ -19,6 +19,7 @@ import argparse
 import pprint
 from multiprocessing.dummy import Pool as ThreadPool
 from functools import partial
+import datetime
 
 #TARGET_ACCOUNT_ID = '417302553802'
 ## take instance snapshot and reencrypting it using particular KMS key  and creating  image on different account
@@ -150,6 +151,9 @@ def main(argv):
 
 
     volumelist = [v for v in instance.volumes.all()]
+    print "Source Volume to be transfered "
+    for vol in volumelist:
+        print ""
     step=4
     print "Running batch of  Batch of " + str(step)
     for cnt in range((len(volumelist)/step) + 1):
@@ -224,7 +228,7 @@ def main(argv):
 
 
 def snapvolumes_task(volume):
-
+    print "starting snapvolumes_task thread at " + str(datetime.datetime.now())
     target_session = role_arn_to_session(
         RoleArn=ROLE_ON_TARGET_ACCOUNT,
         RoleSessionName='share-admin-temp-session',
@@ -297,6 +301,7 @@ def snapvolumes_task(volume):
                 snapshot.id,
             ]
         )
+        print "initial snapshot taking at the source of volume " + volume.id +  "  completed at  " + str(datetime.datetime.now())
     except botocore.exceptions.WaiterError as e:
         snapshot.delete()
         sys.exit('ERROR: {}'.format(e))
@@ -331,6 +336,7 @@ def snapvolumes_task(volume):
                 snapshot_encrypted.id,
             ],
         )
+        print "encrypted at the source of volume " + volume.id +  "  completed at  " + str(datetime.datetime.now())
     except botocore.exceptions.WaiterError as e:
         snapshot.delete()
         snapshot_encrypted.delete()
@@ -415,6 +421,7 @@ def snapvolumes_task(volume):
     device_snap[current_volume_data['DeviceName']]=copied_snapshot.id
 
     print("Created target-owned copy of shared snapshot with id: " + copy['SnapshotId'])
+    print "snapvolumes_task  thread of volume " +copy['SnapshotId'] + "  ended at " + str(datetime.datetime.now())
 
     ##Build Block Device Mapping - BDM
     #volsnap={"vol1":"snap1aa","vol2":"snap2aa"}
