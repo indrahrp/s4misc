@@ -159,7 +159,7 @@ def main(argv):
     print "Running batch of  Batch of " + str(step)
     for cnt in range((len(volumelist)/step) + 1):
         batchno += 1
-        print "====== Running Batch No : " + batchno + " =============="
+        print "====== Running Batch No : " + str(batchno) + " =============="
         pool = ThreadPool(5)
         var=[ v for v in  volumelist[(step * cnt):((step*cnt)+step)]  ]
         results = pool.map(snapvolumes_task,var)
