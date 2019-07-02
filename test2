@@ -75,7 +75,7 @@ Parameters:
 
 
   DatabaseInstanceClass:
-    Default: db.t3.medium
+    Default:  db.r5.large
     Type: String
     Description: "Database instance class, e.g. db.t2.micro (free tier) - Engine support: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html"
     ConstraintDescription: DB instance class not supported
