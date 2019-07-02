@@ -51,12 +51,12 @@ Parameters:
 
 
   DatabaseEngine:
-    Default: aurora-ps
+    Default: aurora-postgresql
     Type: String
     Description: Database engines - Aurora MySQL
     ConstraintDescription: Choose an engine from the drop down
     AllowedValues:
-      - aurora-ps
+      - aurora-postgresql
   EncryptionAtRest:
     Default: true
     Type: String
