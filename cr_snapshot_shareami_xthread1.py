@@ -64,6 +64,8 @@ def main(argv):
                         help='Source account Customer master key', required=True)
     parser.add_argument('-target_key', '--target_master_key',
                         help='target account Customer master key', required=True)
+    parser.add_argument('-unique_ami_name', '--unique_ami_name',
+                        help='assign unique ami name if not it will failed to create ami', required=True)
     parser.add_argument('-t', '--targetaccountid',
                         help='Target Account ID of destination ', required=False)
     parser.add_argument('-r', '--region',
@@ -188,7 +190,7 @@ def main(argv):
     ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
     target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
     new_image = target_ec2.register_image(
-        Name='ami_transfer_between_account',
+        Name=unique_ami_name,
         Architecture='x86_64',
         RootDeviceName='/dev/sda1',
         BlockDeviceMappings=all_sub_mappings,

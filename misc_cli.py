@@ -151,7 +151,7 @@ def main():
     parser.add_argument('--dbdbparam', type=str, required=False,
                         help='create db database parameter group')
 
-
+    parser.add_argument('--listvpc',action="store_true",required=False, help='list vpc all accounts ')
 
 
     args = parser.parse_args()
@@ -169,8 +169,40 @@ def main():
         dbclusterparam(args.dbclusterparam)
     elif args.dbdbparam:
         dbdbparam(args.dbdbparam)
-    elif args.sharing_transit_gateway:
-        sharing_transit_gateway()
+    #elif args.sharing_transit_gateway:
+    #    sharing_transit_gateway()
+    elif args.listvpc:
+        listvpc()
+
+
+def listvpc():
+    print "Listing VPC and subnet info on all accounts "
+    client = boto3.client('organizations')
+    for account in paginate(client.list_accounts):
+        #print "result  " + str(account['Id'])
+
+        print account['Id'], account['Name'], account['Arn']
+        ###     #if account['Id'] != rootaccount:
+        if account['Id'] != rootaccount:
+
+            client_sess = getsession(account)
+            #clientcf=client_sess.client('cloudformation')
+            sc_client=client_sess.client('ec2', region_name='us-east-1')
+            try:
+                response = sc_client.describe_vpcs()
+                resp = response['Vpcs']
+                if resp:
+                    for rp in resp:
+                        if rp['IsDefault']:
+                            return rp['VpcId']
+                        print(rp['CidrBlock']) + " VPC ID " + rp['VpcId'] + " Is Default " + str(rp['IsDefault']) + " Tag " + str(rp.get('Tags',"NA"))
+                else:
+                    print('No vpcs found')
+            except:
+                print("Error getting")
+                raise
+
+
 
 
 def sharing_transit_gateway():
