@@ -197,8 +197,8 @@ Conditions:
 
   IsProd: !Equals [ !Ref EnvironmentName, prod ]
 
-  EnhancedMonitoringSupprtedAndEnabled: False
-  AlarmsEnabled: False
+  #EnhancedMonitoringSupprtedAndEnabled: False
+  #AlarmsEnabled: False
 
 
 Resources:
