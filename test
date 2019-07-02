@@ -56,7 +56,7 @@ Parameters:
     Description: Database engines - Aurora MySQL
     ConstraintDescription: Choose an engine from the drop down
     AllowedValues:
-      - aurora-mysql
+      - aurora-ps
   EncryptionAtRest:
     Default: true
     Type: String
