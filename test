@@ -303,13 +303,13 @@ Resources:
   AuroraInstance0:
     Type: AWS::RDS::DBInstance
     Properties:
-      Engine: ! !Ref DBEngineVersion
+      Engine: !Ref DBEngineVersion
       EngineVersion: !Ref DBEngineVersion
       DBClusterIdentifier: !Ref AuroraCluster
       DBInstanceClass: !Ref DatabaseInstanceClass
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
       StorageEncrypted: !Ref EncryptionAtRest
-      DBParameterGroupName:    !Ref: DBParamGroup
+      DBParameterGroupName:    !Ref DBParamGroup
       MonitoringInterval: !If [ EnhancedMonitoringSupprtedAndEnabled, 60, 0 ]
       MonitoringRoleArn: !If [ EnhancedMonitoringSupprtedAndEnabled, !GetAtt EnhancedMonitoringRole.Arn, !Ref "AWS::NoValue" ]
       CopyTagsToSnapshot: true
@@ -329,7 +329,7 @@ Resources:
       DBInstanceClass: !Ref DatabaseInstanceClass
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
       StorageEncrypted: !Ref EncryptionAtRest
-      DBParameterGroupName: !Ref: DBParamGroup
+      DBParameterGroupName: !Ref DBParamGroup
       MonitoringInterval: !If [ EnhancedMonitoringSupprtedAndEnabled, 60, 0 ]
       MonitoringRoleArn: !If [ EnhancedMonitoringSupprtedAndEnabled, !GetAtt EnhancedMonitoringRole.Arn, !Ref "AWS::NoValue" ]
       DBInstanceIdentifier: !Join ["", [!Ref DBInstanceIdentifier,"2nd"]]
