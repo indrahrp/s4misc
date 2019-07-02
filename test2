@@ -225,26 +225,20 @@ Parameters:
 
 
 
-Mappings:
-    DBFamilyMap:
-      "9.6.8":
-        "family": "aurora-postgresql9.6"
-      "9.6.9":
-        "family": "aurora-postgresql9.6"
-      "10.4":
-        "family": "aurora-postgresql10"
-      "10.5":
-        "family": "aurora-postgresql10"
+#Mappings:
+#    DBFamilyMap:
+#      "9.6.8":
+#        "family": "aurora-postgresql9.6"
+#      "9.6.9":
+#        "family": "aurora-postgresql9.6"
+#      "10.4":
+#        "family": "aurora-postgresql10"
+#      "10.5":
+#        "family": "aurora-postgresql10"
 
 Conditions:
 
   IsProd: !Equals [ !Ref EnvironmentName, prod ]
-
-
-
-  AlarmsEnabled: !And
-    - !Condition IsAuroraMySQL
-    - !Equals [ !Ref EnableAlarms, true ]
 
   EnhancedMonitoringSupprtedAndEnabled: !And
     - !Condition AlarmsEnabled
@@ -295,7 +289,7 @@ Resources:
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
       StorageEncrypted: !Ref EncryptionAtRest
       DatabaseName: !Ref DatabaseName
-      DBClusterParameterGroupName:  !Ref RDSDBClusterParameterGroup
+      DBClusterParameterGroupName:  aurora-postgresql9.6
       Port:  5432
       VpcSecurityGroupIds:
         - Fn::ImportValue: !Sub ${NetworkStackName}-DatabaseGroupID
@@ -310,7 +304,7 @@ Resources:
       DBInstanceClass: !Ref DatabaseInstanceClass
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
       StorageEncrypted: !Ref EncryptionAtRest
-      DBParameterGroupName:    !Ref DBParamGroup
+      DBParameterGroupName:    aurora-postgresql9.6
       MonitoringInterval: !If [ EnhancedMonitoringSupprtedAndEnabled, 60, 0 ]
       MonitoringRoleArn: !If [ EnhancedMonitoringSupprtedAndEnabled, !GetAtt EnhancedMonitoringRole.Arn, !Ref "AWS::NoValue" ]
       CopyTagsToSnapshot: true
@@ -330,7 +324,7 @@ Resources:
       DBInstanceClass: !Ref DatabaseInstanceClass
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
       StorageEncrypted: !Ref EncryptionAtRest
-      DBParameterGroupName: !Ref DBParamGroup
+      DBParameterGroupName: aurora-postgresql9.6
       MonitoringInterval: !If [ EnhancedMonitoringSupprtedAndEnabled, 60, 0 ]
       MonitoringRoleArn: !If [ EnhancedMonitoringSupprtedAndEnabled, !GetAtt EnhancedMonitoringRole.Arn, !Ref "AWS::NoValue" ]
       DBInstanceIdentifier: !Join ["", [!Ref DBInstanceIdentifier,"2nd"]]
