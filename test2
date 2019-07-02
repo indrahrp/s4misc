@@ -69,11 +69,8 @@ Parameters:
   DBEngineVersion:
       Description: Select Database Engine Version
       Type: String
-      Default: 9.6.8
+      Default: 10.5
       AllowedValues:
-        - 9.6.8
-        - 9.6.9
-        - 10.4
         - 10.5
 
 
