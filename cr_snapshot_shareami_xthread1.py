@@ -190,7 +190,7 @@ def main(argv):
     ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
     target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
     new_image = target_ec2.register_image(
-        Name=unique_ami_name,
+        Name=args.unique_ami_name,
         Architecture='x86_64',
         RootDeviceName='/dev/sda1',
         BlockDeviceMappings=all_sub_mappings,
@@ -317,8 +317,7 @@ def snapvolumes_task(volume):
         # Use custom key
         snapshot_encrypted_dict = snapshot.copy(
             SourceRegion=args.region,
-            Description='Encrypted copy of snapshot #{} of volume {}'
-                .format(snapshot.id,volume.id),
+            Description='Encrypted copy of snapshot #{} of volume {}'.format(snapshot.id,volume.id),
             KmsKeyId=customer_master_key,
             Encrypted=True,
                 )
@@ -382,7 +381,7 @@ def snapvolumes_task(volume):
         SourceRegion=SOURCE_REGION,
         Encrypted=True,
         KmsKeyId=target_master_key,
-        Descryption=volume.id
+        Description=volume.id
     )
 
     # Wait for the copy to complete
