@@ -77,18 +77,6 @@ Parameters:
         - 10.5
 
 
-
-
-  RDSDBClusterParameterGroup:
-      Type: AWS::RDS::DBClusterParameterGroup
-      Properties:
-        Description: !Join [ "- ", [ "Aurora PG Cluster Parameter Group for  Cloudformation Stack ", !Ref DBName ] ]
-        Family: !FindInMap [DBFamilyMap, !Ref DBEngineVersion, "family"]
-        Parameters:
-          rds.force_ssl: 1
-
-
-
   DatabaseInstanceClass:
     Default: db.t2.medium
     Type: String
