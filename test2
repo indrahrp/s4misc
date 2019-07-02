@@ -69,9 +69,9 @@ Parameters:
   DBEngineVersion:
       Description: Select Database Engine Version
       Type: String
-      Default: 10.5
+      Default: 10.6
       AllowedValues:
-        - 10.5
+        - 10.6
 
 
   DatabaseInstanceClass:
@@ -254,7 +254,7 @@ Resources:
   AuroraInstance0:
     Type: AWS::RDS::DBInstance
     Properties:
-      Engine: !Ref DBEngineVersion
+      Engine: !Ref DatabaseEngine
       EngineVersion: !Ref DBEngineVersion
       DBClusterIdentifier: !Ref AuroraCluster
       DBInstanceClass: !Ref DatabaseInstanceClass
@@ -275,7 +275,7 @@ Resources:
     Condition: IsProd
     Properties:
       Engine: !Ref DatabaseEngine
-      EngineVersion: 5.7.12
+      EngineVersion: !Ref DBEngineVersion
       DBClusterIdentifier: !Ref AuroraCluster
       DBInstanceClass: !Ref DatabaseInstanceClass
       DBSubnetGroupName: !Ref DatabaseSubnetGroup
