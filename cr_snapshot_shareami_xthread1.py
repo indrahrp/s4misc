@@ -317,8 +317,8 @@ def snapvolumes_task(volume):
         # Use custom key
         snapshot_encrypted_dict = snapshot.copy(
             SourceRegion=args.region,
-            Description='Encrypted copy of snapshot #{}'
-                .format(snapshot.id),
+            Description='Encrypted copy of snapshot #{} of volume {}'
+                .format(snapshot.id,volume.id),
             KmsKeyId=customer_master_key,
             Encrypted=True,
                 )
@@ -382,6 +382,7 @@ def snapvolumes_task(volume):
         SourceRegion=SOURCE_REGION,
         Encrypted=True,
         KmsKeyId=target_master_key,
+        Descryption=volume.id
     )
 
     # Wait for the copy to complete
