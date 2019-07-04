@@ -78,10 +78,10 @@ class Account_Session:
                 return
 
     @staticmethod
-    def sess_subaccount(subaccount=None):
-       #if not subaccount:
-       #    Account_Session.initialize()
-       #    return
+    def build_sess_subaccount(subaccount=None):
+        #if not subaccount:
+        #    Account_Session.initialize()
+        #    return
         accountdict={}
         client = boto3.client('organizations')
         for account in paginate(client.list_accounts):
@@ -90,8 +90,8 @@ class Account_Session:
 
         ses=getsessionv2(subaccount)
         Account_Session.SESS_DICT.update({subaccount:{'session':ses,'name':accountdict[subaccount]}})
-        return Account_Session.SESS_DICT[subaccount]
-
+        #return Account_Session.SESS_DICT[subaccount]
+        return
     @staticmethod
     def get_account_list():
         Account_Session.ACCLIST=[]
@@ -246,8 +246,8 @@ def sharing_transit_gateway():
     try:
         acclist=Account_Session.get_account_list()
         #print 'acc list ' + str(acclist)
-        sesinfo=Account_Session.sess_subaccount(itadminprodacc)
-        clientses=sesinfo['session'].client('ram')
+        Account_Session.build_sess_subaccount(itadminprodacc)
+        clientses=Account_Session[itadminprodacc]['session'].client('ram')
         response=clientses.associate_resource_share(
             resourceShareArn=resourcesharedarn,
             principals=acclist
