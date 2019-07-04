@@ -75,8 +75,8 @@ class Account_Session:
             #Account_Session.SESS_LIST.append([ses,account[id],account['Name']])
             Account_Session.SESS_DICT.update({account['Id']:{'session':ses,'name':account['Name']}})
             if counter > 5:
-                return
-
+                break
+        Acc
     @staticmethod
     def build_sess_subaccount(subaccount=None):
         #if not subaccount:
@@ -103,6 +103,7 @@ class Account_Session:
             exit(1)
         client = boto3.client('organizations')
         for account in paginate(client.list_accounts):
+            print "account inv " + account['Id']
             Account_Session.ACCLIST.append(account['Id'])
         return Account_Session.ACCLIST
 
@@ -238,7 +239,6 @@ def listvpc():
 
 def sharing_transit_gateway():
     print "sharing transit gateway to all accounts"
-    accountlist=[]
     #Account_Session.initialize()
     resourcesharedarn='arn:aws:ram:us-east-1:346997421618:resource-share/fab4ff5d-ae0c-9b09-8513-ee4441aa5699'
     itadminprodacc='346997421618'
