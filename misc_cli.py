@@ -33,9 +33,26 @@ session_client = boto3.client('sts')
 account_id = boto3.client('sts').get_caller_identity()['Account']
 print("Yor account id is: " +account_id)
 
+def getsessionv2(acc):
+    print "\n\n========================================"
+    #print "account id " + acc['Id']
+    #print "account name " + acc['Name']
+    #print "========================================"
+    cred = role_to_session(acc)
+    credentials = cred['Credentials']
+
+
+    sess= boto3.Session(
+        aws_access_key_id=credentials['AccessKeyId'],
+        aws_secret_access_key=credentials['SecretAccessKey'],
+        aws_session_token=credentials['SessionToken'])
+
+    return sess
+
 
 class Account_Session:
     SESS_DICT={}
+    ACCLIST=[]
     ROOT='011825642366'
 
     @staticmethod
@@ -50,34 +67,44 @@ class Account_Session:
         counter=0
         for account in paginate(client.list_accounts):
             counter += 1
+            print "initializing session to account " + account['Id']
             if not account['Id'] == Account_Session.ROOT:
                 ses=getsessionv2(account['Id'])
             else:
                 ses=boto3.session.Session()
             #Account_Session.SESS_LIST.append([ses,account[id],account['Name']])
-            Account_Session.SESS_DICT.update({account['Id']:[ses,account['Name']]})
-            if counter > 1:
+            Account_Session.SESS_DICT.update({account['Id']:{'session':ses,'name':account['Name']}})
+            if counter > 5:
                 return
 
     @staticmethod
     def sess_subaccount(subaccount=None):
-        if not subaccount:
-            Account_Session.initialize()
-            return
+       #if not subaccount:
+       #    Account_Session.initialize()
+       #    return
         accountdict={}
         client = boto3.client('organizations')
         for account in paginate(client.list_accounts):
             accountdict.update({account['Id']:account['Name']})
-        if subaccount == Account_Session.ROOT:
-            ses=getsessionv2(account['Id'])
-        else:
-            ses=boto3.session.Session()
-            #Account_Session.SESS_LIST.append([ses,account[id],account['Name']])
-        Account_Session.SESS_DICT.update({subaccount:[ses,accountdict[subaccount]]})
+        print 'creating session for account ' + subaccount
+
+        ses=getsessionv2(subaccount)
+        Account_Session.SESS_DICT.update({subaccount:{'session':ses,'name':accountdict[subaccount]}})
         return Account_Session.SESS_DICT[subaccount]
 
-
-
+    @staticmethod
+    def get_account_list():
+        Account_Session.ACCLIST=[]
+        print "Gather Sema4 Account List ..."
+        sess=boto3.session.Session()
+        currentacc=get_aws_account_id(sess)
+        if currentacc != Account_Session.ROOT:
+            print "The session need to start from root account"
+            exit(1)
+        client = boto3.client('organizations')
+        for account in paginate(client.list_accounts):
+            Account_Session.ACCLIST.append(account['Id'])
+        return Account_Session.ACCLIST
 
 
 #Account_Session.initialize()
@@ -122,6 +149,7 @@ def paginate(method, **kwargs):
 def main():
     global deploylist
     ##python  deploy_cf.py --name test --templatefile Sema4-ITAdmin_Role.yaml --params "BucketName=s4-research-sanofi-dev&ITLambda=ITAdmin_Libraries"
+    #Account_Session.initialize()
     parser = argparse.ArgumentParser()
     parser.add_argument('--s3list', type=str, required=False,
                         help='s3 name to search.')
@@ -135,14 +163,16 @@ def main():
     parser.add_argument('--ssmupdate', type=str, required=False,
                         help='ssm param to update.')
 
-    #parser.add_argument('--sharing_transit_gateway', action="store_true",type=str, required=False,
-    #                    help='sharing_transit_gateway to all sub accounts i.e --sharing_transit_gateway')
+    parser.add_argument('--sharing_transit_gateway', action="store_true", required=False,
+                        help='sharing_transit_gateway to all sub accounts i.e --sharing_transit_gateway')
     parser.add_argument('--ssmupdatevalue', type=str, required=False,
                         help='ssm param value to update --ssmupdate and --ssmupdatevalue both have to exist.')
     parser.add_argument('--shareami', type=str, required=False,
                         help='ami to share to all sub accounts')
     parser.add_argument('--eiplistallsub', type=str, required=False,
                         help='list eip in all sub accounts')
+
+
 
 
     parser.add_argument('--dbclusterparam', type=str, required=False,
@@ -169,8 +199,9 @@ def main():
         dbclusterparam(args.dbclusterparam)
     elif args.dbdbparam:
         dbdbparam(args.dbdbparam)
-    #elif args.sharing_transit_gateway:
-    #    sharing_transit_gateway()
+    elif args.sharing_transit_gateway:
+       print ' executing sharing '
+       sharing_transit_gateway()
     elif args.listvpc:
         listvpc()
 
@@ -206,28 +237,32 @@ def listvpc():
 
 
 def sharing_transit_gateway():
+    print "sharing transit gateway to all accounts"
+    accountlist=[]
+    #Account_Session.initialize()
     resourcesharedarn='arn:aws:ram:us-east-1:346997421618:resource-share/fab4ff5d-ae0c-9b09-8513-ee4441aa5699'
-    print "sharing transit gateway to all accounts  " + dbdbparam
+    itadminprodacc='346997421618'
     #acc,sess=Account_Session.sess_subaccount('586916032531')
-    for session,acc in Account_Session.SESS_DICT():
-        #print str(acc[0]),str(acc[1]),str(sess)
-        sc_client=session.client('ec2')
+    try:
+        acclist=Account_Session.get_account_list()
+        #print 'acc list ' + str(acclist)
+        sesinfo=Account_Session.sess_subaccount(itadminprodacc)
+        clientses=sesinfo['session'].client('ram')
+        response=clientses.associate_resource_share(
+            resourceShareArn=resourcesharedarn,
+            principals=acclist
+            )
 
-        try:
-            response=sc_client.create_resource_share(
-                name='sharing transitgateway',
-                resourceArns=[
-                    resourcesharedarn
-                ],
-                principals=[
-                    account['Id']
-                     ]
-                  )
-            print response['DBClusterParameterGroup']['DBClusterParameterGroupName']
-            inp=raw_input('pause ')
-        except Exception as err:
-            print str(err)
-            raise
+        #print 'Resource Share Status ' + str(response['resourceShareAssociations']['status'] + ' with Status Message ' + response['resourceShareAssociations']['statusMessage']
+        resp= { respo['associatedEntity']:respo['status'] for respo in  response['resourceShareAssociations'] }
+        #print 'Resource Share Status ' + str(response['resourceShareAssociations'])
+        print 'Resource sharing status ..... wait 2 min'
+        time.sleep(120)
+        for r,s in resp.items():
+            print 'account: ' + r + ' status: ' + s
+    except Exception as err:
+        print str(err)
+        raise
 
 
 def dbclusterparam(dbclusterparam='sema4auroramysql57',family='aurora-mysql5.7'):
