@@ -247,7 +247,7 @@ def sharing_transit_gateway():
         acclist=Account_Session.get_account_list()
         #print 'acc list ' + str(acclist)
         Account_Session.build_sess_subaccount(itadminprodacc)
-        clientses=Account_Session[itadminprodacc]['session'].client('ram')
+        clientses=Account_Session.SESS_DICT[itadminprodacc]['session'].client('ram')
         response=clientses.associate_resource_share(
             resourceShareArn=resourcesharedarn,
             principals=acclist
