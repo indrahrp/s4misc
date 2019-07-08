@@ -36,7 +36,9 @@ Metadata:
         Parameters:
           - ServerInstanceType
           - ServerInstanceName
+          - ServerInstancePassword
           - ServerSSHLocation
+          - HTTPLocation
       - Label:
           default: "Serverless RDS Parameters"
           Parameters:
@@ -179,6 +181,10 @@ Parameters:
     Type: String
     Default: cromwell-server
     Description: The name of the instance that is created
+  ServerInstancePassword:
+    Type: String
+    Default: Usewdl2019!
+    Description: The password used to log into the Cromwell swagger API
   ServerSSHLocation:
     Description: " The IP address range that can be used to SSH to the EC2 instances"
     Type: String
@@ -319,6 +325,7 @@ Resources:
         HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+        CromwellPassword: !Ref ServerInstancePassword
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
