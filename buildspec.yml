@@ -6,7 +6,7 @@ env:
       sema4-vpc.yaml
       aws-genomics-s3.template.yaml
       aws-genomics-iam.template.yaml
-      aws-custom-ami.template.yaml
+      aws-genomics-launch-template.template.yaml
       aws-genomics-batch.template.yaml
       aws-cromwell-server.template.yaml
       sema4-serverless-rdb.yaml
@@ -15,7 +15,7 @@ env:
       sema4-vpc.yaml
       aws-genomics-s3.template.yaml
       aws-genomics-iam.template.yaml
-      aws-custom-ami.template.yaml
+      aws-genomics-launch-template.template.yaml
       aws-genomics-batch.template.yaml
       aws-cromwell-server.template.yaml
       sema4-serverless-rdb.yaml
