@@ -307,6 +307,7 @@ Resources:
       TimeoutInMinutes: 5
       Parameters:
         WorkflowOrchestrator: cromwell
+        ScratchVolumeSize: !Ref ScratchVolumeSize
         ArtifactRootUrl: !Ref ArtifactRootUrl
   BatchStack:
     Type: AWS::CloudFormation::Stack
