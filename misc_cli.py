@@ -256,8 +256,8 @@ def sharing_transit_gateway():
         #print 'Resource Share Status ' + str(response['resourceShareAssociations']['status'] + ' with Status Message ' + response['resourceShareAssociations']['statusMessage']
         resp= { respo['associatedEntity']:respo['status'] for respo in  response['resourceShareAssociations'] }
         #print 'Resource Share Status ' + str(response['resourceShareAssociations'])
-        print 'Resource sharing status ..... wait 2 min'
-        time.sleep(120)
+        print 'Resource sharing status ..... wait 4 min'
+        time.sleep(240)
         for r,s in resp.items():
             print 'account: ' + r + ' status: ' + s
     except Exception as err:

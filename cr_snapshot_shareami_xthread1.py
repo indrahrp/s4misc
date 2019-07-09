@@ -186,6 +186,8 @@ def main(argv):
 
 
 
+
+
     #print block_device_mappings
     ## RootDeviceName='/dev/sda1' or /dev/xvda,etc . Check the source
     target_ec2 = target_session.resource('ec2', region_name=TARGET_REGION)
