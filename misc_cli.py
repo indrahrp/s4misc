@@ -308,7 +308,7 @@ def sharing_transit_gateway():
 
 
 def dbclusterparam(dbclusterparam='sema4auroramysql57',family='aurora-mysql5.7'):
-    print "create db cluster parameter group " + dbdbparam
+    print "create db cluster parameter group " + dbclusterparam
     client = boto3.client('organizations')
     for account in paginate(client.list_accounts):
         #print "result  " + str(account['Id'])
