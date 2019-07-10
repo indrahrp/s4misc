@@ -38,14 +38,17 @@ def getsessionv2(acc):
     #print "account id " + acc['Id']
     #print "account name " + acc['Name']
     #print "========================================"
-    cred = role_to_session(acc)
-    credentials = cred['Credentials']
+    if acc==rootaccount:
+        sess=boto3.Session()
+    else:
+        cred = role_to_session(acc)
+        credentials = cred['Credentials']
 
 
-    sess= boto3.Session(
-        aws_access_key_id=credentials['AccessKeyId'],
-        aws_secret_access_key=credentials['SecretAccessKey'],
-        aws_session_token=credentials['SessionToken'])
+        sess= boto3.Session(
+            aws_access_key_id=credentials['AccessKeyId'],
+            aws_secret_access_key=credentials['SecretAccessKey'],
+            aws_session_token=credentials['SessionToken'])
 
     return sess
 
@@ -74,9 +77,9 @@ class Account_Session:
                 ses=boto3.session.Session()
             #Account_Session.SESS_LIST.append([ses,account[id],account['Name']])
             Account_Session.SESS_DICT.update({account['Id']:{'session':ses,'name':account['Name']}})
-            if counter > 5:
+            if counter > 1:
                 break
-        Acc
+        return
     @staticmethod
     def build_sess_subaccount(subaccount=None):
         #if not subaccount:
@@ -163,6 +166,8 @@ def main():
 
     parser.add_argument('--ssmupdate', type=str, required=False,
                         help='ssm param to update.')
+    parser.add_argument('--kms_grant', type=str ,required=False,
+                        help='grant all account access to KMS key i.e --grant kmsidarn ')
 
     parser.add_argument('--sharing_transit_gateway', action="store_true", required=False,
                         help='sharing_transit_gateway to all sub accounts i.e --sharing_transit_gateway')
@@ -205,6 +210,8 @@ def main():
        sharing_transit_gateway()
     elif args.listvpc:
         listvpc()
+    elif args.kms_grant:
+        kms_grant(args.kms_grant)
 
 
 def listvpc():
@@ -235,6 +242,41 @@ def listvpc():
                 raise
 
 
+def kms_grant(kmsidarn):
+    print ("Grant Key {} all accounts".format(kmsidarn))
+    #Account_Session.initialize()
+    try:
+        acclist=Account_Session.get_account_list()
+        #print 'acc list ' + str(acclist)
+        Account_Session.build_sess_subaccount(rootaccount)
+        clientses=Account_Session.SESS_DICT[rootaccount]['session'].client('kms')
+        for acc in acclist:
+            print ("granting account {0}".format(acc))
+            response = clientses.create_grant(
+            # The identity that is given permission to perform the operations specified in the grant.
+            GranteePrincipal=acc,
+            # The identifier of the CMK to which the grant applies. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+            KeyId=kmsidarn,
+            # A list of operations that the grant allows.
+            Operations=[
+                'Encrypt',
+                'Decrypt',
+                'ReEncryptTo',
+                'GenerateDataKey',
+                'GenerateDataKeyWithoutPlaintext',
+                'DescribeKey',
+                'Verify',
+                'ReEncryptFrom',
+                'Sign'
+            ],
+            Name='Subaccount-Access-KMS-for-AMI-sharing'
+            )
+
+        print ("Grant response GrantId : {0} and GrantToken : {1}".format(response['GrantId'],response['GrantToken']))
+
+    except Exception as err:
+        print str(err)
+        raise
 
 
 def sharing_transit_gateway():
