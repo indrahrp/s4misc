@@ -307,8 +307,8 @@ def sharing_transit_gateway():
         raise
 
 
-def dbclusterparam(dbclusterparam='sema4auroramysql57',family='aurora-mysql5.7'):
-    print "create db cluster parameter group " + dbclusterparam
+def dbclusterparam(dbclusterpar='sema4auroramysql57',family='aurora-mysql5.7'):
+    print "create db cluster parameter group " + dbclusterpar
     client = boto3.client('organizations')
     for account in paginate(client.list_accounts):
         #print "result  " + str(account['Id'])
@@ -322,7 +322,7 @@ def dbclusterparam(dbclusterparam='sema4auroramysql57',family='aurora-mysql5.7')
             sc_client=client_sess.client('rds', region_name='us-east-1')
             try:
                 response = sc_client.create_db_cluster_parameter_group(
-                    DBClusterParameterGroupName=dbclusterparam,
+                    DBClusterParameterGroupName=dbclusterpar,
                     DBParameterGroupFamily=family,
                     Description=family)
                 print response['DBClusterParameterGroup']['DBClusterParameterGroupName']
@@ -334,8 +334,8 @@ def dbclusterparam(dbclusterparam='sema4auroramysql57',family='aurora-mysql5.7')
 
 
 
-def dbdbparam(dbdbparam='sema4auroramysql57',family='aurora-mysql5.7'):
-    print "create db parameter group " + dbdbparam
+def dbdbparam(dbdbpar='sema4auroramysql57',family='aurora-mysql5.7'):
+    print "create db parameter group " + dbdbpar
     client = boto3.client('organizations')
     for account in paginate(client.list_accounts):
         #print "result  " + str(account['Id'])
@@ -349,7 +349,7 @@ def dbdbparam(dbdbparam='sema4auroramysql57',family='aurora-mysql5.7'):
             sc_client=client_sess.client('rds', region_name='us-east-1')
             try:
                 response = sc_client.create_db_parameter_group(
-                    DBParameterGroupName=dbdbparam,
+                    DBParameterGroupName=dbdbpar,
                     DBParameterGroupFamily=family,
                     Description=family
 
