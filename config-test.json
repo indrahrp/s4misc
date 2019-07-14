@@ -19,7 +19,7 @@
     "HighPriorityCEMaxvCpus": "1024",
     "InstanceType": "r5a.4xlarge",
     "InstanceName": "cromwell-server",
-    "CromwellVersion": "latest",
+    "CromwellVersion": "42",
     "SSHLocation": "0.0.0.0/0",
     "DBClusterIdentifier": "tigris-test",
     "DatabaseUsername": "TIGRIS_DB_USER",
