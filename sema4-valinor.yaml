@@ -218,6 +218,7 @@ Parameters:
       version of Cromwell from Github.
     AllowedValues:
       - latest
+      - 42
       - 36.1
       - 36
     Default: 36.1
