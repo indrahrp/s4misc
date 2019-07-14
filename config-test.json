@@ -11,7 +11,7 @@
     "S3BucketName": "CROMWELL_ROOT_PLACEHOLDER",
     "ExistingBucket": "false",
     "KeyPairName": "gondor-dev",
-    "ScratchVolumeSize": "200",
+    "ScratchVolumeSize": "20",
     "SpotBidPercentage": "100",
     "DefaultCEMinvCpus": "0",
     "DefaultCEMaxvCpus": "1024",
