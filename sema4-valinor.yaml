@@ -355,7 +355,7 @@ Resources:
         SSHLocation: !Ref SSHLocation
         HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Sub ${S3Stack.Outputs.BucketName}
-        BatchQueue: !Sub ${BatchStack.Outputs.HighPriorityJobQueueArn}
+        BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
