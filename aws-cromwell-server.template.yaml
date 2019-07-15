@@ -267,6 +267,10 @@ Resources:
                   }
                 }
 
+                call-caching {
+                  enabled = false
+                }
+
                 aws {
                   application-name = "cromwell"
                   auths = [{
@@ -286,6 +290,7 @@ Resources:
                       config {
                         numSubmitAttempts = 10
                         numCreateDefinitionAttempts = 10
+                        concurrent-job-limit = 200
                         root = "s3://${S3BucketName}/cromwell-execution"
                         auth = "default"
                         default-runtime-attributes { queueArn = "${BatchQueue}" }
