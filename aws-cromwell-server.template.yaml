@@ -29,11 +29,7 @@ Parameters:
     - r5a.2xlarge
     - r5a.4xlarge
     ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge', or 'r5a.2xlarge', or 'r5a.4xlarge'"
-  
-  VpcId:
-    Type: AWS::EC2::VPC::Id
-    Description: Recommended to use the Default VPC here
-  
+
   PublicSubnetID:
     Type: AWS::EC2::Subnet::Id
     Description: Select a public subnet to launch into
@@ -65,24 +61,6 @@ Parameters:
     Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
     Type: AWS::EC2::KeyPair::KeyName
     ConstraintDescription: Must be the name of an existing EC2 KeyPair that is on your local machine.
-  
-  SSHLocation:
-    Description: "The IP address range that can be used to SSH to the EC2 instances"
-    Type: String
-    MinLength: '9'
-    MaxLength: '18'
-    Default: 0.0.0.0/0
-    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
-  
-  HTTPLocation:
-    Description: "The IP address range that has HTTP access to the EC2 instances"
-    Type: String
-    MinLength: '9'
-    MaxLength: '18'
-    Default: 0.0.0.0/0
-    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
-    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
 
   S3BucketName:
     Description: S3 bucket you are using for workflow inputs and outputs
@@ -96,6 +74,26 @@ Parameters:
     Description: Password to log into the cromwell swagger API
     Type: String
     Default: Usewdl2019!
+
+  ServerlessEndpointAddress:
+    Description: The endpoint address for the serverless database
+    Type: String
+
+  ServerlessEndpointPort:
+    Description: The endpoint port for the serverless database
+    Type: Number
+
+  DatabaseUsername:
+    Description: Username for access to the cromwell database
+    Type: String
+
+  DatabasePassword:
+    Description: Password for cromwell database
+    Type: String
+
+  EC2SecurityGroup:
+    Description: The EC2 Security Group
+    Type: String
 
 
 Conditions:
@@ -162,35 +160,6 @@ Resources:
       Roles:
         - Ref: Ec2InstanceRole
   
-  EC2SecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Enable SSH access via port 22
-      VpcId: !Ref VpcId
-      Tags:
-        - Key: Name
-          Value: cromwell-server-sg
-        - Key: architecture
-          Value: !FindInMap ["TagMap", "default", "architecture"]
-        - Key: solution
-          Value: !FindInMap ["TagMap", "default", "solution"]
-      SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp:
-          Ref: SSHLocation
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp:
-          Ref: HTTPLocation
-      - IpProtocol: tcp
-        FromPort: 443
-        ToPort: 443
-        CidrIp:
-          Ref: HTTPLocation
-
   EC2Instance:
     Type: AWS::EC2::Instance
     Metadata:
@@ -309,6 +278,17 @@ Resources:
                         filesystems { s3 { auth = "default" } }
                       }
                     }
+                  }
+                }
+
+                database {
+                  profile = "slick.jdbc.MySQLProfile$"
+                  db {
+                    driver = "com.mysql.jdbc.Driver"
+                    url = "jdbc:mysql://${ServerlessEndpointAddress}:${ServerlessEndpointPort}/cromwell?rewriteBatchedStatements=true"
+                    user = "${DatabaseUsername}"
+                    password = "${DatabasePassword}"
+                    connectionTimeout = 50000
                   }
                 }
               mode: "000644"
@@ -492,7 +472,6 @@ Metadata:
       - Label:
           default: "Network Configuration"
         Parameters:
-          - VpcId
           - PublicSubnetID
       - Label:
           default: "Instance Configuration"
@@ -501,8 +480,6 @@ Metadata:
           - InstanceType
           - InstanceName
           - KeyName
-          - SSHLocation
-          - HTTPLocation
 
       - Label:
           default: "Cromwell Configuration"
@@ -512,18 +489,12 @@ Metadata:
           - BatchQueue
       
     ParameterLabels:
-      VpcId:
-        default: "VPC ID"
       PublicSubnetID:
         default: "Public Subnet ID"
       InstanceName:
         default: "Instance Name"
       LatestAmazonLinuxAMI:
         default: "Latest Amazon Linux AMI"
-      SSHLocation:
-        default: "SSH Address Range"
-      HTTPLocation:
-        default: "HTTP Address Range"
       KeyName:
         default: "Key Pair Name"
       S3BucketName:
@@ -546,8 +517,4 @@ Outputs:
     Value: !GetAtt EC2Instance.PublicDnsName
     Description: Cromwell server public DNS name
 
-  EC2SecurityGroup:
-    Value: !GetAtt EC2SecurityGroup.GroupId
-    Export:
-      Name: !Sub "${AWS::StackName}-EC2SecurityGroupID"
 
