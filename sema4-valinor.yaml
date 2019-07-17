@@ -118,6 +118,9 @@ Parameters:
       - Yes
       - No
     Default: No
+  WorkflowLogDirName:
+    Description: workflow log dir name inside S3BucketName
+    Type: String
   AvailabilityZone1:
     Description: The first availability zone in the region
     Type: AWS::EC2::AvailabilityZone::Name
@@ -355,6 +358,7 @@ Resources:
         SSHLocation: !Ref SSHLocation
         HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Sub ${S3Stack.Outputs.BucketName}
+        WorkflowLogDirName: !Ref WorkflowLogDirName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup

@@ -88,6 +88,10 @@ Parameters:
   S3BucketName:
     Description: S3 bucket you are using for workflow inputs and outputs
     Type: String
+
+  WorkflowLogDirName:
+    Description: workflow log dir name inside S3BucketName
+    Type: String
   
   BatchQueue:
     Description: ARN of the AWS Batch Job Queue this server will use by default
@@ -191,6 +195,7 @@ Resources:
             - config1
             - config2
             - config3
+            - config4
 
         config1:
           packages:
@@ -457,7 +462,11 @@ Resources:
             02_start_cromwell:
               cwd: "/home/ec2-user"
               command: "sudo -u ec2-user /usr/local/bin/supervisord"
-        
+        config4:
+          commands:
+            00_create_wf_log_dir:
+              cwd: "/home/ec2-user"
+              command: "aws s3api put-object --bucket ${S3BucketName} --key ${WorkflowLogDirName}"
             
     Properties:
       ImageId: !Ref LatestAmazonLinuxAMI

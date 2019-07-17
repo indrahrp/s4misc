@@ -20,7 +20,7 @@ env:
       aws-cromwell-server.template.yaml
       sema4-serverless-rdb.yaml
     CONFIG_FILES: |
-      config-test.json
+      config-*.json
 
 phases:
   install:
@@ -64,9 +64,10 @@ phases:
           sed -i -e "s/CROMWELL_ROOT_PLACEHOLDER/$CROMWELL_ROOT/" $conf
           sed -i -e "s/DB_HOST_PLACEHOLDER/$DB_HOST_PARAM/" $conf
           sed -i -e "s/CROMWELL_SERVER_URL_PLACEHOLDER/$CROMWELL_SERVER_URL_PARAM/" $conf
+          sed -i -e "s/WORKFLOW_LOG_PLACEHOLDER/$WORKFLOW_LOG_DIR_NAME/" $conf
         done
 
 artifacts:
   files:
     - sema4-valinor.yaml
-    - config-test.json
+    - config-*.json
