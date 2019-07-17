@@ -83,12 +83,6 @@ Metadata:
         default: High Priority Min vCPU
       HighPriorityCEMaxvCpus:
         default: High Priority Max vCPU
-      ServerInstanceType:
-        default: Cromwell Server Instance Type
-      ServerInstanceName:
-        default: Cromwell Server Instance Name
-      ServerSSHLocation:
-        default: Cromwell Server SSH Location
 
       DBClusterIdentifier:
         default: DB Cluster ID
@@ -157,7 +151,6 @@ Parameters:
     MinLength: 9
     MaxLength: 18
     Default: 10.80.191.192/26
-
   ScratchVolumeSize:
     Type: Number
     Default: 200
@@ -264,7 +257,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-vpc.yaml"
-      TimeoutInMinutes: '20'
+      TimeoutInMinutes: 20
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-VPC"
@@ -280,7 +273,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-s3.template.yaml"
-      TimeoutInMinutes: '10'
+      TimeoutInMinutes: 10
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-S3Stack"
@@ -292,7 +285,7 @@ Resources:
     DependsOn: S3Stack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-iam.template.yaml"
-      TimeoutInMinutes: '20'
+      TimeoutInMinutes: 20
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-IAM"
@@ -307,6 +300,7 @@ Resources:
       Parameters:
         WorkflowOrchestrator: cromwell
         ArtifactRootUrl: !Ref ArtifactRootUrl
+        ScratchVolumeSize: !Ref ScratchVolumeSize
   BatchStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
@@ -341,19 +335,49 @@ Resources:
       TimeoutInMinutes: 30
       Parameters:
         InstanceType: !Ref InstanceType
-        VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
         InstanceName:  !Sub "${AWS::StackName}-${InstanceName}"
         CromwellVersion: !Ref CromwellVersion
         KeyName: !Ref KeyPairName
-        SSHLocation: !Ref SSHLocation
-        HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
         CromwellPassword: !Ref ServerInstancePassword
+        ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
+        ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
+        DatabaseUsername: !Ref DatabaseUsername
+        DatabasePassword: !Ref DatabasePassword
+        EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
       Tags:
         - Key: Name
           Value: !Sub "${AWS::StackName}-cromwell-server"
+  CromwellEC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable access to 22/80/443
+      VpcId: !Sub ${VPCStack.Outputs.VPCId}
+      Tags:
+        - Key: Name
+          Value: cromwell-server-sg
+        - Key: architecture
+          Value: !FindInMap ["TagMap", "default", "architecture"]
+        - Key: solution
+          Value: !FindInMap ["TagMap", "default", "solution"]
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp:
+            Ref: SSHLocation
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp:
+            Ref: HTTPLocation
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp:
+            Ref: HTTPLocation
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -363,15 +387,13 @@ Resources:
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
-          SourceSecurityGroupId: !Sub "${CromwellServerStack.Outputs.EC2SecurityGroup}"
+          SourceSecurityGroupId: !Ref CromwellEC2SecurityGroup
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
           SourceSecurityGroupId: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup}"
   ServerlessRDSStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn:
-      - CromwellServerStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-serverless-rdb.yaml"
       TimeoutInMinutes: 30
