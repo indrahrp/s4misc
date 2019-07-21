@@ -23,7 +23,7 @@
     "CromwellVersion": "42",
     "SSHLocation": "0.0.0.0/0",
     "DBClusterIdentifier": "tigris-dev",
-    "DatabaseUsername": "TIGRIS_DB_USER",
+    "DatabaseUsername": "DB_USER_PLACEHOLDER",
     "DatabasePassword": "VALINOR_AURORA_TIGRS_DEV_PWD",
     "DBHostParamName": "DB_HOST_PLACEHOLDER",
     "CromwellServerParam": "CROMWELL_SERVER_URL_PLACEHOLDER"
