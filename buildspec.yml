@@ -64,6 +64,7 @@ phases:
           sed -i -e "s/CROMWELL_ROOT_PLACEHOLDER/$CROMWELL_ROOT/" $conf
           sed -i -e "s/DB_HOST_PLACEHOLDER/$DB_HOST_PARAM/" $conf
           sed -i -e "s/DB_USER_PLACEHOLDER/$DB_USER_PARAM/" $conf
+          sed -i -e "s/DB_PASSWORD_PLACEHOLDER/$DB_PASSWORD_PARAM/" $conf
           sed -i -e "s/CROMWELL_SERVER_URL_PLACEHOLDER/$CROMWELL_SERVER_URL_PARAM/" $conf
           sed -i -e "s/WORKFLOW_LOG_PLACEHOLDER/$WORKFLOW_LOG_DIR_NAME/" $conf
         done
