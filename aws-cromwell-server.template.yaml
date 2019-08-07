@@ -138,7 +138,7 @@ Resources:
                 - "logs:CreateLogStream"
                 - "logs:PutLogEvents"
                 - "logs:DescribeLogStreams"
-        - Fn::If:
+        Fn::If:
           - hasCrossAccountRole
           - - PolicyName: !Sub CromwellServer-CrossAccountAccess-${AWS::Region}
               PolicyDocument:
