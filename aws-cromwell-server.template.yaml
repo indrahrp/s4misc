@@ -101,7 +101,7 @@ Conditions:
       - !Ref CromwellVersion
       - latest
   hasCrossAccountRole:
-    !Not [!Equals [!Ref CrossAccountRole, "None"]]
+    !Not [!Equals [!Ref CrossAccountRole, "LOCAL"]]
 
 # Resources
 Resources:

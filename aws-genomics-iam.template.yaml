@@ -8,7 +8,7 @@ Parameters:
       Type: String
 Conditions:
   hasCrossAccountRole:
-    !Not [!Equals [!Ref CrossAccountRole, "None"]]
+    !Not [!Equals [!Ref CrossAccountRole, "LOCAL"]]
 Resources:
   GenomicsEnvBatchJobRole:
     Type: AWS::IAM::Role
