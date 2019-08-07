@@ -81,24 +81,15 @@ Resources:
                   - "arn:aws:s3:::*/*"
                 Action:
                   - "s3:*"
-        - Fn::If:
-          - hasCrossAccountRole
-          - PolicyName: !Sub GenomicsEnv-CrossAccountAccess-${AWS::Region}
-            PolicyDocument:
-              Version: 2012-10-17
-              Statement:
-                Effect: Allow
-                Action:
-                  - "sts:AssumeRole"
-                  Resource: !Sub CrossAccountRole-S3-${AWS::Region}
-          - PolicyName: !Sub GenomicsEnv-DummyAccess-${AWS::Region}
-            PolicyDocument:
-              Version: 2012-10-17
-              Statement:
-                Effect: Allow
-                Action:
-                  - "logs:DescribeLogStreams"
-                Resource: "arn:aws:logs:*:*:*"
+
+        - PolicyName: !Sub GenomicsEnv-CrossAccountAccess-${AWS::Region}
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              Effect: Allow
+              Action:
+                - "sts:AssumeRole"
+              Resource: !Ref CrossAccountRole
         - PolicyName: !Sub GenomicsEnv-Autoscale-EBS-${AWS::Region}
           PolicyDocument:
             Version: 2012-10-17
