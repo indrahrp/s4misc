@@ -1,13 +1,13 @@
 {
   "Parameters": {
     "TemplatePath": "TEMPLATE_PATH_PLACEHOLDER",
-    "GlobalCIDR": "10.80.175.128/26",
+    "GlobalCIDR": "10.80.191.0/24",
     "AvailabilityZone1": "us-east-1c",
     "AvailabilityZone2": "us-east-1b",
-    "PubNet1": "10.80.175.160/28",
-    "PubNet2": "10.80.175.176/28",
-    "PrivNet1": "10.80.175.128/28",
-    "PrivNet2": "10.80.175.144/28",
+    "PubNet1": "10.80.191.128/26",
+    "PubNet2": "10.80.191.192/26",
+    "PrivNet1": "10.80.191.0/26",
+    "PrivNet2": "10.80.191.64/26",
     "S3BucketName": "CROMWELL_ROOT_PLACEHOLDER",
     "WorkflowLogDirName": "WORKFLOW_LOG_PLACEHOLDER",
     "ExistingBucket": "false",
@@ -15,17 +15,18 @@
     "ScratchVolumeSize": "20",
     "SpotBidPercentage": "100",
     "DefaultCEMinvCpus": "0",
-    "DefaultCEMaxvCpus": "1024",
+    "DefaultCEMaxvCpus": "2048",
     "HighPriorityCEMinvCpus": "0",
-    "HighPriorityCEMaxvCpus": "1024",
+    "HighPriorityCEMaxvCpus": "2048",
     "InstanceType": "r5a.4xlarge",
-    "InstanceName": "cromwell-server-test",
+    "InstanceName": "cromwell-server-dev",
     "CromwellVersion": "42",
     "SSHLocation": "0.0.0.0/0",
     "DBClusterIdentifier": "tigris-test",
-    "DatabaseUsername": "TIGRIS_DB_USER",
-    "DatabasePassword": "VALINOR_AURORA_TIGRS_TEST_PWD",
+    "DatabaseUsername": "DB_USER_PLACEHOLDER",
+    "DatabasePassword": "DB_PASSWORD_PLACEHOLDER",
     "DBHostParamName": "DB_HOST_PLACEHOLDER",
-    "CromwellServerParam": "CROMWELL_SERVER_URL_PLACEHOLDER"
+    "CromwellServerParam": "CROMWELL_SERVER_URL_PLACEHOLDER",
+    "CrossAccountRole": "CROSS_ACCOUNT_ROLE_PLACEHOLDER"
   }
 }

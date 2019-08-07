@@ -4,6 +4,11 @@ Parameters:
     S3BucketName:
       Type: String
       Description: The name of the S3 bucket which will store the results of genomics analyses.
+    CrossAccountRole:
+      Type: String
+Conditions:
+  hasCrossAccountRole:
+    !Not [!Equals [!Ref CrossAccountRole, "None"]]
 Resources:
   GenomicsEnvBatchJobRole:
     Type: AWS::IAM::Role
@@ -76,7 +81,24 @@ Resources:
                   - "arn:aws:s3:::*/*"
                 Action:
                   - "s3:*"
- 
+        - Fn::If:
+            - hasCrossAccountRole
+            - - PolicyName: !Sub GenomicsEnv-CrossAccountAccess-${AWS::Region}
+                PolicyDocument:
+                  Version: 2012-10-17
+                  Statement:
+                    Effect: Allow
+                    Action:
+                      - "sts:AssumeRole"
+                    Resource: !Sub CrossAccountRole-S3-${AWS::Region}
+            - - PolicyName: !Sub GenomicsEnv-DummyAccess-${AWS::Region}
+                  PolicyDocument:
+                    Version: 2012-10-17
+                    Statement:
+                      Effect: Allow
+                      Action:
+                        - "logs:DescribeLogStreams"
+                      Resource: "arn:aws:logs:*:*:*"
         - PolicyName: !Sub GenomicsEnv-Autoscale-EBS-${AWS::Region}
           PolicyDocument:
             Version: 2012-10-17

@@ -26,6 +26,7 @@
     "DatabaseUsername": "DB_USER_PLACEHOLDER",
     "DatabasePassword": "DB_PASSWORD_PLACEHOLDER",
     "DBHostParamName": "DB_HOST_PLACEHOLDER",
-    "CromwellServerParam": "CROMWELL_SERVER_URL_PLACEHOLDER"
+    "CromwellServerParam": "CROMWELL_SERVER_URL_PLACEHOLDER",
+    "CrossAccountRole": "None"
   }
 }
