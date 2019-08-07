@@ -92,13 +92,13 @@ Resources:
                       - "sts:AssumeRole"
                     Resource: !Sub CrossAccountRole-S3-${AWS::Region}
             - - PolicyName: !Sub GenomicsEnv-DummyAccess-${AWS::Region}
-                  PolicyDocument:
-                    Version: 2012-10-17
-                    Statement:
-                      Effect: Allow
-                      Action:
-                        - "logs:DescribeLogStreams"
-                      Resource: "arn:aws:logs:*:*:*"
+                PolicyDocument:
+                  Version: 2012-10-17
+                  Statement:
+                    Effect: Allow
+                    Action:
+                      - "logs:DescribeLogStreams"
+                    Resource: "arn:aws:logs:*:*:*"
         - PolicyName: !Sub GenomicsEnv-Autoscale-EBS-${AWS::Region}
           PolicyDocument:
             Version: 2012-10-17
