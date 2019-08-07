@@ -138,24 +138,24 @@ Resources:
                 - "logs:CreateLogStream"
                 - "logs:PutLogEvents"
                 - "logs:DescribeLogStreams"
-        Fn::If:
+        - Fn::If:
           - hasCrossAccountRole
-          - - PolicyName: !Sub CromwellServer-CrossAccountAccess-${AWS::Region}
-              PolicyDocument:
-                Version: 2012-10-17
-                Statement:
-                  Effect: Allow
-                  Action:
-                    - "sts:AssumeRole"
-                  Resource: !Sub CrossAccountRole-S3-${AWS::Region}
-          - - PolicyName: !Sub CromwellServer-DummyAccess-${AWS::Region}
-              PolicyDocument:
-                Version: 2012-10-17
-                Statement:
-                  Effect: Allow
-                  Action:
-                    - "logs:DescribeLogStreams"
-                  Resource: "arn:aws:logs:*:*:*"
+          - PolicyName: !Sub CromwellServer-CrossAccountAccess-${AWS::Region}
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                Effect: Allow
+                Action:
+                  - "sts:AssumeRole"
+                Resource: !Sub CrossAccountRole-S3-${AWS::Region}
+          - PolicyName: !Sub CromwellServer-DummyAccess-${AWS::Region}
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                Effect: Allow
+                Action:
+                  - "logs:DescribeLogStreams"
+                Resource: "arn:aws:logs:*:*:*"
       ManagedPolicyArns:
       - "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
       - "arn:aws:iam::aws:policy/AmazonRDSDataFullAccess"
