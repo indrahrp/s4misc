@@ -19,7 +19,7 @@
     "HighPriorityCEMinvCpus": "0",
     "HighPriorityCEMaxvCpus": "2048",
     "InstanceType": "r5a.4xlarge",
-    "InstanceName": "cromwell-server-dev",
+    "InstanceName": "cromwell-server-test",
     "CromwellVersion": "42",
     "SSHLocation": "0.0.0.0/0",
     "DBClusterIdentifier": "tigris-test",
