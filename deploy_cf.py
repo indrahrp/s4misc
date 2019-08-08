@@ -329,7 +329,7 @@ def main():
                 elif args.stack_list or args.stack_list_all:
                     print "List of Stack : " + account['Id']
                     stack_list(client_sess)
-                    return
+
 
                 elif args.stack_delete:
                         print "Deleting this stack " + args.stack_delete
