@@ -43,6 +43,8 @@ def main():
 
     parser.add_argument('--list_rds',required=False,
                         help='--list_rds All ,  check whether standard, spot or reserved instances, default is All')
+    parser.add_argument('--list_snapshot',required=False,
+                        help='--list_snapshot All ,  list snapshot, default is All accounts')
     args = parser.parse_args()
 
     if args.checking_provision_disk:
@@ -51,7 +53,8 @@ def main():
         check_instance_type(args.check_instance_type)
     if args.list_rds:
         list_rds(args.list_rds)
-
+    if args.list_snapshot:
+        list_snapshot(args.list_snapshot)
 
 def get_aws_account_id(session):
     sts = session.client('sts')
@@ -248,6 +251,57 @@ def list_rds(type='All'):
     except Exception as err :
         print("List RDS   " + str(err))
         raise
+
+def list_snapshot(subaccount='All'):
+    print("################Listing Snapshot ################")
+    Account_Session.initialize()
+    try:
+        for account,sessinfo in Account_Session.SESS_DICT.items():
+            print '\n\n\n====================Finding Snapshoton account : ' + account + ' ============================\n\n\n'
+            # Define the connection
+            ec2 = sessinfo['session'].resource('ec2', region_name="us-east-1")
+
+            # Find all volumes
+            if subaccount == 'All':
+                resp=ec2.snapshots.filter(OwnerIds=['self'])
+                for snapshot in resp:
+                    print ("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
+                        format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
+                               str(snapshot.volume_size),snapshot.description))
+
+
+
+    except Exception as err :
+        print("List Snapshot  " + str(err))
+        raise
+
+def delete_snapshot(subaccount,description,day='14'):
+    print("################Deleting Snapshot older than {}################".format(days))
+    Account_Session.initialize()
+    try:
+        for account,sessinfo in Account_Session.SESS_DICT.items():
+            print '\n\n\n====================Finding Snapshoton account : ' + account + ' ============================\n\n\n'
+            # Define the connection
+            ec2 = sessinfo['session'].resource('ec2', region_name="us-east-1")
+
+            # Find all volumes
+            if  account==subaccount:
+                resp=ec2.snapshots.filter(OwnerIds=['self'])
+                for snapshot in resp:
+                    start_time=snapshot.start_time
+                    delete_time=datetime.now - datetime.timedelta(days=day)
+                    if delete_time > start_time:
+                        print ("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
+                            format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
+                                   str(snapshot.volume_size),snapshot.description))
+
+
+
+    except Exception as err :
+        print("List Snapshot  " + str(err))
+        raise
+
+
 
 
 
