@@ -1,0 +1,29 @@
+  {
+            "Sid": "BlockMostAccessUnlessSignedInWithMFA",
+            "Effect": "Deny",
+            "NotAction": [
+                "iam:CreateVirtualMFADevice",
+                "iam:DeleteVirtualMFADevice",
+                "iam:ListVirtualMFADevices",
+                "iam:EnableMFADevice",
+                "iam:ResyncMFADevice",
+                "iam:ListAccountAliases",
+                "iam:ListUsers",
+                "iam:ListSSHPublicKeys",
+                "iam:ListAccessKeys",
+                "iam:ListServiceSpecificCredentials",
+                "iam:ListMFADevices",
+                "iam:GetAccountSummary",
+                "iam:ChangePassword",
+                "GetAccountPasswordPolicy",
+                "ListAccessKeys",
+                "GetAccessKeyLastUsed",
+                "sts:GetSessionToken"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "BoolIfExists": {
+                    "aws:MultiFactorAuthPresent": "false"
+                }
+            }
+        },

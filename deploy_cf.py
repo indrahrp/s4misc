@@ -261,6 +261,8 @@ def main():
 
     parser.add_argument('--stack_list', action="store_true", default=False,required=False,
                         help='List Of Cloudformation Stack.')
+    parser.add_argument('--stack_list_all', action="store_true", default=False,required=False,
+                        help='List Of Cloudformation Stack on All Account')
     args = parser.parse_args()
     #print "args "+ str(args)
     if args.subaccount or args.stack_delete:
@@ -270,6 +272,9 @@ def main():
         #print "removing deploylist"
         deploylist=[]
         #print "in aotherremoving deploylist"
+    elif args.stack_list_all:
+        #print "removing deploylist"
+        deploylist=[]
     elif args.deploy_all:
         #print "removing deploylist"
         deploylist=[]
