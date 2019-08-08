@@ -326,7 +326,7 @@ def main():
                          pass
 
 
-                elif args.stack_list:
+                elif args.stack_list or args.stack_list_all:
                     print "List of Stack : " + account['Id']
                     stack_list(client_sess)
                     return
