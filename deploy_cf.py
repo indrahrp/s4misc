@@ -31,12 +31,13 @@ LOG_FORMAT = ('%(levelname) -10s %(asctime)s %(funcName) '
 
 LOGGER = logging.getLogger(__name__)
 
-deploylist=['417302553802',
-          '333080083406',
-          '346997421618',
-          '006775277657'
-            '011825642366']
+#deploylist=['417302553802',
+#          '333080083406',
+#          '346997421618',
+#          '006775277657'
+#            '011825642366']
 
+deploylist=[]
 def _stack_exists(stack_name,clientcf):
     ###stacks = clientcf.list_stacks()['StackSummaries']
     #print "stack exist stack_name " + stack_name
