@@ -415,7 +415,8 @@ Resources:
   ServerlessRDSStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
-      - CromwellServerStack
+      - SpotCromwellServerStack
+      - OndemandCromwellServerStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-serverless-rdb.yaml"
       TimeoutInMinutes: 30
@@ -476,11 +477,11 @@ Outputs:
 
   SpotServerPublicIp:
     Value: !Sub ${SpotCromwellServerStack.Outputs.PublicIp}
-    Description: Cromwell server public IP address
+    Description: Spot Cromwell server public IP address
 
   SpotServerHostName:
     Value: !Sub ${SpotCromwellServerStack.Outputs.HostName}
-    Description: Cromwell server public DNS name
+    Description: Spot Cromwell server public DNS name
 
   OndemandServerEC2Instance:
     Description: The EC2 Instance ID of your Cromwell Server
@@ -488,9 +489,9 @@ Outputs:
 
   OndemandServerPublicIp:
     Value: !Sub ${OndemandCromwellServerStack.Outputs.PublicIp}
-    Description: Cromwell server public IP address
+    Description: Ondemand Cromwell server public IP address
 
   OndemandServerHostName:
     Value: !Sub ${OndemandCromwellServerStack.Outputs.HostName}
-    Description: Cromwell server public DNS name
+    Description: Ondemand Cromwell server public DNS name
 
