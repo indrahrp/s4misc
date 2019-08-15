@@ -52,7 +52,7 @@ Metadata:
       KeyPairName:
         default: EC2 Key Pair Name
       ScratchVolumeSize:
-        default: Cromewll AMI Scratch Volume (GB)
+        default: Cromwell AMI Scratch Volume (GB)
       SpotBidPercentage:
         default: Spot Bid %
       DefaultCEMinvCpus:
@@ -185,7 +185,7 @@ Parameters:
     MinLength: '9'
     MaxLength: '18'
     Default: 0.0.0.0/0
-    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
+    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2}\\b)"
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
   HTTPLocation:
     Description: "The IP address range that has HTTP access to the EC2 instances"
@@ -193,7 +193,7 @@ Parameters:
     MinLength: '9'
     MaxLength: '18'
     Default: 0.0.0.0/0
-    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
+    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2}\\b)"
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
 
   DBClusterIdentifier:
@@ -348,7 +348,7 @@ Resources:
         DatabaseName: cromwell
         DatabaseUsername: !Ref DatabaseUsername
         DatabasePassword: !Ref DatabasePassword
-        VpcSecurityGroupIds: [!Ref RDSSecurityGroup]
+        VpcSecurityGroupIds: !Ref RDSSecurityGroup
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
 
 Outputs:
@@ -380,4 +380,3 @@ Outputs:
   ServerHostName:
     Value: !Sub ${CromwellServerStack.Outputs.HostName}
     Description: Cromwell server public DNS name
-
