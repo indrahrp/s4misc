@@ -210,9 +210,13 @@ Parameters:
       - r5a.2xlarge
       - r5a.4xlarge
     ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge'."
-  InstanceName:
+  SpotInstanceName:
     Type: String
-    Default: cromwell-server
+    Default: spot-cromwell-server
+    Description: the instance name that is created
+  OndemandInstanceName:
+    Type: String
+    Default: ondemand-cromwell-server
     Description: The name of the instance that is created
   CromwellVersion:
     Type: String
@@ -224,7 +228,7 @@ Parameters:
       - 42
       - 36.1
       - 36
-    Default: 36.1
+    Default: 42
   SSHLocation:
     Description: " The IP address range that can be used to SSH to the EC2 instances"
     Type: String
@@ -262,7 +266,9 @@ Parameters:
     Type: String
   DBHostParamName:
     Type: String
-  CromwellServerParam:
+  SpotCromwellServerParam:
+    Type: String
+  OndemandCromwellServerParam:
     Type: String
   CrossAccountRole:
     Type: String
@@ -341,7 +347,7 @@ Resources:
         BatchServiceRoleArn: !Sub ${IamStack.Outputs.BatchServiceRoleArn}
         Ec2InstanceProfileArn: !Sub ${IamStack.Outputs.BatchInstanceProfileArn}
         SpotFleetRoleArn: !Sub ${IamStack.Outputs.BatchSpotFleetRoleArn}
-  CromwellServerStack:
+  SpotCromwellServerStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - BatchStack
@@ -350,18 +356,40 @@ Resources:
       TimeoutInMinutes: 30
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-CromwellServer"
+          Value: !Sub "${AWS::StackName}-SpotCromwellServer"
       Parameters:
         InstanceType: !Ref InstanceType
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
-        InstanceName:  !Ref InstanceName
+        InstanceName:  !Ref SpotInstanceName
         CromwellVersion: !Ref CromwellVersion
         KeyName: !Ref KeyPairName
         SSHLocation: !Ref SSHLocation
         HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Sub ${S3Stack.Outputs.BucketName}
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+        CrossAccountRole: !Ref CrossAccountRole
+  OndemandCromwellServerStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - BatchStack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
+      TimeoutInMinutes: 30
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-OnDemandCromwellServer"
+      Parameters:
+        InstanceType: !Ref InstanceType
+        VpcId: !Sub ${VPCStack.Outputs.VPCId}
+        PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
+        InstanceName:  !Ref OndemandInstanceName
+        CromwellVersion: !Ref CromwellVersion
+        KeyName: !Ref KeyPairName
+        SSHLocation: !Ref SSHLocation
+        HTTPLocation: !Ref HTTPLocation
+        S3BucketName: !Sub ${S3Stack.Outputs.BucketName}
+        BatchQueue: !Sub ${BatchStack.Outputs.HighPriorityJobQueueArn}
         CrossAccountRole: !Ref CrossAccountRole
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -372,7 +400,11 @@ Resources:
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
-          SourceSecurityGroupId: !Sub "${CromwellServerStack.Outputs.EC2SecurityGroup}"
+          SourceSecurityGroupId: !Sub "${SpotCromwellServerStack.Outputs.EC2SecurityGroup}"
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Sub "${OndemandCromwellServerStack.Outputs.EC2SecurityGroup}"
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
@@ -406,13 +438,20 @@ Resources:
       Value: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
       Description: "SSM Parameter for valinor DB Host."
 
-  CromwellServerUrlParameter:
+  SpotCromwellServerUrlParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Ref CromwellServerParam
+      Name: !Ref SpotCromwellServerParam
       Type: "String"
-      Value: !Sub "http://${CromwellServerStack.Outputs.HostName}"
-      Description: "SSM Parameter for valinor cromwell server."
+      Value: !Sub "http://${SpotCromwellServerStack.Outputs.HostName}"
+      Description: "SSM Parameter for valinor spot cromwell server."
+  OndemandCromwellServerUrlParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Ref OndemandCromwellServerParam
+      Type: "String"
+      Value: !Sub "http://${OndemandCromwellServerStack.Outputs.HostName}"
+      Description: "SSM Parameter for valinor ondemand cromwell server."
 Outputs:
   GenomicsEnvS3Bucket:
     Value: !Sub ${S3Stack.Outputs.BucketName}
@@ -431,15 +470,27 @@ Outputs:
     Export:
         Name: !Sub "${AWS::StackName}-Genomics-HighPriorityJobQueueArn"
 
-  ServerEC2Instance:
+  SpotServerEC2Instance:
     Description: The EC2 Instance ID of your Cromwell Server
-    Value: !Sub ${CromwellServerStack.Outputs.EC2Instance}
+    Value: !Sub ${SpotCromwellServerStack.Outputs.EC2Instance}
 
-  ServerPublicIp:
-    Value: !Sub ${CromwellServerStack.Outputs.PublicIp}
+  SpotServerPublicIp:
+    Value: !Sub ${SpotCromwellServerStack.Outputs.PublicIp}
     Description: Cromwell server public IP address
 
-  ServerHostName:
-    Value: !Sub ${CromwellServerStack.Outputs.HostName}
+  SpotServerHostName:
+    Value: !Sub ${SpotCromwellServerStack.Outputs.HostName}
+    Description: Cromwell server public DNS name
+
+  OndemandServerEC2Instance:
+    Description: The EC2 Instance ID of your Cromwell Server
+    Value: !Sub ${OndemandCromwellServerStack.Outputs.EC2Instance}
+
+  OndemandServerPublicIp:
+    Value: !Sub ${OndemandCromwellServerStack.Outputs.PublicIp}
+    Description: Cromwell server public IP address
+
+  OndemandServerHostName:
+    Value: !Sub ${OndemandCromwellServerStack.Outputs.HostName}
     Description: Cromwell server public DNS name
 

@@ -8,7 +8,7 @@ Parameters:
       Type: String
 Conditions:
   hasCrossAccountRole:
-    !Not [!Equals [!Ref CrossAccountRole, "LOCAL"]]
+    !Not [!Equals [!Ref CrossAccountRole, ""]]
 Resources:
   GenomicsEnvBatchJobRole:
     Type: AWS::IAM::Role
@@ -82,14 +82,17 @@ Resources:
                 Action:
                   - "s3:*"
 
-        - PolicyName: !Sub GenomicsEnv-CrossAccountAccess-${AWS::Region}
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              Effect: Allow
-              Action:
-                - "sts:AssumeRole"
-              Resource: !Ref CrossAccountRole
+        - !If
+          - hasCrossAccountRole
+          - PolicyName: !Sub GenomicsEnv-CrossAccountAccess-${AWS::Region}
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                Effect: Allow
+                Action:
+                  - "sts:AssumeRole"
+                Resource: !Ref CrossAccountRole
+          - !Ref "AWS::NoValue"
         - PolicyName: !Sub GenomicsEnv-Autoscale-EBS-${AWS::Region}
           PolicyDocument:
             Version: 2012-10-17

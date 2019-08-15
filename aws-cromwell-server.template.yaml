@@ -101,7 +101,7 @@ Conditions:
       - !Ref CromwellVersion
       - latest
   hasCrossAccountRole:
-    !Not [!Equals [!Ref CrossAccountRole, "LOCAL"]]
+    !Not [!Equals [!Ref CrossAccountRole, ""]]
 
 # Resources
 Resources:
@@ -139,14 +139,17 @@ Resources:
                 - "logs:PutLogEvents"
                 - "logs:DescribeLogStreams"
 
-        - PolicyName: !Sub CromwellServer-CrossAccountAccess-${AWS::Region}
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              Effect: Allow
-              Action:
-                - "sts:AssumeRole"
-              Resource: !Ref CrossAccountRole
+        - !If
+          - hasCrossAccountRole
+          - PolicyName: !Sub CromwellServer-CrossAccountAccess-${AWS::Region}
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                Effect: Allow
+                Action:
+                  - "sts:AssumeRole"
+                Resource: !Ref CrossAccountRole
+          - !Ref "AWS::NoValue"
 
       ManagedPolicyArns:
       - "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
@@ -161,14 +164,14 @@ Resources:
           Principal:
             Service: ec2.amazonaws.com
           Action: sts:AssumeRole
-  
+
   EC2InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
       Path: "/"
       Roles:
         - Ref: Ec2InstanceRole
-  
+
   EC2SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
