@@ -307,7 +307,7 @@ Resources:
         ExistingBucket: !Ref ExistingBucket
   S3BucketPolicy:
     Type: AWS::S3::BucketPolicy
-    Condition: !Ref hasCrossAccountRole
+    Condition: hasCrossAccountRole
     Properties:
       Bucket: !Sub ${S3Stack.Outputs.BucketArn}
       PolicyDocument:
