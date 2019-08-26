@@ -272,6 +272,11 @@ Parameters:
     Type: String
   CrossAccountRole:
     Type: String
+
+Conditions:
+  hasCrossAccountRole:
+    !Not [!Equals [!Ref CrossAccountRole, ""]]
+
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
@@ -302,7 +307,7 @@ Resources:
         ExistingBucket: !Ref ExistingBucket
   S3BucketPolicy:
     Type: AWS::S3::BucketPolicy
-    Condition: Not [!Equals [!Ref CrossAccountRole, ""]]
+    Condition: !Ref hasCrossAccountRole
     Properties:
       Bucket: !Sub ${S3Stack.Outputs.BucketArn}
       PolicyDocument:
