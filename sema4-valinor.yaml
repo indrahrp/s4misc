@@ -311,16 +311,15 @@ Resources:
     Properties:
       Bucket: !Sub ${S3Stack.Outputs.BucketName}
       PolicyDocument:
+        Version: '2012-10-17'
         Statement:
-          - Action:
-              - "s3:GetObject"
-              - "s3:List*"
-            Effect: "Allow"
+          - Effect: Allow
+            Principal:
+              AWS: !Ref CrossAccountRole
+            Action: 's3:*'
             Resource:
               - !Sub "${S3Stack.Outputs.BucketArn}"
               - !Sub "${S3Stack.Outputs.BucketArn}/*"
-            Principal: !Ref CrossAccountRole
-
   IamStack:
     Type: AWS::CloudFormation::Stack
     DependsOn: S3Stack
