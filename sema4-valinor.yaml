@@ -309,7 +309,7 @@ Resources:
     Type: AWS::S3::BucketPolicy
     Condition: hasCrossAccountRole
     Properties:
-      Bucket: !Sub ${S3Stack.Outputs.BucketArn}
+      Bucket: !Sub ${S3Stack.Outputs.BucketName}
       PolicyDocument:
         Statement:
           - Action:
