@@ -300,6 +300,22 @@ Resources:
       Parameters:
         S3BucketName: !Ref S3BucketName
         ExistingBucket: !Ref ExistingBucket
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Condition: Not [!Equals [!Ref CrossAccountRole, ""]]
+    Properties:
+      Bucket: !Sub ${S3Stack.Outputs.BucketArn}
+      PolicyDocument:
+        Statement:
+          - Action:
+              - "s3:GetObject"
+              - "s3:List*"
+            Effect: "Allow"
+            Resource:
+              - !Sub "${S3Stack.Outputs.BucketArn}"
+              - !Sub "${S3Stack.Outputs.BucketArn}/*"
+            Principal: !Ref CrossAccountRole
+
   IamStack:
     Type: AWS::CloudFormation::Stack
     DependsOn: S3Stack
