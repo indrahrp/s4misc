@@ -24,9 +24,9 @@ linux_portfolio = 'Linux Portfolio'
 #ec2vpcrole=json.dumps({"RoleArn" : "arn:aws:iam:::role/SCEC2LaunchRole"})
 
 
-
+date=datetime.datetime.now().strftime('%m%d%Y')
 account_id = boto3.client('sts').get_caller_identity()['Account']
-print("Your account id is: " +account_id)
+print(("Your account id is: " +account_id))
 
 
 def main():
@@ -63,7 +63,7 @@ def get_aws_account_id(session):
 
 
 def getsessionv2(acc):
-    print "\n\n========================================"
+    print ("\n\n========================================")
     #print "account id " + acc['Id']
     #print "account name " + acc['Name']
     #print "========================================"
@@ -86,17 +86,17 @@ class Account_Session:
 
     @staticmethod
     def initialize():
-        print "Initializing Session to All Subaccounts .. It will take about 2 minutes"
+        print("Initializing Session to All Subaccounts .. It will take about 2 minutes")
         sess=boto3.session.Session()
         currentacc=get_aws_account_id(sess)
         if currentacc != Account_Session.ROOT:
-            print "The session need to start from root account"
+            print("The session need to start from root account")
             exit(1)
         client = boto3.client('organizations')
         counter=0
         for account in paginate(client.list_accounts):
             counter += 1
-            print "initializing session to account " + account['Id']
+            print("initializing session to account " + account['Id'])
             if not account['Id'] == Account_Session.ROOT:
                 ses=getsessionv2(account['Id'])
             else:
@@ -115,7 +115,7 @@ class Account_Session:
         client = boto3.client('organizations')
         for account in paginate(client.list_accounts):
             accountdict.update({account['Id']:account['Name']})
-        print 'creating session for account ' + subaccount
+        print('creating session for account ' + subaccount)
 
         ses=getsessionv2(subaccount)
         Account_Session.SESS_DICT.update({subaccount:{'session':ses,'name':accountdict[subaccount]}})
@@ -124,11 +124,11 @@ class Account_Session:
     @staticmethod
     def get_account_list():
         Account_Session.ACCLIST=[]
-        print "Gather Sema4 Account List ..."
+        print("Gather Sema4 Account List ...")
         sess=boto3.session.Session()
         currentacc=get_aws_account_id(sess)
         if currentacc != Account_Session.ROOT:
-            print "The session need to start from root account"
+            print("The session need to start from root account")
             exit(1)
         client = boto3.client('organizations')
         for account in paginate(client.list_accounts):
@@ -151,10 +151,10 @@ def role_to_session(accountid):
     return assumedRoleObject
 
 def getsession(acc):
-    print "\n\n========================================"
-    print "account id " + acc['Id']
-    print "account name " + acc['Name']
-    print "========================================"
+    print("\n\n========================================")
+    print("account id " + acc['Id'])
+    print("account name " + acc['Name'])
+    print("========================================")
     cred = role_to_session(acc['Id'])
     credentials = cred['Credentials']
 
@@ -179,7 +179,7 @@ def checking_provision_disk(iotype, available=False):
     Account_Session.initialize()
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print '\n\n\n====================Finding EBS provision Volume on account : ' + account + ' ============================\n\n\n'
+            print('\n\n\n====================Finding EBS provision Volume on account : ' + account + ' ============================\n\n\n')
 
 
 
@@ -200,28 +200,28 @@ def checking_provision_disk(iotype, available=False):
                         if iv.state=='available':
                             #print "Getting Disk Type : " + iotype + " With 'available' State"
 
-                            print "Created," + str(iv.create_time) + " , AZ,"  + str(iv.availability_zone) +",VolumeID," + str(iv.volume_id) + ", VolumeType," + str(iv.volume_type) + ",State," + str(iv.state)  + ",Size," +  str(iv.size) + ",IOPS," + str(iv.iops) + " , IsEncrypted," + str(iv.encrypted)  + ",SnapshotID," + str(iv.snapshot_id) + ",kms_key_id," +  str(iv.kms_key_id)
+                            print("Created," + str(iv.create_time) + " , AZ,"  + str(iv.availability_zone) +",VolumeID," + str(iv.volume_id) + ", VolumeType," + str(iv.volume_type) + ",State," + str(iv.state)  + ",Size," +  str(iv.size) + ",IOPS," + str(iv.iops) + " , IsEncrypted," + str(iv.encrypted)  + ",SnapshotID," + str(iv.snapshot_id) + ",kms_key_id," +  str(iv.kms_key_id))
 
 
                             # The following next 2 print statements variables apply only in my case.
                             #print ",InstanceID(" + str(iv.attachments[0]['InstanceId']) + "),InstanceVolumeState(" + str(iv.attachments[0]['State']) + "),DeleteOnTerminationProtection(" + str(iv.attachments[0]['DeleteOnTermination']) + "),Device(" + str(iv.attachments[0]['Device']) + ")",
                             if iv.attachments:
                                 #print "iv attaccments " + str(iv.attachments[0])
-                                print ",InstanceID : " + str(iv.attachments[0].get('InstanceId','NA'))
+                                print(",InstanceID : " + str(iv.attachments[0].get('InstanceId','NA')))
                                 #_list_product_local_or_imported(sessinfo['session'])
                     else:
                         #print "Getting Disk Type : " + iotype + " With Any State"
                         #print "Created(" + str(iv.create_time) + "),AZ(" + str(iv.availability_zone) + "),VolumeID(" + str(iv.volume_id) + "),VolumeType(" + str(iv.volume_type) + "),State(" + str(iv.state) + "),Size(" + str(iv.size) + "),IOPS(" + str(iv.iops) + "),IsEncrypted(" + str(iv.encrypted) + "),SnapshotID(" + str(iv.snapshot_id) + "),KMS_KEYID(" + str(iv.kms_key_id) + ")\n",
 
-                        print "Created," + str(iv.create_time) + " , AZ,"  + str(iv.availability_zone) +",VolumeID," + str(iv.volume_id) + ", VolumeType," + str(iv.volume_type) + ",State," + str(iv.state)  + ",Size," +  str(iv.size) + ",IOPS," + str(iv.iops) + " , IsEncrypted," + str(iv.encrypted)  + ",SnapshotID," + str(iv.snapshot_id) + ",kms_key_id," +  str(iv.kms_key_id)
+                        print("Created," + str(iv.create_time) + " , AZ,"  + str(iv.availability_zone) +",VolumeID," + str(iv.volume_id) + ", VolumeType," + str(iv.volume_type) + ",State," + str(iv.state)  + ",Size," +  str(iv.size) + ",IOPS," + str(iv.iops) + " , IsEncrypted," + str(iv.encrypted)  + ",SnapshotID," + str(iv.snapshot_id) + ",kms_key_id," +  str(iv.kms_key_id))
 
                         if iv.attachments:
                                 #print "iv attaccments " + str(iv.attachments[0])
-                                print ",InstanceID , " + str(iv.attachments[0].get('InstanceId','NA'))
+                                print(",InstanceID , " + str(iv.attachments[0].get('InstanceId','NA')))
                                 #_list_product_local_or_imported(sessinfo['session'])
 
     except Exception as err :
-        print("Finding EBS Provision Volume  " + str(err))
+        print(("Finding EBS Provision Volume  " + str(err)))
 
 
 
@@ -230,7 +230,7 @@ def list_rds(type='All'):
     Account_Session.initialize()
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print '\n\n\n====================Finding EBS provision Volume on account : ' + account + ' ============================\n\n\n'
+            print('\n\n\n====================Finding EBS provision Volume on account : ' + account + ' ============================\n\n\n')
             # Define the connection
             rdsc = sessinfo['session'].client('rds', region_name="us-east-1")
 
@@ -240,16 +240,16 @@ def list_rds(type='All'):
                 dbiter=resp['DBInstances']
                 #print str(dbiter)
                 for db in dbiter:
-                    print ("DBInstanceId,{}, DBInstanceClass,{}, Engine,{}, DBName,{},Endpoint,{},DBInstanceStatus,{},AllocatedStorage,{},InstanceCreateTime,{},MultiAZ,{},LicenseMode,{},Iops,"
+                    print(("DBInstanceId,{}, DBInstanceClass,{}, Engine,{}, DBName,{},Endpoint,{},DBInstanceStatus,{},AllocatedStorage,{},InstanceCreateTime,{},MultiAZ,{},LicenseMode,{},Iops,"
                            "{},PubliclyAccessible,{},StorageType,{},Encrypted,{},DeletionProtection,{}".format(db['DBInstanceIdentifier'],db['DBInstanceClass'],db['Engine'],db.get('DBName','NA'),
                            db['Endpoint']['Address'],db['DBInstanceStatus'],str(db['AllocatedStorage']),str(db['InstanceCreateTime']),db['MultiAZ'],db['LicenseModel'],str(db.get('Iops','NA')),
-                           str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db['DeletionProtection'])))
+                           str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db['DeletionProtection']))))
 
 
 
 
     except Exception as err :
-        print("List RDS   " + str(err))
+        print(("List RDS   " + str(err)))
         raise
 
 def list_snapshot(subaccount='All'):
@@ -257,7 +257,7 @@ def list_snapshot(subaccount='All'):
     Account_Session.initialize()
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print '\n\n\n====================Finding Snapshoton account : ' + account + ' ============================\n\n\n'
+            print('\n\n\n====================Finding Snapshoton account : ' + account + ' ============================\n\n\n')
             # Define the connection
             ec2 = sessinfo['session'].resource('ec2', region_name="us-east-1")
 
@@ -265,22 +265,22 @@ def list_snapshot(subaccount='All'):
             if subaccount == 'All':
                 resp=ec2.snapshots.filter(OwnerIds=['self'])
                 for snapshot in resp:
-                    print ("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
+                    print(("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
                         format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
-                               str(snapshot.volume_size),snapshot.description))
+                               str(snapshot.volume_size),snapshot.description)))
 
 
 
     except Exception as err :
-        print("List Snapshot  " + str(err))
+        print(("List Snapshot  " + str(err)))
         raise
 
 def delete_snapshot(subaccount,description,day='14'):
-    print("################Deleting Snapshot older than {}################".format(days))
+    print(("################Deleting Snapshot older than {}################".format(days)))
     Account_Session.initialize()
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print '\n\n\n====================Finding Snapshoton account : ' + account + ' ============================\n\n\n'
+            print('\n\n\n====================Finding Snapshoton account : ' + account + ' ============================\n\n\n')
             # Define the connection
             ec2 = sessinfo['session'].resource('ec2', region_name="us-east-1")
 
@@ -291,14 +291,14 @@ def delete_snapshot(subaccount,description,day='14'):
                     start_time=snapshot.start_time
                     delete_time=datetime.now - datetime.timedelta(days=day)
                     if delete_time > start_time:
-                        print ("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
+                        print(("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
                             format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
-                                   str(snapshot.volume_size),snapshot.description))
+                                   str(snapshot.volume_size),snapshot.description)))
 
 
 
     except Exception as err :
-        print("List Snapshot  " + str(err))
+        print(("List Snapshot  " + str(err)))
         raise
 
 
@@ -314,7 +314,7 @@ def check_instance_type(type='All'):
     Account_Session.initialize()
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print '\n\n\n====================Checking Instances  on account : ' + account + ' ============================\n\n\n'
+            print('\n\n\n====================Checking Instances  on account : ' + account + ' ============================\n\n\n')
 
 
 
@@ -327,25 +327,51 @@ def check_instance_type(type='All'):
                 #print "addr " + str(addr)
                 #print "Public IP : " + addr['PublicIp']
                 #print("Public IP : " + addr['PublicIP'])
-                if type == 'spot':
+                if type == 'kpi':
+                    f = open("ec2","w+")
+                    print("generating kpi report ")
+                    print(("Instance ID, {}, Instance Type, {}  , State, {}, Spot_Insta_Req_Id, {},state_reason , {},capacity_reservation_id , {}".format( inst.instance_id,inst.instance_type,inst.state,inst.spot_instance_request_id,inst.state_reason,inst.capacity_reservation_id)))
+                    #f.write("Instance ID, {}, Instance Type, {}  , State, {}, Spot_Insta_Req_Id, {},state_reason , {},capacity_reservation_id , {} \n" (% inst.instance_id,inst.instance_type,inst.state,inst.spot_instance_request_id,inst.state_reason,inst.capacity_reservation_id))
+                    f.write("Instance ID,  inst.instance_id, Instance Type, inst.instance_type  , State, inst.state, Spot_Insta_Req_Id, inst.spot_instance_request_id,state_reason , inst.state_reason,capacity_reservation_id , inst.capacity_reservation_id \n" )
+
+
+                elif type == 'spot':
                     if inst.spot_instance_request_id:
-                      print("Instance ID, {}, Instance Type, {}  , State, {}, Spot_Insta_Req_Id, {},state_reason , {},capacity_reservation_id , {}".format( inst.instance_id,inst.instance_type,inst.state,inst.spot_instance_request_id,inst.state_reason,inst.capacity_reservation_id))
+                      print(("Instance ID, {}, Instance Type, {}  , State, {}, Spot_Insta_Req_Id, {},state_reason , {},capacity_reservation_id , {}".format( inst.instance_id,inst.instance_type,inst.state,inst.spot_instance_request_id,inst.state_reason,inst.capacity_reservation_id)))
                 elif type == 'standard':
                     if not inst.spot_instance_request_id:
-                        print("Instance ID, {}, Instance Type, {}  , State, {}, Spot_Insta_Req_Id, {},state_reason , {},capacity_reservation_id , {}".format( inst.instance_id,inst.instance_type,inst.state,inst.spot_instance_request_id,inst.state_reason,inst.capacity_reservation_id))
+                        print(("Instance ID, {}, Instance Type, {}  , State, {}, Spot_Insta_Req_Id, {},state_reason , {},capacity_reservation_id , {}".format( inst.instance_id,inst.instance_type,inst.state,inst.spot_instance_request_id,inst.state_reason,inst.capacity_reservation_id)))
                 else:
-                    print("Instance ID, {}, Instance Type, {}  , State, {}, Spot_Insta_Req_Id, {},state_reason , {},capacity_reservation_id , {}".format( inst.instance_id,inst.instance_type,inst.state,inst.spot_instance_request_id,inst.state_reason,inst.capacity_reservation_id))
+                    print(("Instance ID, {}, Instance Type, {}  , State, {}, Spot_Insta_Req_Id, {},state_reason , {},capacity_reservation_id , {}".format( inst.instance_id,inst.instance_type,inst.state,inst.spot_instance_request_id,inst.state_reason,inst.capacity_reservation_id)))
+        if type == 'kpi':
+            s3key='temp/' + 'ec2'
+            upload_file(s3key,date,f.name)
+            f.close()
 
 
-                #print("AssociationId :" + addr.get('AssociationId','NA'))
-                #if eip == addr['PublicIp']:
-                #    print "Found in " + account['Id']
-                #    inp=raw_input('continue')
     except Exception as errp:
-        print("Error getting" + str(errp))
+        print(("Error getting" + str(errp)))
+        raise
+
+def testup():
+    print("intestup")
+    s3key='temp/' + 'ec2'
+    date=datetime.datetime.now().strftime('%m%d%Y')
+    fileloc='testfile'
+    upload_file(s3key,date,fileloc)
 
 
-
+def upload_file(s3key,fileloc,bucket='s4-it-cf-bucket'):
+    bucket_account='006775277657'
+    Account_Session.build_sess_subaccount(bucket_account)
+    try:
+        s3=Account_Session.SESS_DICT[bucket_account]['session'].client('s3')
+        s3keyobj = s3key + "/" + date
+        print("s3keyobj " + s3keyobj)
+        print("uploading to s3 ")
+        s3.upload_file( fileloc,bucket,s3keyobj)
+    except Exception as err:
+        print(("errro ", str(err)))
 
 
 
@@ -353,4 +379,5 @@ def check_instance_type(type='All'):
 
 
 if __name__ == '__main__':
+    #testup()
     main()

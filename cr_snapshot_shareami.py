@@ -353,7 +353,8 @@ def main(argv):
     ##    )
     """ Step 7: Clean up """
     print('---Clean up resources')
-    for cleanup in volume_data:
+    for cleanup\
+            in volume_data:
         print('---Remove snapshot {}'.format(cleanup['snapshot'].id))
         cleanup['snapshot'].delete()
         print('---Remove encrypted snapshot {}'.format(cleanup['snapshot_encrypted'].id))
