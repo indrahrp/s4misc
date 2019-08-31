@@ -243,7 +243,7 @@ def list_rds(type='All'):
                     print(("DBInstanceId,{}, DBInstanceClass,{}, Engine,{}, DBName,{},Endpoint,{},DBInstanceStatus,{},AllocatedStorage,{},InstanceCreateTime,{},MultiAZ,{},LicenseMode,{},Iops,"
                            "{},PubliclyAccessible,{},StorageType,{},Encrypted,{},DeletionProtection,{}".format(db['DBInstanceIdentifier'],db['DBInstanceClass'],db['Engine'],db.get('DBName','NA'),
                            db['Endpoint']['Address'],db['DBInstanceStatus'],str(db['AllocatedStorage']),str(db['InstanceCreateTime']),db['MultiAZ'],db['LicenseModel'],str(db.get('Iops','NA')),
-                           str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db['DeletionProtection']))))
+                           str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db.get('DeletionProtection','NA')))))
 
 
 
