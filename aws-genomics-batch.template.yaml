@@ -206,8 +206,6 @@ Resources:
       ComputeEnvironmentOrder:
         - Order: 1
           ComputeEnvironment: !Ref GenomicsHighPriorityComputeEnv
-        - Order: 2
-          ComputeEnvironment: !Ref GenomicsDefaultComputeEnv
 
   GenomicsDefaultQueue:
     Type: AWS::Batch::JobQueue
@@ -220,8 +218,6 @@ Resources:
       ComputeEnvironmentOrder:
         - Order: 1
           ComputeEnvironment: !Ref GenomicsDefaultComputeEnv
-        - Order: 2
-          ComputeEnvironment: !Ref GenomicsHighPriorityComputeEnv
 
 Outputs:
   DefaultJobQueueArn:
