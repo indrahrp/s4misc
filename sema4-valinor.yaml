@@ -402,7 +402,7 @@ Resources:
       Parameters:
         InstanceType: !Ref InstanceType
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
-        PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
+        PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet1}
         InstanceName:  !Ref OndemandInstanceName
         CromwellVersion: !Ref CromwellVersion
         KeyName: !Ref KeyPairName

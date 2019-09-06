@@ -12,7 +12,7 @@
     "WorkflowLogDirName": "WORKFLOW_LOG_PLACEHOLDER",
     "ExistingBucket": "false",
     "KeyPairName": "gondor-test",
-    "ScratchVolumeSize": "100",
+    "ScratchVolumeSize": "200",
     "SpotBidPercentage": "60",
     "DefaultCEMinvCpus": "0",
     "DefaultCEMaxvCpus": "8192",
