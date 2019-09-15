@@ -368,6 +368,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - BatchStack
+      - CromwellEC2SecurityGroup
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
       TimeoutInMinutes: 30
@@ -394,6 +395,7 @@ Resources:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - BatchStack
+      - CromwellEC2SecurityGroup
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
       TimeoutInMinutes: 30
