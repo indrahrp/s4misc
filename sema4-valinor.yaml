@@ -386,8 +386,18 @@ Resources:
         CromwellPassword: !Ref ServerInstancePassword
         ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
         ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
-        DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Ref DatabasePassword
+        DatabaseUsername: !Join
+          - ''
+          - - '{{ssm:'
+            - !Ref DatabaseUsername
+            - '}}'
+        DatabasePassword: !Join
+          - ''
+          - - '{{resolve:ssm-secure:'
+            - !Ref DatabasePassword
+            - ':'
+            - !Ref DBPwdParamVersion
+            - '}}'
         EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
         CrossAccountRole: !Ref CrossAccountRole
 
@@ -413,8 +423,18 @@ Resources:
         CromwellPassword: !Ref ServerInstancePassword
         ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
         ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
-        DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Ref DatabasePassword
+        DatabaseUsername: !Join
+          - ''
+          - - '{{ssm:'
+            - !Ref DatabaseUsername
+            - '}}'
+        DatabasePassword: !Join
+          - ''
+          - - '{{resolve:ssm-secure:'
+            - !Ref DatabasePassword
+            - ':'
+            - !Ref DBPwdParamVersion
+            - '}}'
         EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
         CrossAccountRole: !Ref CrossAccountRole
 
