@@ -390,13 +390,7 @@ Resources:
         ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
         ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
         DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Join
-          - ''
-          - - '{{resolve:ssm-secure:'
-            - !Ref DatabasePassword
-            - ':'
-            - !Ref DBPwdParamVersion
-            - '}}'
+        DatabasePassword: !Ref DatabasePassword
         EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
         CrossAccountRole: !Ref CrossAccountRole
 
@@ -423,13 +417,7 @@ Resources:
         ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
         ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
         DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Join
-          - ''
-          - - '{{resolve:ssm-secure:'
-            - !Ref DatabasePassword
-            - ':'
-            - !Ref DBPwdParamVersion
-            - '}}'
+        DatabasePassword: !Ref DatabasePassword
         EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
         CrossAccountRole: !Ref CrossAccountRole
 
