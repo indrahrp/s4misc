@@ -91,6 +91,7 @@ Parameters:
   DatabasePassword:
     Description: Password for cromwell database
     Type: String
+    NoEcho: 'true'
 
   EC2SecurityGroup:
     Description: The EC2 Security Group
