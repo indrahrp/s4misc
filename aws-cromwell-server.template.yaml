@@ -200,6 +200,8 @@ Resources:
               command: yum install -y java-1.8.0
             01_alternatives_set_java:
               command: alternatives --set java /usr/lib/jvm/jre-1.8.0-openjdk.x86_64/bin/java
+            02_export_dbusername:
+              command: export DB_USER=$(aws ssm get-parameter --name ${DatabaseUsername} --with-decryption --query Parameter.Value --output text  --region us-east-1)
             03_export_dbpassword:
               command: export DB_PASSWORD=$(aws ssm get-parameter --name ${DatabasePassword} --with-decryption --query Parameter.Value --output text  --region us-east-1)
 
@@ -300,7 +302,7 @@ Resources:
                   db {
                     driver = "com.mysql.jdbc.Driver"
                     url = "jdbc:mysql://${ServerlessEndpointAddress}:${ServerlessEndpointPort}/cromwell?rewriteBatchedStatements=true"
-                    user = "${DatabaseUsername}"
+                    user = "$DB_USER"
                     password = "$DB_PASSWORD"
                     connectionTimeout = 50000
                   }
