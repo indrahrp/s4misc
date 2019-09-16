@@ -389,8 +389,8 @@ Resources:
         CromwellPassword: !Ref ServerInstancePassword
         ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
         ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
-        DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Ref DatabasePassword
+        DatabaseUsername: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBUser}}'
+        DatabasePassword: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBPassword}}'
         EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
         CrossAccountRole: !Ref CrossAccountRole
 
@@ -416,8 +416,8 @@ Resources:
         CromwellPassword: !Ref ServerInstancePassword
         ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
         ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
-        DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Ref DatabasePassword
+        DatabaseUsername: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBUser}}'
+        DatabasePassword: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBPassword}}'
         EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
         CrossAccountRole: !Ref CrossAccountRole
 
@@ -477,8 +477,8 @@ Resources:
       Parameters:
         DBClusterIdentifier: !Ref DBClusterIdentifier
         DatabaseName: cromwell
-        DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Ref DatabasePassword
+        DatabaseUsername: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBUser}}'
+        DatabasePassword: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBPassword}}'
         VpcSecurityGroupIds: !Ref RDSSecurityGroup
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
 
