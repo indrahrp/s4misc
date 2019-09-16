@@ -261,6 +261,9 @@ Parameters:
     MinLength: '8'
     NoEcho: 'true'
     Type: String
+  DBPwdParamVersion:
+    Type: String
+    Default: 1
   DBHostParamName:
     Type: String
   SpotCromwellServerParam:
@@ -386,11 +389,7 @@ Resources:
         CromwellPassword: !Ref ServerInstancePassword
         ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
         ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
-        DatabaseUsername: !Join
-          - ''
-          - - '{{ssm:'
-            - !Ref DatabaseUsername
-            - '}}'
+        DatabaseUsername: !Ref DatabaseUsername
         DatabasePassword: !Join
           - ''
           - - '{{resolve:ssm-secure:'
@@ -423,11 +422,7 @@ Resources:
         CromwellPassword: !Ref ServerInstancePassword
         ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
         ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
-        DatabaseUsername: !Join
-          - ''
-          - - '{{ssm:'
-            - !Ref DatabaseUsername
-            - '}}'
+        DatabaseUsername: !Ref DatabaseUsername
         DatabasePassword: !Join
           - ''
           - - '{{resolve:ssm-secure:'

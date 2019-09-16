@@ -86,7 +86,7 @@ Parameters:
 
   DatabaseUsername:
     Description: Username for access to the cromwell database
-    Type: String
+    Type: AWS::SSM::Parameter::Value<String>
 
   DatabasePassword:
     Description: Password for cromwell database
