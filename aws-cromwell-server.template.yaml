@@ -28,6 +28,7 @@ Parameters:
     - t2.2xlarge
     - r5a.2xlarge
     - r5a.4xlarge
+    - r5a.16xlarge
     ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge', or 'r5a.2xlarge', or 'r5a.4xlarge'"
 
   PublicSubnetID:
