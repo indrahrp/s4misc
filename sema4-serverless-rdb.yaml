@@ -65,6 +65,7 @@ Resources:
 
   RDSCluster:
     Type: AWS::RDS::DBCluster
+    DeletionPolicy: Retain
     Properties:
       DBClusterIdentifier: !Ref DBClusterIdentifier
       DatabaseName: !Ref DatabaseName
