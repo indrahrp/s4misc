@@ -4,4 +4,3 @@
 
 `sema4-bastion.yaml` is the master yaml to create a full-blown pure batch support stack with `/scratch` as mounted scratch space.
 
-
