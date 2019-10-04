@@ -18,7 +18,7 @@
     "DefaultCEMaxvCpus": "8192",
     "HighPriorityCEMinvCpus": "0",
     "HighPriorityCEMaxvCpus": "8192",
-    "InstanceType": "r5a.16xlarge",
+    "InstanceType": "r5a.4xlarge",
     "SpotInstanceName": "spot-cromwell-server",
     "OndemandInstanceName": "ondemand-cromwell-server",
     "CromwellVersion": "42",
