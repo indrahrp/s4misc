@@ -9,7 +9,7 @@ Parameters:
     Type: String
     Description: The name of the database.
   DatabaseUsername:
-    Type: AWS::SSM::Parameter::Value<String>
+    Type: String
   DatabasePassword:
     AllowedPattern: "[a-zA-Z0-9_]+"
     ConstraintDescription: must be between 8 to 41 alphanumeric characters.
@@ -65,17 +65,12 @@ Resources:
 
   RDSCluster:
     Type: AWS::RDS::DBCluster
+    DeletionPolicy: Retain
     Properties:
       DBClusterIdentifier: !Ref DBClusterIdentifier
       DatabaseName: !Ref DatabaseName
       MasterUsername: !Ref DatabaseUsername
-      MasterUserPassword: !Join
-                            - ''
-                            - - '{{resolve:ssm-secure:'
-                              - !Ref DatabasePassword
-                              - ':'
-                              - !Ref DBPwdParamVersion
-                              - '}}'
+      MasterUserPassword: !Ref DatabasePassword
       Engine: aurora
       EngineMode: serverless
       BackupRetentionPeriod: 7

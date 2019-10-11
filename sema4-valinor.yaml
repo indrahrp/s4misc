@@ -24,7 +24,7 @@ Metadata:
           - TemplatePath
 
       - Label:
-         default: Network Global CIDR and Subnet Network - Ask IT Support for Unique Global CIDR for Routing Among VPC or Organizational Sub Account
+         default: "Network Global CIDR and Subnet Network"
         Parameters:
           - AvailabilityZone1
           - AvailabilityZone2
@@ -82,12 +82,6 @@ Metadata:
         default: High Priority Min vCPU
       HighPriorityCEMaxvCpus:
         default: High Priority Max vCPU
-      ServerInstanceType:
-        default: Cromwell Server Instance Type
-      ServerInstanceName:
-        default: Cromwell Server Instance Name
-      ServerSSHLocation:
-        default: Cromwell Server SSH Location
 
       DBClusterIdentifier:
         default: DB Cluster ID
@@ -161,7 +155,6 @@ Parameters:
     MinLength: 9
     MaxLength: 18
     Default: 10.80.191.192/26
-
   ScratchVolumeSize:
     Type: Number
     Default: 200
@@ -219,6 +212,10 @@ Parameters:
     Type: String
     Default: ondemand-cromwell-server
     Description: The name of the instance that is created
+  ServerInstancePassword:
+    Type: String
+    Default: Usewdl2019!
+    Description: The password used to log into the Cromwell swagger API
   CromwellVersion:
     Type: String
     Description: >-
@@ -265,6 +262,9 @@ Parameters:
     MinLength: '8'
     NoEcho: 'true'
     Type: String
+  DBPwdParamVersion:
+    Type: String
+    Default: 1
   DBHostParamName:
     Type: String
   SpotCromwellServerParam:
@@ -341,8 +341,8 @@ Resources:
       TimeoutInMinutes: 5
       Parameters:
         WorkflowOrchestrator: cromwell
-        ScratchVolumeSize: !Ref ScratchVolumeSize
         ArtifactRootUrl: !Ref ArtifactRootUrl
+        ScratchVolumeSize: !Ref ScratchVolumeSize
   BatchStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
@@ -372,46 +372,84 @@ Resources:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - BatchStack
+      - CromwellEC2SecurityGroup
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
       TimeoutInMinutes: 30
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-SpotCromwellServer"
+          Value: !Sub "${AWS::StackName}-spot-cromwell-server"
       Parameters:
         InstanceType: !Ref InstanceType
-        VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
         InstanceName:  !Ref SpotInstanceName
         CromwellVersion: !Ref CromwellVersion
         KeyName: !Ref KeyPairName
-        SSHLocation: !Ref SSHLocation
-        HTTPLocation: !Ref HTTPLocation
-        S3BucketName: !Sub ${S3Stack.Outputs.BucketName}
+        S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+        CromwellPassword: !Ref ServerInstancePassword
+        ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
+        ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
+        DatabaseUsername: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBUser}}'
+        DatabasePassword: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBPassword}}'
+        EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
         CrossAccountRole: !Ref CrossAccountRole
+
   OndemandCromwellServerStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - BatchStack
+      - CromwellEC2SecurityGroup
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
       TimeoutInMinutes: 30
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-OnDemandCromwellServer"
+          Value: !Sub "${AWS::StackName}-spot-cromwell-server"
       Parameters:
         InstanceType: !Ref InstanceType
-        VpcId: !Sub ${VPCStack.Outputs.VPCId}
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet1}
         InstanceName:  !Ref OndemandInstanceName
         CromwellVersion: !Ref CromwellVersion
         KeyName: !Ref KeyPairName
-        SSHLocation: !Ref SSHLocation
-        HTTPLocation: !Ref HTTPLocation
-        S3BucketName: !Sub ${S3Stack.Outputs.BucketName}
+        S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.HighPriorityJobQueueArn}
+        CromwellPassword: !Ref ServerInstancePassword
+        ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
+        ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
+        DatabaseUsername: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBUser}}'
+        DatabasePassword: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBPassword}}'
+        EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
         CrossAccountRole: !Ref CrossAccountRole
+
+  CromwellEC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable access to 22/80/443
+      VpcId: !Sub ${VPCStack.Outputs.VPCId}
+      Tags:
+        - Key: Name
+          Value: cromwell-server-sg
+        - Key: architecture
+          Value: !FindInMap ["TagMap", "default", "architecture"]
+        - Key: solution
+          Value: !FindInMap ["TagMap", "default", "solution"]
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp:
+            Ref: SSHLocation
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp:
+            Ref: HTTPLocation
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp:
+            Ref: HTTPLocation
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -421,11 +459,7 @@ Resources:
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
-          SourceSecurityGroupId: !Sub "${SpotCromwellServerStack.Outputs.EC2SecurityGroup}"
-        - IpProtocol: tcp
-          FromPort: 3306
-          ToPort: 3306
-          SourceSecurityGroupId: !Sub "${OndemandCromwellServerStack.Outputs.EC2SecurityGroup}"
+          SourceSecurityGroupId: !Ref CromwellEC2SecurityGroup
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
@@ -435,9 +469,6 @@ Resources:
           Value: !Sub "${AWS::StackName}-RDSSecurityGroup"
   ServerlessRDSStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn:
-      - SpotCromwellServerStack
-      - OndemandCromwellServerStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-serverless-rdb.yaml"
       TimeoutInMinutes: 30
@@ -447,8 +478,8 @@ Resources:
       Parameters:
         DBClusterIdentifier: !Ref DBClusterIdentifier
         DatabaseName: cromwell
-        DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Ref DatabasePassword
+        DatabaseUsername: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBUser}}'
+        DatabasePassword: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBPassword}}'
         VpcSecurityGroupIds: !Ref RDSSecurityGroup
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
 
