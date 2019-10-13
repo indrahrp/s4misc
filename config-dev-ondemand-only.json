@@ -17,7 +17,7 @@
     "DefaultCEMinvCpus": "0",
     "DefaultCEMaxvCpus": "2048",
     "HighPriorityCEMinvCpus": "0",
-    "HighPriorityCEMaxvCpus": "2048",
+    "HighPriorityCEMaxvCpus": "1024",
     "InstanceType": "r5a.4xlarge",
     "SpotInstanceName": "",
     "OndemandInstanceName": "ondemand-cromwell-server",
