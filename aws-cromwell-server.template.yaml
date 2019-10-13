@@ -49,9 +49,8 @@ Parameters:
       version of Cromwell from Github.
     AllowedValues:
       - latest
+      - 46
       - 42
-      - 36.1
-      - 36
     Default: 42
 
   InstanceName:
@@ -285,6 +284,7 @@ Resources:
                       config {
                         numSubmitAttempts = 10
                         numCreateDefinitionAttempts = 10
+                        concurrent-job-limit = 250
                         root = "s3://${S3BucketName}/cromwell-execution"
                         auth = "default"
                         default-runtime-attributes { queueArn = "${BatchQueue}" }

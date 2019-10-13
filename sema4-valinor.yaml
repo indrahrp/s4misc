@@ -223,9 +223,8 @@ Parameters:
       version of Cromwell from Github.
     AllowedValues:
       - latest
+      - 46
       - 42
-      - 36.1
-      - 36
     Default: 42
   SSHLocation:
     Description: " The IP address range that can be used to SSH to the EC2 instances"
@@ -277,6 +276,12 @@ Parameters:
 Conditions:
   hasCrossAccountRole:
     !Not [!Equals [!Ref CrossAccountRole, ""]]
+
+  hasSpotServerInstance:
+    !Not [!Equals [!Ref SpotInstanceName, ""]]
+
+  hasOndemandServerInstance:
+    !Not [!Equals [!Ref OndemandInstanceName, ""]]
 
 Resources:
   VPCStack:
@@ -373,6 +378,7 @@ Resources:
     DependsOn:
       - BatchStack
       - CromwellEC2SecurityGroup
+    Condition: hasSpotServerInstance
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
       TimeoutInMinutes: 30
@@ -400,6 +406,7 @@ Resources:
     DependsOn:
       - BatchStack
       - CromwellEC2SecurityGroup
+    Condition: hasOndemandServerInstance
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
       TimeoutInMinutes: 30
@@ -493,6 +500,7 @@ Resources:
 
   SpotCromwellServerUrlParameter:
     Type: "AWS::SSM::Parameter"
+    Condition: hasSpotServerInstance
     Properties:
       Name: !Ref SpotCromwellServerParam
       Type: "String"
@@ -500,6 +508,7 @@ Resources:
       Description: "SSM Parameter for valinor spot cromwell server."
   OndemandCromwellServerUrlParameter:
     Type: "AWS::SSM::Parameter"
+    Condition: hasOndemandServerInstance
     Properties:
       Name: !Ref OndemandCromwellServerParam
       Type: "String"
@@ -524,26 +533,32 @@ Outputs:
         Name: !Sub "${AWS::StackName}-Genomics-HighPriorityJobQueueArn"
 
   SpotServerEC2Instance:
+    Condition: hasSpotServerInstance
     Description: The EC2 Instance ID of your Cromwell Server
     Value: !Sub ${SpotCromwellServerStack.Outputs.EC2Instance}
 
   SpotServerPublicIp:
+    Condition: hasSpotServerInstance
     Value: !Sub ${SpotCromwellServerStack.Outputs.PublicIp}
     Description: Spot Cromwell server public IP address
 
   SpotServerHostName:
+    Condition: hasSpotServerInstance
     Value: !Sub ${SpotCromwellServerStack.Outputs.HostName}
     Description: Spot Cromwell server public DNS name
 
   OndemandServerEC2Instance:
+    Condition: hasOndemandServerInstance
     Description: The EC2 Instance ID of your Cromwell Server
     Value: !Sub ${OndemandCromwellServerStack.Outputs.EC2Instance}
 
   OndemandServerPublicIp:
+    Condition: hasOndemandServerInstance
     Value: !Sub ${OndemandCromwellServerStack.Outputs.PublicIp}
     Description: Ondemand Cromwell server public IP address
 
   OndemandServerHostName:
+    Condition: hasOndemandServerInstance
     Value: !Sub ${OndemandCromwellServerStack.Outputs.HostName}
     Description: Ondemand Cromwell server public DNS name
 
