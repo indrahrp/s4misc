@@ -1,0 +1,127 @@
+ [
+        {
+          "ParameterKey": "TemplatePath",
+          "ParameterValue": "s4-valinor-templates-noami"
+        },
+        {
+          "ParameterKey": "GlobalCIDR",
+          "ParameterValue": "10.80.191.0/24"
+        },
+        {
+          "ParameterKey": "AvailabilityZone1",
+          "ParameterValue": "us-east-1c"
+        },
+        {
+          "ParameterKey": "AvailabilityZone2",
+          "ParameterValue": "us-east-1b"
+        },
+        {
+          "ParameterKey": "PubNet1",
+          "ParameterValue": "10.80.191.128/26"
+        },
+        {
+          "ParameterKey": "PubNet2",
+          "ParameterValue": "10.80.191.192/26"
+        },
+        {
+          "ParameterKey": "PrivNet1",
+          "ParameterValue": "10.80.191.0/26"
+        },
+        {
+          "ParameterKey": "PrivNet2",
+          "ParameterValue": "10.80.191.64/26"
+        },
+        {
+          "ParameterKey": "S3BucketName",
+          "ParameterValue": "s4-branford-dev-nphi-cromwell-v41"
+        },
+        {
+          "ParameterKey": "ExistingBucket",
+          "ParameterValue": "false"
+        },
+        {
+          "ParameterKey": "KeyPairName",
+          "ParameterValue": "valinor-key"
+        },
+        {
+          "ParameterKey": "ScratchVolumeSize",
+          "ParameterValue": "20"
+        },
+        {
+          "ParameterKey": "SpotBidPercentage",
+          "ParameterValue": "60"
+        },
+        {
+          "ParameterKey": "DefaultCEMinvCpus",
+          "ParameterValue": "0"
+        },
+        {
+          "ParameterKey": "DefaultCEMaxvCpus",
+          "ParameterValue": "2048"
+        },
+        {
+          "ParameterKey": "HighPriorityCEMinvCpus",
+          "ParameterValue": "0"
+        },
+        {
+          "ParameterKey": "HighPriorityCEMaxvCpus",
+          "ParameterValue": "2048"
+        },
+        {
+          "ParameterKey": "InstanceType",
+          "ParameterValue": "t2.2xlarge"
+        },
+        {
+            "ParameterKey": "ServerInstancePassword",
+            "ParameterValue": "Usewdl2019!",
+            "NoEcho": false
+        },
+        {
+            "ParameterKey": "OndemandInstanceName",
+            "ParameterValue": "",
+        },
+        {
+            "ParameterKey": "SpotInstanceName",
+            "ParameterValue": "spot-cromwell-server"
+        },
+        {
+          "ParameterKey": "CromwellVersion",
+          "ParameterValue": "42"
+        },
+        {
+          "ParameterKey": "SSHLocation",
+          "ParameterValue": "0.0.0.0/0"
+        },
+        {
+            "ParameterKey": "SpotCromwellServerParam",
+            "ParameterValue": "SpotCromwellServerUrlDev"
+        },
+        {
+            "ParameterKey": "OndemandCromwellServerParam",
+            "ParameterValue": "OndemandCromwellServerUrlDev"
+        },
+        {
+          "ParameterKey": "DBClusterIdentifier",
+          "ParameterValue": "tigris-valinor-dev"
+        },
+        {
+            "ParameterKey": "DBHostParamName",
+            "ParameterValue": "ValinorDBHostNameDev"
+        },
+        {
+            "ParameterKey": "DatabaseUsername",
+            "ParameterValue": "ValinorDBUserNameDev"
+        },
+        {
+          "ParameterKey": "DatabasePassword",
+          "ParameterValue": "ValinorDBPasswordDev"
+        },
+        {
+          "ParameterKey": "WorkflowLogDirName",
+          "ParameterValue": "wf_logs"
+        },
+        {
+            "ParameterKey": "CrossAccountRole",
+            "ParameterValue": ""
+        }
+ ]

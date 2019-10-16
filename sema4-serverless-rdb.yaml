@@ -9,21 +9,18 @@ Parameters:
     Type: String
     Description: The name of the database.
   DatabaseUsername:
-    AllowedPattern: "[a-zA-Z0-9]+"
-    ConstraintDescription: must be between 1 to 16 alphanumeric characters.
-    Description: The database admin account user name, between 1 to 16 alphanumeric characters.
-    MaxLength: '16'
-    MinLength: '1'
     Type: String
   DatabasePassword:
-    AllowedPattern: "[a-zA-Z0-9]+"
+    AllowedPattern: "[a-zA-Z0-9_]+"
     ConstraintDescription: must be between 8 to 41 alphanumeric characters.
     Description: The database admin account password, between 8 to 41 alphanumeric characters.
     MaxLength: '41'
     MinLength: '8'
     NoEcho: 'true'
     Type: String
-
+  DBPwdParamVersion:
+    Type: Number
+    Default: 1
   VpcSecurityGroupIds:
     ConstraintDescription: must be list of security group ids.
     Description: A list of VPC security groups to associate with this DB cluster.
@@ -68,6 +65,7 @@ Resources:
 
   RDSCluster:
     Type: AWS::RDS::DBCluster
+    DeletionPolicy: Retain
     Properties:
       DBClusterIdentifier: !Ref DBClusterIdentifier
       DatabaseName: !Ref DatabaseName
@@ -82,8 +80,8 @@ Resources:
       VpcSecurityGroupIds: !Ref VpcSecurityGroupIds
       ScalingConfiguration:
         AutoPause:  true
-        MaxCapacity: 2
-        MinCapacity: 2
+        MaxCapacity: 64
+        MinCapacity: 16
         SecondsUntilAutoPause: 300
 
 Outputs:

@@ -1,5 +1,20 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Description: Create Valinor Scalable genomics workflows environment
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  (WF-CROMWELL) Creates the complete set of resources needed to run
+  genomics workflows using Cromwell on AWS Batch
+
+Mappings:
+  TagMap:
+    default:
+      architecture: "genomics-workflows"
+      solution: "cromwell"
+      tags:
+        - Key: "architecture"
+          Value: "genomics-workflows"
+        - Key: "solution"
+          Value: "cromwell"
+
+
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -9,7 +24,7 @@ Metadata:
           - TemplatePath
 
       - Label:
-         default: Network Global CIDR and Subnet Network - Ask IT Support for Unique Global CIDR for Routing Among VPC or Organizational Sub Account
+         default: "Network Global CIDR and Subnet Network"
         Parameters:
           - AvailabilityZone1
           - AvailabilityZone2
@@ -23,6 +38,7 @@ Metadata:
           default: "Genomics Environment for AWS Batch Parameters"
         Parameters:
           - S3BucketName
+          - ExistingBucket
           - KeyPairName
           - ScratchVolumeSize
           - SpotBidPercentage
@@ -30,13 +46,14 @@ Metadata:
           - DefaultCEMaxvCpus
           - HighPriorityCEMinvCpus
           - HighPriorityCEMaxvCpus
-          - DefaultRetryNumber
       - Label:
-          default: "Cromwell Server Parameters"
-        Parameters:
-          - ServerInstanceType
-          - ServerInstanceName
-          - ServerSSHLocation
+          default: "Cromwell Server"
+          Parameters:
+            - CromwellVersion
+            - InstanceType
+            - InstanceName
+            - SSHLocation
+            - HTTPLocation
       - Label:
           default: "Serverless RDS Parameters"
           Parameters:
@@ -49,10 +66,12 @@ Metadata:
         default: S3 key object (direcotry) name where templates locate.
       S3BucketName:
         default: S3 Bucket Name
+      ExistingBucket:
+        default: false
       KeyPairName:
         default: EC2 Key Pair Name
       ScratchVolumeSize:
-        default: Cromwell AMI Scratch Volume (GB)
+        default: Cromewll Scratch Volume (GB)
       SpotBidPercentage:
         default: Spot Bid %
       DefaultCEMinvCpus:
@@ -63,14 +82,6 @@ Metadata:
         default: High Priority Min vCPU
       HighPriorityCEMaxvCpus:
         default: High Priority Max vCPU
-      DefaultRetryNumber:
-        default: Job Retry Attempts
-      ServerInstanceType:
-        default: Cromwell Server Instance Type
-      ServerInstanceName:
-        default: Cromwell Server Instance Name
-      ServerSSHLocation:
-        default: Cromwell Server SSH Location
 
       DBClusterIdentifier:
         default: DB Cluster ID
@@ -78,6 +89,8 @@ Metadata:
         default: Database Username
       DatabasePassword:
         default: Database Password
+      DBHostParam:
+        default: Database cluster EndPoint
 
 Parameters:
   TemplatePath:
@@ -85,7 +98,22 @@ Parameters:
     Description: S3Bucket Path where the templates are stored
     Default: s4-valinor-cloudformation-templates
   S3BucketName:
-    Description: A S3 bucket name for storing analysis results
+    Description: >-
+      A S3 bucket name for storing analysis results.
+      The bucket name must respect the S3 bucket naming conventions
+      (can contain lowercase letters, numbers, periods and hyphens).
+    Type: String
+    AllowedPattern: "(?=^.{3,63}$)(?!^(\\d+\\.)+\\d+$)(^(([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])\\.)*([a-z0-9]|[a-z0-9][a-z0-9\\-]*[a-z0-9])$)"
+    ConstraintDescription: "Must respect S3 bucket naming conventions"
+  ExistingBucket:
+    Type: String
+    Description: Does this bucket already exist? If not, it will be created.
+    AllowedValues:
+      - Yes
+      - No
+    Default: No
+  WorkflowLogDirName:
+    Description: workflow log dir name inside S3BucketName
     Type: String
   AvailabilityZone1:
     Description: The first availability zone in the region
@@ -127,7 +155,6 @@ Parameters:
     MinLength: 9
     MaxLength: 18
     Default: 10.80.191.192/26
-
   ScratchVolumeSize:
     Type: Number
     Default: 200
@@ -155,17 +182,18 @@ Parameters:
     Description: The maximum number of CPUs for the high-priority Batch Compute Environment
     Type: Number
     Default: 1024
-  DefaultRetryNumber:
-    Description: The default number of Job retry attempts
-    Type: Number
-    Default: 3
-  ServerInstanceType:
+  ArtifactRootUrl:
+    Type: String
+    Default: https://s3.amazonaws.com/aws-genomics-workflows/artifacts
+    Description: >-
+      Root URL for where artifacts / additions scripts are stored
+  InstanceType:
     Description: >-
       EC2 instance type.  Cromwell itself does not require much compute power.
       A t2.medium should be sufficient.  If you want to run this server on the
       free tier, use a t2.micro.
     Type: String
-    Default: t2.micro
+    Default: t2.2xlarge
     AllowedValues:
       - t2.micro
       - t2.medium
@@ -174,18 +202,37 @@ Parameters:
       - t2.2xlarge
       - r5a.2xlarge
       - r5a.4xlarge
+      - r5a.16xlarge
     ConstraintDescription: "Must be 't2.micro', 't2.medium', or 't2.large', or 't2.xlarge', or 't2.2xlarge'."
-  ServerInstanceName:
+  SpotInstanceName:
     Type: String
-    Default: cromwell-server
+    Default: spot-cromwell-server
+    Description: the instance name that is created
+  OndemandInstanceName:
+    Type: String
+    Default: ondemand-cromwell-server
     Description: The name of the instance that is created
-  ServerSSHLocation:
+  ServerInstancePassword:
+    Type: String
+    Default: Usewdl2019!
+    Description: The password used to log into the Cromwell swagger API
+  CromwellVersion:
+    Type: String
+    Description: >-
+      Version of Cromwell to install. "latest" will retrieve the currently released
+      version of Cromwell from Github.
+    AllowedValues:
+      - latest
+      - 46
+      - 42
+    Default: 42
+  SSHLocation:
     Description: " The IP address range that can be used to SSH to the EC2 instances"
     Type: String
     MinLength: '9'
     MaxLength: '18'
     Default: 0.0.0.0/0
-    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2}\\b)"
+    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
   HTTPLocation:
     Description: "The IP address range that has HTTP access to the EC2 instances"
@@ -193,28 +240,49 @@ Parameters:
     MinLength: '9'
     MaxLength: '18'
     Default: 0.0.0.0/0
-    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2}\\b)"
+    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
     ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
 
   DBClusterIdentifier:
     Type: String
     Description: The DB cluster identifier. This parameter is stored as a lowercase string
-
   DatabaseUsername:
-    AllowedPattern: "[a-zA-Z0-9]+"
-    ConstraintDescription: must be between 1 to 16 alphanumeric characters.
-    Description: The database admin account user name, between 1 to 16 alphanumeric characters.
-    MaxLength: '16'
+    AllowedPattern: "[a-zA-Z0-9_]+"
+    ConstraintDescription: must be between 1 to 41 alphanumeric characters.
+    Description: The database admin account user name, between 1 to 41 alphanumeric characters.
+    MaxLength: '41'
     MinLength: '1'
     Type: String
   DatabasePassword:
-    AllowedPattern: "[a-zA-Z0-9]+"
+    AllowedPattern: "[a-zA-Z0-9_]+"
     ConstraintDescription: must be between 8 to 41 alphanumeric characters.
     Description: The database admin account password, between 8 to 41 alphanumeric characters.
     MaxLength: '41'
     MinLength: '8'
     NoEcho: 'true'
     Type: String
+  DBPwdParamVersion:
+    Type: String
+    Default: 1
+  DBHostParamName:
+    Type: String
+  SpotCromwellServerParam:
+    Type: String
+  OndemandCromwellServerParam:
+    Type: String
+  CrossAccountRole:
+    Type: String
+
+Conditions:
+  hasCrossAccountRole:
+    !Not [!Equals [!Ref CrossAccountRole, ""]]
+
+  hasSpotServerInstance:
+    !Not [!Equals [!Ref SpotInstanceName, ""]]
+
+  hasOndemandServerInstance:
+    !Not [!Equals [!Ref OndemandInstanceName, ""]]
+
 Resources:
   VPCStack:
     Type: AWS::CloudFormation::Stack
@@ -232,25 +300,6 @@ Resources:
         PubNet2: !Ref PubNet2
         PrivNet1: !Ref PrivNet1
         PrivNet2: !Ref PrivNet2
-  AMIStack:
-    Type: AWS::CloudFormation::Stack
-    DependsOn:
-      - VPCStack
-    Properties:
-      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-custom-ami.template.yaml"
-      TimeoutInMinutes: 20
-      Tags:
-        - Key: Name
-          Value: !Sub "${AWS::StackName}-AMI"
-      Parameters:
-        VpcId: !Sub ${VPCStack.Outputs.VPCId}
-        PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
-        ScratchMountPoint: /cromwell_root
-        ScratchVolumeSize: !Ref ScratchVolumeSize
-        UseEncryption: "Yes"
-        KeyName: !Ref KeyPairName
-        AMIType: cromwell
-        AMIName: !Join ["-", ["cromwell-genomics-ami", !Select [2, !Split ["/", !Ref "AWS::StackId" ]]]]
   S3Stack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -261,6 +310,22 @@ Resources:
           Value: !Sub "${AWS::StackName}-S3Stack"
       Parameters:
         S3BucketName: !Ref S3BucketName
+        ExistingBucket: !Ref ExistingBucket
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Condition: hasCrossAccountRole
+    Properties:
+      Bucket: !Sub ${S3Stack.Outputs.BucketName}
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Ref CrossAccountRole
+            Action: 's3:*'
+            Resource:
+              - !Sub "${S3Stack.Outputs.BucketArn}"
+              - !Sub "${S3Stack.Outputs.BucketArn}/*"
   IamStack:
     Type: AWS::CloudFormation::Stack
     DependsOn: S3Stack
@@ -272,12 +337,23 @@ Resources:
           Value: !Sub "${AWS::StackName}-IAM"
       Parameters:
         S3BucketName: !Ref S3BucketName
+        CrossAccountRole: !Ref CrossAccountRole
+  LaunchTplStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-launch-template.template.yaml"
+      Tags: !FindInMap ["TagMap", "default", "tags"]
+      TimeoutInMinutes: 5
+      Parameters:
+        WorkflowOrchestrator: cromwell
+        ArtifactRootUrl: !Ref ArtifactRootUrl
+        ScratchVolumeSize: !Ref ScratchVolumeSize
   BatchStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - IamStack
       - VPCStack
-      - AMIStack
+      - LaunchTplStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-genomics-batch.template.yaml"
       TimeoutInMinutes: 30
@@ -285,7 +361,7 @@ Resources:
         - Key: Name
           Value: !Sub "${AWS::StackName}-Batch"
       Parameters:
-        CustomAmiId: !Sub ${AMIStack.Outputs.AMI}
+        LaunchTemplateId: !Sub ${LaunchTplStack.Outputs.LaunchTemplateId}
         Ec2KeyPairName: !Ref KeyPairName
         VpcId: !Sub ${VPCStack.Outputs.VPCId}
         SubnetIds: !Sub "${VPCStack.Outputs.PrivateSubnet1},${VPCStack.Outputs.PrivateSubnet2}"
@@ -294,31 +370,93 @@ Resources:
         DefaultCEMaxvCpus: !Ref DefaultCEMaxvCpus
         HighPriorityCEMinvCpus: !Ref HighPriorityCEMinvCpus
         HighPriorityCEMaxvCpus: !Ref HighPriorityCEMaxvCpus
-        DefaultRetryNumber: !Ref DefaultRetryNumber
         BatchServiceRoleArn: !Sub ${IamStack.Outputs.BatchServiceRoleArn}
         Ec2InstanceProfileArn: !Sub ${IamStack.Outputs.BatchInstanceProfileArn}
         SpotFleetRoleArn: !Sub ${IamStack.Outputs.BatchSpotFleetRoleArn}
-  CromwellServerStack:
+  SpotCromwellServerStack:
     Type: AWS::CloudFormation::Stack
     DependsOn:
       - BatchStack
+      - CromwellEC2SecurityGroup
+    Condition: hasSpotServerInstance
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
       TimeoutInMinutes: 30
       Tags:
         - Key: Name
-          Value: !Sub "${AWS::StackName}-CromwellServer"
+          Value: !Sub "${AWS::StackName}-spot-cromwell-server"
       Parameters:
-        InstanceType: !Ref ServerInstanceType
-        VpcId: !Sub ${VPCStack.Outputs.VPCId}
+        InstanceType: !Ref InstanceType
         PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet2}
-        LatestAmazonLinuxAMI: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2
-        InstanceName: !Ref ServerInstanceName
+        InstanceName:  !Ref SpotInstanceName
+        CromwellVersion: !Ref CromwellVersion
         KeyName: !Ref KeyPairName
-        SSHLocation: !Ref ServerSSHLocation
-        HTTPLocation: !Ref HTTPLocation
         S3BucketName: !Ref S3BucketName
         BatchQueue: !Sub ${BatchStack.Outputs.DefaultJobQueueArn}
+        CromwellPassword: !Ref ServerInstancePassword
+        ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
+        ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
+        DatabaseUsername: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBUser}}'
+        DatabasePassword: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBPassword}}'
+        EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
+        CrossAccountRole: !Ref CrossAccountRole
+
+  OndemandCromwellServerStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn:
+      - BatchStack
+      - CromwellEC2SecurityGroup
+    Condition: hasOndemandServerInstance
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/aws-cromwell-server.template.yaml"
+      TimeoutInMinutes: 30
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-spot-cromwell-server"
+      Parameters:
+        InstanceType: !Ref InstanceType
+        PublicSubnetID: !Sub ${VPCStack.Outputs.PublicSubnet1}
+        InstanceName:  !Ref OndemandInstanceName
+        CromwellVersion: !Ref CromwellVersion
+        KeyName: !Ref KeyPairName
+        S3BucketName: !Ref S3BucketName
+        BatchQueue: !Sub ${BatchStack.Outputs.HighPriorityJobQueueArn}
+        CromwellPassword: !Ref ServerInstancePassword
+        ServerlessEndpointAddress: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
+        ServerlessEndpointPort: !Sub "${ServerlessRDSStack.Outputs.EndpointPort}"
+        DatabaseUsername: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBUser}}'
+        DatabasePassword: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBPassword}}'
+        EC2SecurityGroup: !Ref CromwellEC2SecurityGroup
+        CrossAccountRole: !Ref CrossAccountRole
+
+  CromwellEC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable access to 22/80/443
+      VpcId: !Sub ${VPCStack.Outputs.VPCId}
+      Tags:
+        - Key: Name
+          Value: cromwell-server-sg
+        - Key: architecture
+          Value: !FindInMap ["TagMap", "default", "architecture"]
+        - Key: solution
+          Value: !FindInMap ["TagMap", "default", "solution"]
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp:
+            Ref: SSHLocation
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp:
+            Ref: HTTPLocation
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp:
+            Ref: HTTPLocation
   RDSSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -328,15 +466,16 @@ Resources:
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
-          SourceSecurityGroupId: !Sub "${CromwellServerStack.Outputs.EC2SecurityGroup}"
+          SourceSecurityGroupId: !Ref CromwellEC2SecurityGroup
         - IpProtocol: tcp
           FromPort: 3306
           ToPort: 3306
           SourceSecurityGroupId: !Sub "${BatchStack.Outputs.GenomicsBatchSecurityGroup}"
+      Tags:
+        - Key: Name
+          Value: !Sub "${AWS::StackName}-RDSSecurityGroup"
   ServerlessRDSStack:
     Type: AWS::CloudFormation::Stack
-    DependsOn:
-      - CromwellServerStack
     Properties:
       TemplateURL: !Sub "https://s3.amazonaws.com/${TemplatePath}/sema4-serverless-rdb.yaml"
       TimeoutInMinutes: 30
@@ -346,11 +485,35 @@ Resources:
       Parameters:
         DBClusterIdentifier: !Ref DBClusterIdentifier
         DatabaseName: cromwell
-        DatabaseUsername: !Ref DatabaseUsername
-        DatabasePassword: !Ref DatabasePassword
+        DatabaseUsername: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBUser}}'
+        DatabasePassword: '{{resolve:secretsmanager:ValinorAppSecret:SecretString:CromwellDBPassword}}'
         VpcSecurityGroupIds: !Ref RDSSecurityGroup
         DatabaseSubnets: !Sub "${VPCStack.Outputs.PublicSubnet1},  ${VPCStack.Outputs.PublicSubnet2}"
 
+  DBHostParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Ref DBHostParamName
+      Type: "String"
+      Value: !Sub "${ServerlessRDSStack.Outputs.EndpointAddress}"
+      Description: "SSM Parameter for valinor DB Host."
+
+  SpotCromwellServerUrlParameter:
+    Type: "AWS::SSM::Parameter"
+    Condition: hasSpotServerInstance
+    Properties:
+      Name: !Ref SpotCromwellServerParam
+      Type: "String"
+      Value: !Sub "http://${SpotCromwellServerStack.Outputs.HostName}"
+      Description: "SSM Parameter for valinor spot cromwell server."
+  OndemandCromwellServerUrlParameter:
+    Type: "AWS::SSM::Parameter"
+    Condition: hasOndemandServerInstance
+    Properties:
+      Name: !Ref OndemandCromwellServerParam
+      Type: "String"
+      Value: !Sub "http://${OndemandCromwellServerStack.Outputs.HostName}"
+      Description: "SSM Parameter for valinor ondemand cromwell server."
 Outputs:
   GenomicsEnvS3Bucket:
     Value: !Sub ${S3Stack.Outputs.BucketName}
@@ -369,14 +532,33 @@ Outputs:
     Export:
         Name: !Sub "${AWS::StackName}-Genomics-HighPriorityJobQueueArn"
 
-  ServerEC2Instance:
+  SpotServerEC2Instance:
+    Condition: hasSpotServerInstance
     Description: The EC2 Instance ID of your Cromwell Server
-    Value: !Sub ${CromwellServerStack.Outputs.EC2Instance}
+    Value: !Sub ${SpotCromwellServerStack.Outputs.EC2Instance}
 
-  ServerPublicIp:
-    Value: !Sub ${CromwellServerStack.Outputs.PublicIp}
-    Description: Cromwell server public IP address
+  SpotServerPublicIp:
+    Condition: hasSpotServerInstance
+    Value: !Sub ${SpotCromwellServerStack.Outputs.PublicIp}
+    Description: Spot Cromwell server public IP address
 
-  ServerHostName:
-    Value: !Sub ${CromwellServerStack.Outputs.HostName}
-    Description: Cromwell server public DNS name
+  SpotServerHostName:
+    Condition: hasSpotServerInstance
+    Value: !Sub ${SpotCromwellServerStack.Outputs.HostName}
+    Description: Spot Cromwell server public DNS name
+
+  OndemandServerEC2Instance:
+    Condition: hasOndemandServerInstance
+    Description: The EC2 Instance ID of your Cromwell Server
+    Value: !Sub ${OndemandCromwellServerStack.Outputs.EC2Instance}
+
+  OndemandServerPublicIp:
+    Condition: hasOndemandServerInstance
+    Value: !Sub ${OndemandCromwellServerStack.Outputs.PublicIp}
+    Description: Ondemand Cromwell server public IP address
+
+  OndemandServerHostName:
+    Condition: hasOndemandServerInstance
+    Value: !Sub ${OndemandCromwellServerStack.Outputs.HostName}
+    Description: Ondemand Cromwell server public DNS name
+
