@@ -50,7 +50,7 @@ Valinor is a Cromwell with Sema4 flavor:
   
 ### Release Notes:
 
-##### s4-valinor-cloudformation-template v1.0.0
+### s4-valinor-cloudformation-template v1.0.0
 
 1. Cromwell version selections [v42](https://github.com/broadinstitute/cromwell/releases/tag/42), [v46](https://github.com/broadinstitute/cromwell/releases/tag/46), and [latest](https://github.com/broadinstitute/cromwell/releases)
 2. [aws-genomics-workflows v2.3.0](https://github.com/aws-samples/aws-genomics-workflows/releases/tag/v2.3.0)
