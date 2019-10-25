@@ -22,7 +22,7 @@
     "SpotInstanceName": "spot-cromwell-server",
     "OndemandInstanceName": "ondemand-cromwell-server",
     "CromwellVersion": "42",
-    "SSHLocation": "0.0.0.0/0",
+    "SSHLocation": "146.203.121.24/32",
     "DBClusterIdentifier": "tigris-dev",
     "DatabaseUsername": "DB_USER_PLACEHOLDER",
     "DatabasePassword": "DB_PASSWORD_PLACEHOLDER",
