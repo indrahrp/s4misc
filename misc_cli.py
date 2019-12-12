@@ -465,7 +465,7 @@ def ssmgetallsub(paramtocheck):
                         resp = sc_client.get_parameter(
                             Name=param['Name']
                         )
-                        print "SSM Parameter " + resp['Parameter']['Name'] + resp['Parameter']['Value']
+                        print "SSM Parameter " + resp['Parameter']['Name'] + ' with value : ' + resp['Parameter']['Value']
                         inp=raw_input('continue')
             except:
                 print("Error getting")
