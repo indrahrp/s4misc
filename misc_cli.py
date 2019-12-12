@@ -462,7 +462,7 @@ def ssmgetallsub(paramtocheck):
                     print("Parameter name  : " + param['Name'])
                     if paramtocheck == param['Name']:
                         print "Found in " + account['Id']
-                        resp = client.get_parameter(
+                        resp = sc_client.get_parameter(
                             Name=param['Name']
                         )
                         print "SSM Parameter " + resp['Parameter']['Name'] + resp['Parameter']['Value']

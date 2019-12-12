@@ -10,8 +10,11 @@ import os
 import datetime
 import pprint
 import operator
+from multiprocessing.dummy import Pool as ThreadPool
+from functools import partial
+import pytz
 
-
+utc=pytz.UTC
 rootaccount="011825642366"
 #sc_client = boto3.client('servicecatalog', region_name='us-east-1')
 iam_client = boto3.client('iam', region_name='us-east-1')
@@ -40,11 +43,22 @@ def main():
                         help='--checking_provision_disk  io1 or gp2 or st1 or sc1 --available, check for any provision io type usage with status AVAILABLE ')
     parser.add_argument('--check_instance_type',required=False,
                         help='--check_instance_type All, standard or spot , check whether standard, spot or reserved instances, default is All')
+    parser.add_argument('--ami_snap',action="store_true", default=False,required=False,
+                        help='--ami_snap  ,  used with --list_snapshot All to list Snapshot used by AMI')
+    parser.add_argument('--unencrypted',action="store_true", default=False,required=False,
+                    help='--unencrypted  ,  used with --list_snapshot All to list unencrypt Snapshot')
 
+    parser.add_argument('--list_ami',required=False, help='--list_ami All ,  list AMI  default is All accounts')
     parser.add_argument('--list_rds',required=False,
                         help='--list_rds All ,  check whether standard, spot or reserved instances, default is All')
     parser.add_argument('--list_snapshot',required=False,
                         help='--list_snapshot All ,  list snapshot, default is All accounts')
+    parser.add_argument('--encr_unencrypted_snap',required=False,action="store_true",default=False,
+                        help='--encr_unencrypted_snap  ,  encrypt unecrypte snapshot and delete unncrypted ones after')
+
+
+
+
     args = parser.parse_args()
 
     if args.checking_provision_disk:
@@ -54,7 +68,13 @@ def main():
     if args.list_rds:
         list_rds(args.list_rds)
     if args.list_snapshot:
-        list_snapshot(args.list_snapshot)
+        list_snapshot(args.list_snapshot,args.ami_snap,args.unencrypted)
+    if args.list_ami:
+        list_ami(args.list_ami)
+    if args.encr_unencrypted_snap:
+        encr_unencrypted_snap()
+
+
 
 def get_aws_account_id(session):
     sts = session.client('sts')
@@ -66,7 +86,7 @@ def getsessionv2(acc):
     print ("\n\n========================================")
     #print "account id " + acc['Id']
     #print "account name " + acc['Name']
-    #print "========================================"
+    #print "========================================="
     cred = role_to_session(acc)
     credentials = cred['Credentials']
 
@@ -94,17 +114,34 @@ class Account_Session:
             exit(1)
         client = boto3.client('organizations')
         counter=0
-        for account in paginate(client.list_accounts):
-            counter += 1
-            print("initializing session to account " + account['Id'])
-            if not account['Id'] == Account_Session.ROOT:
-                ses=getsessionv2(account['Id'])
-            else:
-                ses=boto3.session.Session()
-            #Account_Session.SESS_LIST.append([ses,account[id],account['Name']])
-            Account_Session.SESS_DICT.update({account['Id']:{'session':ses,'name':account['Name']}})
-            #if counter > 10:
+        acclistall=[ account  for account in paginate(client.list_accounts)]
+        #acclist=acclistall[0:20]
+        acclist=acclistall[0:(len(acclistall)-1)]
+
+        step=5
+        batchno=0
+        print "Running batch of  Batch of " + str(step)
+        for cnt in range((len(acclist)/step) + 1):
+            batchno += 1
+            print "====== Running Batch No : " + str(batchno) + " =============="
+            pool = ThreadPool(step + 2)
+            var=[ v for v in  acclist[(step * cnt):((step*cnt)+step)]  ]
+            results = pool.map(Account_Session.__create_sess,var)
+            pool.close()
+            pool.join()
+            for r in results:
+                print "result " + str(r)
         return
+    @staticmethod
+    def __create_sess(account):
+        print("initializing session to account " + account['Id'])
+        if not account['Id'] == Account_Session.ROOT:
+            ses=getsessionv2(account['Id'])
+        else:
+            ses=boto3.session.Session()
+        #Account_Session.SESS_LIST.append([ses,account[id],account['Name']])
+        Account_Session.SESS_DICT.update({account['Id']:{'session':ses,'name':account['Name']}})
+        #if counter > 10:
 
     @staticmethod
     def build_sess_subaccount(subaccount=None):
@@ -166,12 +203,72 @@ def getsession(acc):
 
     return sess
 
+
+
 def paginate(method, **kwargs):
     client = method.__self__
     paginator = client.get_paginator(method.__name__)
     for page in paginator.paginate(**kwargs).result_key_iters():
         for result in page:
             yield result
+
+
+
+def encr_unencrypted_snap(subaccount='All',ami_snap=False,unencrypted=False):
+    print("################Encrypting Unencrypted Snapshot ################")
+    total_account_sub_dict={}
+    Account_Session.initialize()
+    try:
+        for account,sessinfo in Account_Session.SESS_DICT.items():
+            print('\n\n\n====================Finding Snapshoton account : ' + account + ' ' + sessinfo['name'] + ' ============================\n\n\n')
+            # Define the connection
+            ec2 = sessinfo['session'].resource('ec2', region_name="us-east-1")
+            ec2_client = sessinfo['session'].client('ec2', region_name="us-east-1")
+
+            # Find all volumes
+            maxsize=101
+            resp=ec2.snapshots.filter(OwnerIds=['self'])
+
+
+            for snapshot in resp:
+                try:
+                    if not snapshot.encrypted:
+                        print "Finding unencrypted snapshot max size " + str(maxsize)
+                        print(("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
+                            format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
+                                   str(snapshot.volume_size),snapshot.description)))
+                        if 'Create' not in snapshot.description and 'Ami' not in snapshot.description and snapshot.volume_size < maxsize:
+                                print "Encrypting this now ..."
+                                snapshot_encrypted = snapshot.copy(
+                                    SourceRegion='us-east-1',
+                                    Description='Encrypted of snapshot {} {} '.format(snapshot.id,snapshot.description),
+                                    #KmsKeyId=customer_master_key,
+                                    Encrypted=True
+                                )
+                                encsnap=ec2.Snapshot(snapshot_encrypted['SnapshotId'])
+                                waiter_snapshot_complete.wait(
+                                    SnapshotIds=[
+                                        encsnap.id,
+                                    ]
+                                )
+                                print "encrypting by copying  snapshot  completed at  " + str(datetime.datetime.now())
+
+
+                                #print "encrypted at the source of volume " + volume.id +  "  completed at  " + str(datetime.datetime.now())
+
+                                if encsnap.state == 'completed' and encsnap.encrypted:
+                                                    print "deleting unencrypted snapshot " + snapshot.id
+                                                    ans=raw_input(" hit return to delete \n")
+                                                    snapshot.delete()
+                        else:
+                            print "snapshot " + snapshot.id + " is used for AMI or size above " + maxsize
+                except Exception as err :
+                    if 'InvalidSnapshot.InUse' in err.message:
+                        print "skipping this snapshot. It is used by ami"
+                        continue
+    except Exception as err :
+            print(("Encrypting Unencrypted Snapshot  error " + str(err)))
+            raise
 
 
 def checking_provision_disk(iotype, available=False):
@@ -225,7 +322,7 @@ def checking_provision_disk(iotype, available=False):
 
 
 
-def list_rds(type='All'):
+def list_rds(type='All',unencrypted=False):
     print("################Listing RDS ################")
     Account_Session.initialize()
     try:
@@ -240,10 +337,12 @@ def list_rds(type='All'):
                 dbiter=resp['DBInstances']
                 #print str(dbiter)
                 for db in dbiter:
-                    print(("DBInstanceId,{}, DBInstanceClass,{}, Engine,{}, DBName,{},Endpoint,{},DBInstanceStatus,{},AllocatedStorage,{},InstanceCreateTime,{},MultiAZ,{},LicenseMode,{},Iops,"
-                           "{},PubliclyAccessible,{},StorageType,{},Encrypted,{},DeletionProtection,{}".format(db['DBInstanceIdentifier'],db['DBInstanceClass'],db['Engine'],db.get('DBName','NA'),
-                           db['Endpoint']['Address'],db['DBInstanceStatus'],str(db['AllocatedStorage']),str(db['InstanceCreateTime']),db['MultiAZ'],db['LicenseModel'],str(db.get('Iops','NA')),
-                           str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db.get('DeletionProtection','NA')))))
+                    if unencrypted:
+                        if not db['StorageEncrypted']:
+                            print(("DBInstanceId,{}, DBInstanceClass,{}, Engine,{}, DBName,{},Endpoint,{},DBInstanceStatus,{},AllocatedStorage,{},InstanceCreateTime,{},MultiAZ,{},LicenseMode,{},Iops,"
+                                   "{},PubliclyAccessible,{},StorageType,{},Encrypted,{},DeletionProtection,{}".format(db['DBInstanceIdentifier'],db['DBInstanceClass'],db['Engine'],db.get('DBName','NA'),
+                                   db['Endpoint']['Address'],db['DBInstanceStatus'],str(db['AllocatedStorage']),str(db['InstanceCreateTime']),db['MultiAZ'],db['LicenseModel'],str(db.get('Iops','NA')),
+                                   str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db.get('DeletionProtection','NA')))))
 
 
 
@@ -252,28 +351,79 @@ def list_rds(type='All'):
         print(("List RDS   " + str(err)))
         raise
 
-def list_snapshot(subaccount='All'):
+def list_snapshot(subaccount='All',ami_snap=False,unencrypted=False,age=120):
     print("################Listing Snapshot ################")
+    total_account_sub_dict={}
     Account_Session.initialize()
+    datebef=datetime.datetime.now() - datetime.timedelta(days=age)
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print('\n\n\n====================Finding Snapshoton account : ' + account + ' ============================\n\n\n')
+            print('\n\n\n====================Finding Snapshoton account : ' + account + ' ' + sessinfo['name'] + ' ============================\n\n\n')
             # Define the connection
             ec2 = sessinfo['session'].resource('ec2', region_name="us-east-1")
 
             # Find all volumes
             if subaccount == 'All':
+                total_size_sub=0
                 resp=ec2.snapshots.filter(OwnerIds=['self'])
                 for snapshot in resp:
-                    print(("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
-                        format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
-                               str(snapshot.volume_size),snapshot.description)))
+                    if  snapshot.start_time < utc.localize(datebef):
+                        if ami_snap:
+                            if 'Create'  in snapshot.description or 'Ami' in snapshot.description:
+                                total_size_sub += snapshot.volume_size
+                                print "Finding snaphost with for AMI creation"
+                                total_size_sub += total_size_sub
+                                print(("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
+                                format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
+                                       str(snapshot.volume_size),snapshot.description)))
+                        elif unencrypted:
+                            if not snapshot.encrypted:
+                                total_size_sub += snapshot.volume_size
+                                print "Finding unencrypted snapshot"
+                                print(("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
+                                    format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
+                                           str(snapshot.volume_size),snapshot.description)))
+                        else:
+                            total_size_sub += snapshot.volume_size
+                            print(("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
+                            format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
+                                   str(snapshot.volume_size),snapshot.description)))
+                total_account_sub_dict.update({sessinfo['name']:total_size_sub})
 
+
+            print('Total account : ' + account + ' ' + sessinfo['name'] + ' Snapshot Size ' + str(total_account_sub_dict[sessinfo['name']]) )
 
 
     except Exception as err :
         print(("List Snapshot  " + str(err)))
         raise
+
+def list_ami(subaccount='All'):
+    print("################Listing AMI ################")
+    total_account_sub_dict={}
+    Account_Session.initialize()
+    try:
+        for account,sessinfo in Account_Session.SESS_DICT.items():
+            print('\n\n\n====================Finding AMI account : ' + account + ' ============================\n\n\n')
+            # Define the connection
+            ec2 = sessinfo['session'].client('ec2', region_name="us-east-1")
+
+            # Find all volumes
+            if subaccount == 'All':
+                #total_size_sub=0
+                resp = ec2.describe_images(Owners=['self'])
+                for image in resp['Images']:
+                    #total_size_sub += total_size_sub
+                    #print str(image)
+                    print(("CreationDate,{},ImageId,{},ImageLocation,{},ImageType,{},Public,{},OwnerId,{},State,{},BlockDeviceMappings,{},Description,{},Name,{} ".
+                        format(image['CreationDate'],image['ImageId'],image['ImageLocation'],image['ImageType'],image['Public'],image['OwnerId'],image['State'],str(image['BlockDeviceMappings']),image.get('Description','NA'),image['Name'])))
+
+                #total_account_sub_dict.update({sessinfo['Name']:total_size_sub})
+
+    except Exception as err :
+        print(("List Snapshot  " + str(err)))
+        raise
+
 
 def delete_snapshot(subaccount,description,day='14'):
     print(("################Deleting Snapshot older than {}################".format(days)))
