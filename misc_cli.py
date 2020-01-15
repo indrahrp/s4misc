@@ -31,7 +31,7 @@ session_client = boto3.client('sts')
 
 
 account_id = boto3.client('sts').get_caller_identity()['Account']
-print("Yor account id is: " +account_id)
+print("Yor account id is: " + account_id)
 
 def getsessionv2(acc):
     print "\n\n========================================"
@@ -77,8 +77,8 @@ class Account_Session:
                 ses=boto3.session.Session()
             #Account_Session.SESS_LIST.append([ses,account[id],account['Name']])
             Account_Session.SESS_DICT.update({account['Id']:{'session':ses,'name':account['Name']}})
-            if counter > 1:
-                break
+            #if counter > 1:
+            #    break
         return
     @staticmethod
     def build_sess_subaccount(subaccount=None):
@@ -188,6 +188,7 @@ def main():
                         help='create db database parameter group')
 
     parser.add_argument('--listvpc',action="store_true",required=False, help='list vpc all accounts ')
+    parser.add_argument('--unused_secgroup',required=False, help='to find unused security group on all  accounts .i.e ./miscli.py --unused_secgroup us-east-1')
 
 
     args = parser.parse_args()
@@ -197,6 +198,8 @@ def main():
         ssmgetallsub(args.ssmget)
     elif args.ssmupdate and args.ssmupdatevalue:
         update_ssmsub(args.ssmupdate,args.ssmupdatevalue)
+    elif args.unused_secgroup:
+        unused_secgroup(args.unused_secgroup)
     elif args.shareami:
         shareamiallsub(args.shareami)
     elif args.eiplistallsub:
@@ -246,7 +249,7 @@ def kms_grant(kmsidarn):
     print ("Grant Key {} all accounts".format(kmsidarn))
     #Account_Session.initialize()
     try:
-        acclist=Account_Session.get_account_list()
+        Account_Session.initialize()
         #print 'acc list ' + str(acclist)
         Account_Session.build_sess_subaccount(rootaccount)
         clientses=Account_Session.SESS_DICT[rootaccount]['session'].client('kms')
@@ -307,6 +310,123 @@ def sharing_transit_gateway():
         raise
 
 
+
+
+def unused_secgroup(region,delete=False):
+    print "Finding unused Security Group .."
+
+    print "reg " + region
+    Account_Session.initialize()
+    try:
+        for account,sessinfo in Account_Session.SESS_DICT.items():
+            print "checking account : "  + account
+            client=sessinfo['session'].client('ec2')
+
+            regions_dict = client.describe_regions()
+
+            region_list = [region['RegionName'] for region in regions_dict['Regions']]
+
+            # parse arguments
+
+
+            client=sessinfo['session'].client('ec2')
+            ec2 = sessinfo['session'].resource('ec2')
+            all_groups = []
+            security_groups_in_use = []
+            # Get ALL security groups names
+            security_groups_dict = client.describe_security_groups()
+            security_groups = security_groups_dict['SecurityGroups']
+            for groupobj in security_groups:
+                if groupobj['GroupName'] == 'default' or groupobj['GroupName'].startswith('d-') or groupobj['GroupName'].startswith('AWS-OpsWorks-'):
+                    security_groups_in_use.append(groupobj['GroupId'])
+            all_groups.append(groupobj['GroupId'])
+
+            # Get all security groups used by instances
+            instances_dict = client.describe_instances()
+            reservations = instances_dict['Reservations']
+            network_interface_count = 0
+
+            for i in reservations:
+                for j in i['Instances']:
+                    for k in j['SecurityGroups']:
+                        if k['GroupId'] not in security_groups_in_use:
+                            security_groups_in_use.append(k['GroupId'])
+
+            # Security Groups in use by Network Interfaces
+            #eni_client = boto3.client('ec2', region_name=args.region)
+            eni_dict = client.describe_network_interfaces()
+            for i in eni_dict['NetworkInterfaces']:
+                for j in i['Groups']:
+                    if j['GroupId'] not in security_groups_in_use:
+                        security_groups_in_use.append(j['GroupId'])
+
+            # Security groups used by classic ELBs
+            elb_client = sessinfo['session'].client('elb')
+            elb_dict = elb_client.describe_load_balancers()
+            for i in elb_dict['LoadBalancerDescriptions']:
+                for j in i['SecurityGroups']:
+                    if j not in security_groups_in_use:
+                         security_groups_in_use.append(j)
+
+            # Security groups used by ALBs
+            elb2_client = sessinfo['session'].client('elbv2')
+            elb2_dict = elb2_client.describe_load_balancers()
+            for i in elb2_dict['LoadBalancers']:
+            #for j in i['SecurityGroups']:
+                for j in i.get('SecurityGroups','NA'):
+                     if j not in security_groups_in_use:
+                        security_groups_in_use.append(j)
+
+            # Security groups used by RDS
+            rds_client = sessinfo['session'].client('rds')
+            rds_dict = rds_client.describe_db_instances()
+            for i in rds_dict['DBInstances']:
+                for j in i['VpcSecurityGroups']:
+                     if j['VpcSecurityGroupId'] not in security_groups_in_use:
+                         security_groups_in_use.append(j['VpcSecurityGroupId'])
+
+            delete_candidates = []
+            for group in all_groups:
+                if group not in security_groups_in_use:
+                    print str(delete_candidates)
+                    delete_candidates.append(group)
+
+            if delete:
+                print("We will now delete security groups identified to not be in use.")
+                for group in delete_candidates:
+                    security_group = ec2.SecurityGroup(group)
+                    try:
+                        ##security_group.delete()
+                        print "DDDDDD"
+                    except Exception as e:
+                        print(e)
+                        print("{0} requires manual remediation.".format(security_group.group_name))
+            else:
+                print("The list of security groups to be removed is below.")
+                print("Run this again with `-d` to remove them")
+                for group in sorted(delete_candidates):
+                    print("   " + group)
+
+            print("---------------")
+            print("Activity Report")
+            print("---------------")
+
+            print(u"Total number of Security Groups evaluated: {0:d}".format(len(all_groups)))
+            print(u"Total number of EC2 Instances evaluated: {0:d}".format(len(reservations)))
+            print(u"Total number of Load Balancers evaluated: {0:d}".format(len(elb_dict['LoadBalancerDescriptions']) +
+                                                                            len(elb2_dict['LoadBalancers'])))
+            print(u"Total number of RDS Instances evaluated: {0:d}".format(len(rds_dict['DBInstances'])))
+            print(u"Total number of Network Interfaces evaluated: {0:d}".format(len(eni_dict['NetworkInterfaces'])))
+            print(u"Total number of Security Groups in-use evaluated: {0:d}".format(len(security_groups_in_use)))
+            if delete:
+                print(u"Total number of Unused Security Groups deleted: {0:d}".format(len(delete_candidates)))
+            else:
+
+                print(u"Total number of Unused Security Groups targeted for removal: {0:d}".format(len(delete_candidates)))
+
+    except Exception as err:
+        print "error .." + str(err)
+        raise
 def dbclusterparam(dbclusterpar='sema4auroramysql57',family='aurora-mysql5.7'):
     print "create db cluster parameter group " + dbclusterpar
     client = boto3.client('organizations')

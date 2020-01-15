@@ -6,8 +6,8 @@ import argparse
 
 
 def lookup_by_id(sgid):
-    sg = ec2.get_all_security_groups(group_ids=sgid)
-    return sg[0].name
+        sg = ec2.get_all_security_groups(group_ids=sgid)
+        return sg[0].name
 
 
 # get a full list of the available regions
@@ -33,7 +33,7 @@ security_groups = security_groups_dict['SecurityGroups']
 for groupobj in security_groups:
     if groupobj['GroupName'] == 'default' or groupobj['GroupName'].startswith('d-') or groupobj['GroupName'].startswith('AWS-OpsWorks-'):
         security_groups_in_use.append(groupobj['GroupId'])
-    all_groups.append(groupobj['GroupId'])
+all_groups.append(groupobj['GroupId'])
 
 # Get all security groups used by instances
 instances_dict = client.describe_instances()

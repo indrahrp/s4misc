@@ -1,6 +1,4 @@
 import boto3
-
-
 def paginate(method, **kwargs):
     print "met " + str(method.__name__) + "with kawrs " + str(kwargs)
     paginator = client.get_paginator(method.__name__)

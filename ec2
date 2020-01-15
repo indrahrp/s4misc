@@ -1,0 +1,634 @@
+011825642366,shay hassidim,i-003878a2ab290651e,c5.large,running,None,None
+011825642366,shay hassidim,i-02208ad79fe3b2f0f,m5.4xlarge,running,None,None
+011825642366,shay hassidim,i-08fcd6c18e0a9aa9f,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0453b5d89bbf2faa3,r4.xlarge,stopped,None,None
+011825642366,shay hassidim,i-030da899ba4cdafd1,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-08cf34d59602b803b,t2.small,stopped,None,None
+011825642366,shay hassidim,i-058032ca544968c6e,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-04de068fd2e089add,m4.4xlarge,stopped,None,None
+011825642366,shay hassidim,i-0ebe674af56c1ff57,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0adefc2e8e48166af,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-093f813d7503fbff7,t2.small,stopped,None,None
+011825642366,shay hassidim,i-05efe3172f94794ab,t2.xlarge,stopped,None,None
+011825642366,shay hassidim,i-0e4e8042a33599d8b,t2.xlarge,running,None,None
+011825642366,shay hassidim,i-0258530e517618439,r4.2xlarge,stopped,None,None
+011825642366,shay hassidim,i-0ea9f6140388e29e4,t2.medium,running,None,None
+011825642366,shay hassidim,i-0c140da112696ed86,t2.large,running,None,None
+011825642366,shay hassidim,i-0271ce845f6499fb3,t2.medium,running,None,None
+011825642366,shay hassidim,i-04d63ac3f7c3dad8d,t2.xlarge,running,None,None
+011825642366,shay hassidim,i-064a50ba554723418,t2.2xlarge,running,None,None
+011825642366,shay hassidim,i-034d95ef10b9068a8,t2.medium,running,None,None
+011825642366,shay hassidim,i-0035974d3ab07f57b,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-00c244dcbbf0953de,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-09f4c95f2ca301408,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-00ac191753c0230ee,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-05d55b9820b67f0e7,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-06741a5454b44f1a1,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-084ae706482cc06d7,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-01fdb45feb8fa8f4a,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-0d28d5cb4f1408012,p3.2xlarge,stopped,None,None
+011825642366,shay hassidim,i-0926d03959e6bce9b,m5.xlarge,stopped,None,None
+011825642366,shay hassidim,i-0dfb0fa89fb62804a,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-03d04b94fbfff5a61,m4.large,running,None,None
+011825642366,shay hassidim,i-062e54f940a1feb53,t2.medium,running,None,None
+011825642366,shay hassidim,i-076eac276c63ee724,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-0703d65c67a9b48bf,t2.micro,running,None,None
+011825642366,shay hassidim,i-0e89553b3d63dad92,t2.large,running,None,None
+011825642366,shay hassidim,i-0f8b4c3e64fcd2b8c,t2.small,running,None,None
+011825642366,shay hassidim,i-0e79d1fe97986c365,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-021b96c062883e1d1,t2.xlarge,running,None,None
+011825642366,shay hassidim,i-04ef29d5d9b5f2169,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-0aa9bea6afc87ceef,r4.16xlarge,running,None,None
+011825642366,shay hassidim,i-0e31cbff97d3b4b5d,m4.2xlarge,running,None,None
+011825642366,shay hassidim,i-085673a539d3da30d,m4.4xlarge,running,None,None
+011825642366,shay hassidim,i-0339ba72967cafb78,m4.xlarge,running,None,None
+011825642366,shay hassidim,i-0b9b08b95c8247d50,m4.4xlarge,stopped,None,None
+011825642366,shay hassidim,i-071216337f3fe2084,t2.medium,running,None,None
+011825642366,shay hassidim,i-0bb492924bbb49cf7,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-049fb8ff02f011c74,t2.xlarge,running,None,None
+011825642366,shay hassidim,i-0ad7660c299e10ba6,t2.medium,running,None,None
+011825642366,shay hassidim,i-013379b90f50e3583,m5.xlarge,stopped,None,None
+011825642366,shay hassidim,i-0b0c7811c84122856,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-09341236eb576b3c2,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-090046245f735b81d,c5.2xlarge,running,None,None
+011825642366,shay hassidim,i-0be07bc5533d1024c,c5.xlarge,running,None,None
+011825642366,shay hassidim,i-0be5e3bedb776fffd,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-0c3033377f7cfc784,c4.8xlarge,stopped,None,None
+011825642366,shay hassidim,i-06cbb331a908174b1,c4.8xlarge,running,None,None
+011825642366,shay hassidim,i-01a472154fcc56dc6,m5.2xlarge,running,None,None
+011825642366,shay hassidim,i-020d570e2eda4def3,r4.16xlarge,running,None,None
+011825642366,shay hassidim,i-07dce83f9a217d249,m4.large,running,None,None
+011825642366,shay hassidim,i-072669e3d2a5d97c9,t2.small,running,None,None
+011825642366,shay hassidim,i-06042615c7303c88a,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0c5a14f91ec36dcd6,t2.medium,running,None,None
+011825642366,shay hassidim,i-0282590ce3527d5c2,c5.large,stopped,None,None
+011825642366,shay hassidim,i-032d321b29f74569e,t2.medium,running,None,None
+011825642366,shay hassidim,i-0c34fb08f85a9c8e8,t2.medium,running,None,None
+011825642366,shay hassidim,i-0540efb05b08a8c28,c5.xlarge,running,None,None
+011825642366,shay hassidim,i-00f13ba67a3f7e733,t2.medium,running,None,None
+011825642366,shay hassidim,i-06814c6f1312e5841,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0ae3573c69dbca234,t2.xlarge,running,None,None
+011825642366,shay hassidim,i-0686d57990f3643c4,t2.medium,running,None,None
+011825642366,shay hassidim,i-0feedb5973a134585,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-09f057fdd65981b88,t2.small,running,None,None
+011825642366,shay hassidim,i-0a3e693264a631ba4,m4.4xlarge,running,None,None
+011825642366,shay hassidim,i-0636efb2a9c0bd137,t2.2xlarge,running,None,None
+011825642366,shay hassidim,i-051f66cad3eb5d2c2,t2.large,stopped,None,None
+011825642366,shay hassidim,i-0696a02362525f42d,m4.4xlarge,stopped,None,None
+011825642366,shay hassidim,i-07985f556fd436c8a,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-034ea07b7381e8ea0,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0cdda4196ccd59519,t2.medium,running,None,None
+011825642366,shay hassidim,i-0b83dcb5c4a416605,t2.large,running,None,None
+011825642366,shay hassidim,i-054bbe062374d6191,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-0b2cf797c20c47c1c,t2.small,running,None,None
+011825642366,shay hassidim,i-0eb0374533c32d36f,c4.xlarge,stopped,None,None
+011825642366,shay hassidim,i-04ebfbf51e138a8f7,c4.large,stopped,None,None
+011825642366,shay hassidim,i-027f59c8e9d88dd94,t2.xlarge,stopped,None,None
+011825642366,shay hassidim,i-096a83b63aae52bb1,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-024d2169653c42feb,t2.micro,running,None,None
+011825642366,shay hassidim,i-0b92a951c5dd8afc1,t2.micro,running,None,None
+011825642366,shay hassidim,i-09908078063b8a573,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-0c3e2194bf2408f81,t3.micro,stopped,None,None
+011825642366,shay hassidim,i-0dadb8d3ceb539ab0,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-0b186fc080e411834,m3.xlarge,stopped,None,None
+011825642366,shay hassidim,i-0fccb4cca99ae566a,t2.large,stopped,None,None
+011825642366,shay hassidim,i-0184f117945ef2199,m5d.large,running,None,None
+011825642366,shay hassidim,i-040a5dad5d03de0ff,t2.large,running,None,None
+011825642366,shay hassidim,i-0b0702f5f824104a9,t2.large,running,None,None
+011825642366,shay hassidim,i-0d2b702a09dce4e9c,t2.micro,running,None,None
+011825642366,shay hassidim,i-0b034166fbd8457c9,t2.micro,running,None,None
+011825642366,shay hassidim,i-0f8dc954caebedf86,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-0fba860db0961cb45,t2.micro,running,None,None
+011825642366,shay hassidim,i-031a0259b7cb5d815,t2.micro,stopped,None,None
+011825642366,shay hassidim,i-09cad53df1f6eca69,t2.large,stopped,None,None
+011825642366,shay hassidim,i-07d43f582e779ee94,t2.large,stopped,None,None
+011825642366,shay hassidim,i-0f2a6b2e18d418f72,t2.large,running,None,None
+011825642366,shay hassidim,i-08d54518c73dd282a,m4.10xlarge,running,None,None
+011825642366,shay hassidim,i-090a6354786dd1e9b,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0d4a99d4201e77e26,t2.xlarge,running,None,None
+011825642366,shay hassidim,i-0aae7edf1afd6ebe1,t2.small,stopped,None,None
+011825642366,shay hassidim,i-032f40ce41a3f2dfe,c5.large,running,None,None
+011825642366,shay hassidim,i-0e354107f479e2c9e,t2.large,stopped,None,None
+011825642366,shay hassidim,i-0fd8c3eb831e644bc,t2.small,running,None,None
+011825642366,shay hassidim,i-079d31b529f3c61d9,t2.small,running,None,None
+011825642366,shay hassidim,i-0ec31eb3f6c124bca,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0aac7d7d4480404e0,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0137941f50d81c45b,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-017c9234d2de2f232,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-04a5255ae13593226,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-002225411a3f175df,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0229d485cf705ec08,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0500797f62bca66f0,m4.16xlarge,stopped,None,None
+011825642366,shay hassidim,i-07792c1287fade1f3,m4.16xlarge,stopped,None,None
+011825642366,shay hassidim,i-0d12d2b8f544128b8,m4.16xlarge,running,None,None
+011825642366,shay hassidim,i-006119bc06410b4b2,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0904e202f06cd5880,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0e9ea9afa1c065013,t2.medium,running,None,None
+011825642366,shay hassidim,i-060a9b1f472baf997,t2.xlarge,running,None,None
+011825642366,shay hassidim,i-080a278fffc638bbe,t2.medium,running,None,None
+011825642366,shay hassidim,i-0823089e4b1bf33d7,t2.small,stopped,None,None
+011825642366,shay hassidim,i-04a6f852a8e58c68b,t2.medium,stopped,None,None
+011825642366,shay hassidim,i-0c58e1a5fe60f1273,t3.micro,stopped,None,None
+317218392984,Product-Dev-LIMS-LIS,i-005c79b64cd9ae1a5,m4.4xlarge,running,None,None
+317218392984,Product-Dev-LIMS-LIS,i-0030054a5b2d67ff1,t2.micro,running,None,None
+294706254702,Sinai-A-Dev-Non-PHI,i-0112b87e6f30f2336,t2.micro,running,None,None
+294706254702,Sinai-A-Dev-Non-PHI,i-0f7ed5048a219cc5a,t2.micro,running,None,None
+294706254702,Sinai-A-Dev-Non-PHI,i-08f947f7de25b6442,t2.large,running,None,None
+655972790818,Data-Governance-Prod,i-0d72aa62891ef993a,t2.small,running,None,None
+655972790818,Data-Governance-Prod,i-0ec6e14f79f85d928,t2.xlarge,stopped,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-0bbf672f566fd0e0b,t2.medium,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-0f9cbd27e1f4f48f9,t2.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-05469191d11b5b142,t2.medium,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-0fd541ec75dfea9f4,t2.medium,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-0aee5a0d950051396,t2.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-00494883e4e1f86ef,t2.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-07fdc97ee9f977f8c,t2.medium,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-0828e314a43421e89,t2.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-0030a49633ff24dbf,m5.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-027d517ed86f4332b,t2.micro,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-00ff4a89adc2131eb,t3.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-00a0badb84a7500eb,t3.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-0085493b55ac01855,t2.xlarge,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-0ebf22d3ac08f8794,m5.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-05968c1ce8b4a783a,t3.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-045041ee01288573b,m5.large,running,None,None
+760773724421,Clinical-LIS-Prod-AWS,i-0c03c7bed2eeb537c,t2.micro,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-083bcf70335e54ce3,c5.large,stopped,None,None
+386451404987,Germline-Dev-Non-PHI,i-05379a0fa3b33351f,t2.small,stopped,None,None
+386451404987,Germline-Dev-Non-PHI,i-008e643ebe57fd9ec,t2.medium,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-053534c73b0cfba44,t2.micro,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-0a78ce3e61e9c2eb6,m4.4xlarge,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-06d1d54e4915be50f,m5a.2xlarge,stopped,None,None
+386451404987,Germline-Dev-Non-PHI,i-05284185de5866e2e,t2.micro,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-0ab0140d9dc3b9754,t2.large,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-08cf4279bd47887cb,t2.medium,stopped,None,None
+386451404987,Germline-Dev-Non-PHI,i-0b41951f0a07d5671,r5.16xlarge,stopped,None,None
+386451404987,Germline-Dev-Non-PHI,i-080d80ce2c1f3eb59,t1.micro,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-0e766c40c050f5ba0,t3a.xlarge,running,sir-pq2i5i2g,None
+386451404987,Germline-Dev-Non-PHI,i-026eb726f64638118,t1.micro,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-0dfabe88298223efc,t2.large,stopped,None,None
+386451404987,Germline-Dev-Non-PHI,i-0a503ee35839119fe,t2.medium,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-040263a23fc198bcd,t2.medium,stopped,None,None
+386451404987,Germline-Dev-Non-PHI,i-0e480a343cd6b569e,t2.medium,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-0e11dd376a4ff2e50,t2.large,stopped,None,None
+386451404987,Germline-Dev-Non-PHI,i-035e90745c8a25ac3,t2.large,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-0b024e3741a17437c,t2.large,running,None,None
+386451404987,Germline-Dev-Non-PHI,i-0a2304dd607e7aa94,t2.large,running,None,None
+945658157245,Jedha-Prod,i-03227e6f686a4f9b0,t2.micro,stopped,None,None
+172799060271,StatisticalGenomics-Dev-PHI,i-0bb9a5e325f44775f,t2.medium,running,None,None
+172799060271,StatisticalGenomics-Dev-PHI,i-045f3ab9fa7b7ffd1,m4.large,running,sir-v6br42mj,None
+417302553802,IT Sandbox,i-097123e280d5a0637,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-01f7f81941b131586,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-0b4f8df36d882f55d,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-0a7ea8b84b543d164,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-021bfd5229246f55a,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-0915074bf434c9dfa,t2.micro,running,None,None
+417302553802,IT Sandbox,i-010cd80f1cd932d5f,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-060408e10075e0915,t2.xlarge,stopped,None,None
+417302553802,IT Sandbox,i-08bad823391b39e59,t2.xlarge,running,None,None
+417302553802,IT Sandbox,i-0b8160b8180fc32c1,t2.medium,stopped,None,None
+417302553802,IT Sandbox,i-0b6b07a55d620fe9f,t2.micro,running,None,None
+417302553802,IT Sandbox,i-08377d9f5f746c47b,t2.medium,running,None,None
+417302553802,IT Sandbox,i-0812e75ca46411052,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-0d245d6a8b3bb63c3,t2.xlarge,stopped,None,None
+417302553802,IT Sandbox,i-060f0d08188ddbe2b,t2.xlarge,stopped,None,None
+417302553802,IT Sandbox,i-0bc24c079ca5ee061,t2.small,running,None,None
+417302553802,IT Sandbox,i-0bded83ad97ed03ee,t2.small,stopped,None,None
+417302553802,IT Sandbox,i-0e82252558729afff,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-0834267ea01a9e8ff,t2.nano,stopped,None,None
+417302553802,IT Sandbox,i-087c108e616b8a440,t2.nano,stopped,None,None
+417302553802,IT Sandbox,i-0fdb7244f26abc8df,t2.nano,stopped,None,None
+417302553802,IT Sandbox,i-00c26ab420cf7c428,t2.nano,stopped,None,None
+417302553802,IT Sandbox,i-079dee688f1c75e42,t2.nano,running,None,None
+417302553802,IT Sandbox,i-0c79a19698bbeb3d6,t2.nano,running,None,None
+417302553802,IT Sandbox,i-0fbb3ba37339167b3,t2.nano,stopped,None,None
+417302553802,IT Sandbox,i-0b42b35543b16ad3a,t2.nano,running,None,None
+417302553802,IT Sandbox,i-00bb04f144981d8e8,t2.nano,running,None,None
+417302553802,IT Sandbox,i-0e0227447f9e27323,t2.nano,stopped,None,None
+417302553802,IT Sandbox,i-0db17312dda0fcd59,t2.medium,stopped,None,None
+417302553802,IT Sandbox,i-02437357a6a91a52b,t2.large,stopped,None,None
+417302553802,IT Sandbox,i-001544796424a4ddb,t2.small,stopped,None,None
+417302553802,IT Sandbox,i-0c36f55f416f40584,t2.micro,running,None,None
+417302553802,IT Sandbox,i-0a0415ef4322a3d2b,t2.small,running,None,None
+417302553802,IT Sandbox,i-0aeb31f99f0e04c43,t2.micro,running,sir-rimi7m8h,None
+417302553802,IT Sandbox,i-064c23460718dc841,t2.large,running,None,None
+417302553802,IT Sandbox,i-0067c4bf02a1e6352,m4.xlarge,running,None,None
+417302553802,IT Sandbox,i-055a8a15511e2de28,m4.large,stopped,sir-34fi7bth,None
+417302553802,IT Sandbox,i-05a295c1fa455d0eb,m4.large,stopped,None,None
+417302553802,IT Sandbox,i-0daae527e485fde72,t2.small,stopped,None,None
+417302553802,IT Sandbox,i-069a1ba9eadf8b410,r4.16xlarge,stopped,None,None
+417302553802,IT Sandbox,i-0334d4d4b8810d8c6,t2.small,running,None,None
+417302553802,IT Sandbox,i-034bd1918e71d6867,t3a.2xlarge,running,None,None
+417302553802,IT Sandbox,i-055c1ea0e928e87e2,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-096adfdc87270638e,m3.medium,stopped,None,None
+417302553802,IT Sandbox,i-064231ca0d981e3aa,m3.medium,stopped,None,None
+417302553802,IT Sandbox,i-0bbf2567e9190cf77,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-03009e2039d7fb170,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-07ce0af32fad1efb0,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-00e00108a02839b43,t2.large,running,None,None
+417302553802,IT Sandbox,i-0ca25c987576a4ca0,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-045f4653b683b68cb,t2.large,stopped,None,None
+417302553802,IT Sandbox,i-0f7ce3593f669fbff,t2.micro,running,None,None
+417302553802,IT Sandbox,i-034e8ec88be2d0339,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-01366d3d7186c4f57,t2.small,stopped,None,None
+417302553802,IT Sandbox,i-00fedcc3bf972b56f,t2.2xlarge,running,None,None
+417302553802,IT Sandbox,i-0fb811525d7317877,t2.micro,stopped,None,None
+417302553802,IT Sandbox,i-0dfaa53b1134e0f7a,t2.large,stopped,None,None
+417302553802,IT Sandbox,i-09745d06d2816dd30,t2.xlarge,stopped,None,None
+432833861124,Jedha-Test,i-04aef4f92bad27602,t2.micro,stopped,None,None
+316878946072,Sanofi-Prod,i-0be135a096debcd7e,m4.2xlarge,stopped,None,None
+316878946072,Sanofi-Prod,i-01e64443cdb2868c1,m4.2xlarge,running,None,None
+316878946072,Sanofi-Prod,i-02ef258f3fe445fd6,t2.medium,stopped,None,None
+316878946072,Sanofi-Prod,i-0a28efe4b66a290dd,t2.small,running,None,None
+346997421618,it-admin-prod,i-0921b5dae38e064d6,t2.medium,stopped,None,None
+346997421618,it-admin-prod,i-0c18551572a1f13ca,t2.micro,stopped,None,None
+346997421618,it-admin-prod,i-0b88ab9d7c57610c6,t2.micro,stopped,None,None
+346997421618,it-admin-prod,i-0d9889054d88f057d,t2.medium,stopped,None,None
+346997421618,it-admin-prod,i-0bf318af6cc0e0c3e,t2.large,stopped,None,None
+346997421618,it-admin-prod,i-0d834a3d3cb375535,t2.small,running,None,None
+346997421618,it-admin-prod,i-0ff78a8051771f429,c5.2xlarge,running,None,None
+346997421618,it-admin-prod,i-0dc79c9a6f83c03bf,m5.xlarge,running,None,None
+346997421618,it-admin-prod,i-073e4196455365889,c5.xlarge,running,None,None
+346997421618,it-admin-prod,i-0e3dc7081f077b16a,c5.xlarge,running,None,None
+698251107465,Clinical-LIS-Test-AWS,i-017adb55c633f7abe,t2.large,running,None,None
+698251107465,Clinical-LIS-Test-AWS,i-06504f6827de13978,t2.large,stopped,None,None
+698251107465,Clinical-LIS-Test-AWS,i-01021e59b1fcdd7b4,t2.large,running,None,None
+698251107465,Clinical-LIS-Test-AWS,i-0a8b4b2f38c8385cb,t2.medium,running,None,None
+698251107465,Clinical-LIS-Test-AWS,i-0488e8bf3fb81dea4,t2.medium,running,None,None
+698251107465,Clinical-LIS-Test-AWS,i-05d736a0c01cfcb62,t2.medium,running,None,None
+698251107465,Clinical-LIS-Test-AWS,i-07cd638e6b069f8ff,c4.large,running,None,None
+698251107465,Clinical-LIS-Test-AWS,i-0fe4fd8b0b57399e6,t2.small,running,None,None
+698251107465,Clinical-LIS-Test-AWS,i-0a7b74c3f6d633b37,t2.medium,running,None,None
+698251107465,Clinical-LIS-Test-AWS,i-0795b35ea5617dd03,t2.medium,stopped,None,None
+338293093465,GenomicPortal-Dev-Non-PHI,i-0f8d19808d774a805,t2.small,running,None,None
+338293093465,GenomicPortal-Dev-Non-PHI,i-0eb96e1df2f08140d,t2.large,running,None,None
+338293093465,GenomicPortal-Dev-Non-PHI,i-03caa9d29202ff52f,t2.large,running,None,None
+338293093465,GenomicPortal-Dev-Non-PHI,i-0ca2077524e16229d,t2.large,running,None,None
+333080083406,IT-Monitoring-AWS,i-0759bbbfc3e89d58d,t3.medium,running,None,None
+333080083406,IT-Monitoring-AWS,i-06560205fb57aeb98,t3.medium,running,None,None
+333080083406,IT-Monitoring-AWS,i-09643b74abd1b1d62,t3.medium,running,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-0a8d5217c9719ac42,t2.micro,running,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-06f821b34c58e4451,t2.micro,running,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-04316fd6ced1ba9e8,m4.large,running,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-0ea7093f0f2ebc908,t2.micro,running,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-0fb652b6247e2929e,t2.medium,stopped,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-037ea0dc544a28bc8,m4.large,running,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-0bffd0fa4e430c8f6,t2.micro,running,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-04fa6c0a6e2d79d49,t2.micro,running,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-0ffed09b88595e3a5,m4.large,running,None,None
+026202229179,OracleAlpha-Dev-Non-PHI,i-0976de9436e08123d,m4.large,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-029699bc07dbdaba0,m5.large,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-0d20159ac8777af80,t2.small,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-053f2dcd990b040db,t3.xlarge,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-0cba379f65d9bccf6,t3.small,terminated,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-0d74498c3e64809bc,t3.small,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-052cc18de9fe6f3b8,m5.large,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-089e27d215026b6b6,t2.micro,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-0981b7163e1cc1a97,t2.micro,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-0e1c68d8aee2493b1,t2.micro,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-061d43933927170be,t3.xlarge,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-06d6ec48163a4ce7c,t3.small,terminated,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-09bc7bac0925b4b81,t3.small,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-0508dd9f0a10e7a96,t2.micro,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-04a477fcb68f51e9c,t2.micro,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-0ef8ea75e9d92bc92,m5.large,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-084a557650f8efd7c,t2.small,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-0f3d934f004d373d8,t2.xlarge,stopped,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-039fbcad28f04aa64,t2.xlarge,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-00993f0ef539bf04f,t3.xlarge,running,None,None
+302045810143,Clinical-Apps-Dev-PHI,i-0f8351827ce54cdb8,t2.micro,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-03f3edf613ca5ca89,c5.9xlarge,shutting-down,sir-iwqr4m7g,None
+260062248592,Branford-Dev-Non-PHI,i-0018354c96c8c9d77,m5.24xlarge,running,sir-xnqi4hdg,None
+260062248592,Branford-Dev-Non-PHI,i-05e30891d98588748,t2.large,stopped,None,None
+260062248592,Branford-Dev-Non-PHI,i-06689b4a7415a8dac,r4.8xlarge,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-055f4d60bad307c77,m5a.2xlarge,stopped,None,None
+260062248592,Branford-Dev-Non-PHI,i-01d4a7b7b9d0b0107,t2.medium,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-0549c1db02bbdae9b,r5a.4xlarge,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-08f6f134ff6e05a36,r5a.4xlarge,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-041799e1fe1cb31a2,t3.2xlarge,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-08c399ccb1b20be7e,c4.8xlarge,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-0eda6cd19199c5d30,m4.16xlarge,running,sir-8hsg6y1k,None
+260062248592,Branford-Dev-Non-PHI,i-02d4dd4c3c8eba69e,c5.18xlarge,terminated,sir-cv7g7k3j,None
+260062248592,Branford-Dev-Non-PHI,i-074cbbdbdfd65e98b,c5.18xlarge,running,sir-vn8i49hg,None
+260062248592,Branford-Dev-Non-PHI,i-0a90de152cfdd89d8,c5.18xlarge,running,sir-jfy86ssh,None
+260062248592,Branford-Dev-Non-PHI,i-0c7e53975616d6fab,c5.18xlarge,running,sir-mkv844vj,None
+260062248592,Branford-Dev-Non-PHI,i-08a81816476691d78,c5.18xlarge,terminated,sir-ajti5iij,None
+260062248592,Branford-Dev-Non-PHI,i-0262ee7a91e55acbd,c5.18xlarge,running,sir-qnrr5ifk,None
+260062248592,Branford-Dev-Non-PHI,i-0126e98873d34d77e,c5.18xlarge,terminated,sir-9n1r5jyg,None
+260062248592,Branford-Dev-Non-PHI,i-062f8cdefc30cef72,c5.18xlarge,terminated,sir-tbz84gwk,None
+260062248592,Branford-Dev-Non-PHI,i-008a8cb7b66c09bd1,c5.18xlarge,terminated,sir-wqkr42qj,None
+260062248592,Branford-Dev-Non-PHI,i-037010c7a35a1cdcd,c5.18xlarge,terminated,sir-5gdg4ieg,None
+260062248592,Branford-Dev-Non-PHI,i-076276f7ee9d5f366,c5.18xlarge,running,sir-ghi854bg,None
+260062248592,Branford-Dev-Non-PHI,i-0c92dd50c65c9a533,c5.18xlarge,terminated,sir-f8ar652j,None
+260062248592,Branford-Dev-Non-PHI,i-0c02217de32cc9aaa,c5.18xlarge,terminated,sir-1axg5vxk,None
+260062248592,Branford-Dev-Non-PHI,i-0c401f4c0f9d34b1e,m5.2xlarge,stopped,None,None
+260062248592,Branford-Dev-Non-PHI,i-0e46088c9238d6ce0,m5.2xlarge,stopped,None,None
+260062248592,Branford-Dev-Non-PHI,i-090ab401a04306675,m5.2xlarge,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-03c30d13a34963bb8,t2.micro,stopped,None,None
+260062248592,Branford-Dev-Non-PHI,i-040229d8ba3f3698e,m5d.2xlarge,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-041d7894fcf62dcc6,m5.2xlarge,stopped,None,None
+260062248592,Branford-Dev-Non-PHI,i-010365ea59443eb7b,t2.large,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-09e4f534be7a1ab36,m4.16xlarge,running,None,None
+260062248592,Branford-Dev-Non-PHI,i-0ae2bffc97ccaf9de,r5.24xlarge,terminated,sir-9pkr417j,None
+783779456774,Jedha-Dev-Non-PHI-AWS,i-04e4a2d35ef69d816,t2.micro,stopped,None,None
+245651368221,Sanofi-Dev-PHI,i-05fa63d7c31431810,t2.large,running,None,None
+699743580331,Shared-Storage-Test,i-033f4ec19533efd4b,t2.xlarge,running,None,None
+699743580331,Shared-Storage-Test,i-073f5929cdb5e9e5d,t2.micro,running,None,None
+699743580331,Shared-Storage-Test,i-029133020f6db59cf,t3.medium,stopped,None,None
+586916032531,Portal-Prod,i-07eed5b9c43488a47,t2.small,running,None,None
+586916032531,Portal-Prod,i-0848a785af39f2a5d,t2.small,running,None,None
+586916032531,Portal-Prod,i-03ef24d7af283e983,t2.large,running,None,None
+586916032531,Portal-Prod,i-0a14a1f82bd3c0ea9,t2.large,running,None,None
+586916032531,Portal-Prod,i-0170e48e38fec1cd8,t2.large,running,None,None
+700485082534,LaurenPeters-Dev-Non-PHI,i-01c3f5e78fa46f48f,m4.16xlarge,running,sir-qbti598k,None
+532447116176,Clinical-Germline-Test,i-05b3f893d505695d0,t3.nano,running,None,None
+532447116176,Clinical-Germline-Test,i-0a9eea4fd69780d4f,t2.small,running,None,None
+532447116176,Clinical-Germline-Test,i-0c2505c69ad9791ae,i2.xlarge,running,None,None
+532447116176,Clinical-Germline-Test,i-05b608e87d572218e,t2.micro,running,None,None
+532447116176,Clinical-Germline-Test,i-0e830e9efa3e52288,t2.medium,stopped,None,None
+532447116176,Clinical-Germline-Test,i-01f12099babc9455a,t2.large,running,None,None
+532447116176,Clinical-Germline-Test,i-0e24d2ba8ded38cbb,m5.large,running,None,None
+532447116176,Clinical-Germline-Test,i-03cc87a2ec1217a78,m5.large,running,None,None
+532447116176,Clinical-Germline-Test,i-0a7ca6ab5f13d6d0e,t2.medium,running,None,None
+470168895595,Bioinfo-research-Test,i-0f651e23eb953dc4d,c5n.2xlarge,running,None,None
+470168895595,Bioinfo-research-Test,i-06c4e0f2590e6c8b6,t2.medium,running,None,None
+470168895595,Bioinfo-research-Test,i-06f1787f288937ce0,t1.micro,running,None,None
+470168895595,Bioinfo-research-Test,i-045b9166e34f8148a,t2.large,running,None,None
+470168895595,Bioinfo-research-Test,i-0cbfd78a7e08cf626,t2.micro,running,None,None
+470168895595,Bioinfo-research-Test,i-01513b2619f8f7649,t2.large,running,None,None
+470168895595,Bioinfo-research-Test,i-0199b9a9dd5952069,t2.xlarge,running,None,None
+470168895595,Bioinfo-research-Test,i-01dd8cef9ee0082bb,t2.medium,running,None,None
+470168895595,Bioinfo-research-Test,i-0dc3ea97c881b9055,t2.small,running,None,None
+470168895595,Bioinfo-research-Test,i-0e0abdfed92797fd6,t2.large,running,None,None
+470168895595,Bioinfo-research-Test,i-0fd9709d1aae8a1be,t2.small,running,None,None
+470168895595,Bioinfo-research-Test,i-0ab2400cb0786165b,t2.micro,stopped,None,None
+544384345841,Shared-Storage-Prod,i-0041d79d4ab77bc33,t2.medium,stopped,None,None
+544384345841,Shared-Storage-Prod,i-0120f37b40c1750d3,t2.2xlarge,running,None,None
+921279086507,Bioinfo-production-Prod,i-0215deea2d93d5deb,t2.large,stopped,None,None
+921279086507,Bioinfo-production-Prod,i-088b0e30c2ff6578c,t2.xlarge,stopped,None,None
+921279086507,Bioinfo-production-Prod,i-0cdcd41b3f1160649,m5d.2xlarge,running,None,None
+921279086507,Bioinfo-production-Prod,i-056144fe501fa631a,t2.small,running,None,None
+921279086507,Bioinfo-production-Prod,i-0176c08956e676797,t2.micro,running,None,None
+921279086507,Bioinfo-production-Prod,i-02c44cbacbaa4f37a,t2.micro,stopped,None,None
+921279086507,Bioinfo-production-Prod,i-074265490b29f6783,t2.micro,running,None,None
+921279086507,Bioinfo-production-Prod,i-0a92a9591fa446725,t2.small,stopped,None,None
+921279086507,Bioinfo-production-Prod,i-0db297f9459286318,t2.micro,running,None,None
+921279086507,Bioinfo-production-Prod,i-07f2be02a5bee8e92,t2.medium,stopped,None,None
+921279086507,Bioinfo-production-Prod,i-03516d920cd7e23ce,t2.medium,running,None,None
+921279086507,Bioinfo-production-Prod,i-0d3af8165ef8cdd8c,t2.large,running,None,None
+921279086507,Bioinfo-production-Prod,i-004828bf8f84a38f8,t2.large,running,None,None
+921279086507,Bioinfo-production-Prod,i-0df1070180f4a8c81,c4.8xlarge,terminated,sir-ckbg7isg,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-08faa6ecad1ec0896,t3.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-03755f1a549ec8165,t2.micro,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-0ae09a5f017934cdb,t3.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-0557308fd8228cdfc,t2.micro,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-0aa7bf65dbb27909e,t2.nano,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-083e26f2278cac08b,t2.micro,stopped,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-0285a85e9944f3e5f,t2.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-029785b1b361a54fc,t2.micro,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-0d22bebc08c64801e,t2.nano,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-048d31caa880217f5,t2.small,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-041abc653b9e15119,t2.micro,stopped,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-0d4352e968d7ec171,t3.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-0c25167f480d8cf10,t3.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-030c95d16937bab55,t3.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-007ed5a1ac67260ec,t3.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-03362a0bac675d17c,t2.small,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-00dc8d10851c85918,t3.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-06b07c4e8392ea11e,t2.medium,stopped,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-0e4fbb35d74ad93ef,t3.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-00428aab51d33faeb,t2.medium,running,None,None
+431656739582,Portal-Apps-Dev-Non-PHI,i-03ed6b3f404293e9e,t2.small,running,None,None
+680255642622,Clinical-Germline-Prod,i-00a3e57faf92752db,m4.xlarge,running,None,None
+680255642622,Clinical-Germline-Prod,i-0f842cbea579ceefa,t3a.large,stopped,None,None
+680255642622,Clinical-Germline-Prod,i-0a04f9f011aa76507,t3.micro,running,sir-w37i4d1h,None
+680255642622,Clinical-Germline-Prod,i-07718ab29e3fab7e3,m4.10xlarge,running,sir-qn4i7k7g,None
+680255642622,Clinical-Germline-Prod,i-07781bc0aa78b6923,m4.10xlarge,running,sir-nsgr45zj,None
+680255642622,Clinical-Germline-Prod,i-06d359ad1fbb29ced,m4.2xlarge,running,None,None
+680255642622,Clinical-Germline-Prod,i-0a1c01ff4d347896c,r5ad.4xlarge,stopped,None,None
+680255642622,Clinical-Germline-Prod,i-04aa6b2909529c4ef,r5ad.4xlarge,stopped,None,None
+680255642622,Clinical-Germline-Prod,i-04fae69bf5abe15fc,r5ad.4xlarge,stopped,None,None
+680255642622,Clinical-Germline-Prod,i-0caf34448f5e5eff1,m4.2xlarge,running,sir-kae85hmj,None
+680255642622,Clinical-Germline-Prod,i-0849b99acf2672db2,m4.2xlarge,running,sir-ty5r7fvg,None
+680255642622,Clinical-Germline-Prod,i-0816441b00ba64bff,c4.xlarge,running,sir-ypig7pph,None
+680255642622,Clinical-Germline-Prod,i-0a155ce1285b62990,m4.xlarge,running,None,None
+680255642622,Clinical-Germline-Prod,i-03723e91cd62e73bb,t2.micro,stopped,None,None
+680255642622,Clinical-Germline-Prod,i-011ba2562ebe97769,t2.2xlarge,running,None,None
+680255642622,Clinical-Germline-Prod,i-07e2c550d854270d7,t2.small,running,None,None
+680255642622,Clinical-Germline-Prod,i-009aea9e6f251ffad,t2.micro,running,None,None
+680255642622,Clinical-Germline-Prod,i-01bdd2df925a1ea39,t2.small,stopped,None,None
+680255642622,Clinical-Germline-Prod,i-0d2a82ad3fac093fa,t2.large,stopped,None,None
+680255642622,Clinical-Germline-Prod,i-0563051b8efa00e31,t2.medium,running,None,None
+275891946311,OracleAlpha-Prod,i-054a3e39f76316348,m4.xlarge,stopped,None,None
+275891946311,OracleAlpha-Prod,i-0b16df77c51a85291,t2.2xlarge,stopped,None,None
+275891946311,OracleAlpha-Prod,i-0a5895342a38a5317,m5.4xlarge,running,None,None
+275891946311,OracleAlpha-Prod,i-0ce483e24ecc81d8d,t2.micro,running,None,None
+275891946311,OracleAlpha-Prod,i-0188a4995ffb6a617,t2.micro,stopped,None,None
+275891946311,OracleAlpha-Prod,i-016aa9d4928248149,m4.large,running,None,None
+275891946311,OracleAlpha-Prod,i-060b79e1835bd0f6e,m4.large,running,None,None
+275891946311,OracleAlpha-Prod,i-0e0979d64a5f74f4f,m4.large,running,None,None
+275891946311,OracleAlpha-Prod,i-016eda18534379fc7,t2.2xlarge,stopped,None,None
+275891946311,OracleAlpha-Prod,i-04662a0fa38fb437e,t2.micro,running,None,None
+275891946311,OracleAlpha-Prod,i-0505ddda0717868f1,t2.micro,running,None,None
+275891946311,OracleAlpha-Prod,i-01a17e193b2a172de,t2.micro,running,None,None
+275891946311,OracleAlpha-Prod,i-0e7384953803e4a2b,m4.large,running,None,None
+275891946311,OracleAlpha-Prod,i-0509fc08d5cb6b599,m4.large,running,None,None
+275891946311,OracleAlpha-Prod,i-0a4d8dd699a39b5d0,m4.large,running,None,None
+006775277657,IT-Admin-Test,i-05efffe12932bb50e,t2.medium,stopped,None,None
+006775277657,IT-Admin-Test,i-036f75780f096c4f6,t2.micro,stopped,None,None
+006775277657,IT-Admin-Test,i-02c1fd2e398219d69,t2.micro,stopped,None,None
+006775277657,IT-Admin-Test,i-070c2859684bcbd7f,t2.micro,stopped,None,None
+006775277657,IT-Admin-Test,i-043b22e76f5eb4b38,t2.micro,stopped,None,None
+006775277657,IT-Admin-Test,i-0559323b6b8cdb1d7,t2.medium,running,None,None
+006775277657,IT-Admin-Test,i-064cb459c97dafe3c,c5.xlarge,running,None,None
+006775277657,IT-Admin-Test,i-07c1a18bb81d58c7a,m5.large,running,None,None
+006775277657,IT-Admin-Test,i-0b5a3086ed6745233,t2.micro,stopped,None,None
+006775277657,IT-Admin-Test,i-07845e6328cce0e8f,t2.medium,running,None,None
+006775277657,IT-Admin-Test,i-0a0e8f31abffbfa23,t2.micro,stopped,None,None
+006775277657,IT-Admin-Test,i-05a4554be938ffb3f,t2.micro,running,None,None
+006775277657,IT-Admin-Test,i-0e07daf6f8a76ce4a,t2.medium,running,None,None
+678730740226,GenomicPortal-Dev-PHI-AWS,i-067afc0df70ac693d,t2.small,running,None,None
+678730740226,GenomicPortal-Dev-PHI-AWS,i-038620f181bb80286,t2.large,running,None,None
+098006065408,Clinical-Apps-Dev-Non-PHI,i-0e6091c7aebdbba52,t2.large,stopped,None,None
+098006065408,Clinical-Apps-Dev-Non-PHI,i-0e25bc46b41fa828c,t3a.xlarge,running,None,None
+098006065408,Clinical-Apps-Dev-Non-PHI,i-05f104a102f7593ae,t3a.xlarge,running,None,None
+098006065408,Clinical-Apps-Dev-Non-PHI,i-047b266283f8e14e4,t2.large,running,None,None
+098006065408,Clinical-Apps-Dev-Non-PHI,i-099747c41fee9238b,t2.micro,stopped,None,None
+098006065408,Clinical-Apps-Dev-Non-PHI,i-0e8d97e14a2a955dc,t2.micro,running,None,None
+098006065408,Clinical-Apps-Dev-Non-PHI,i-0069506ba8cb296e0,t3.small,running,None,None
+098006065408,Clinical-Apps-Dev-Non-PHI,i-0719b49eff9e0ae97,t2.micro,running,None,None
+098006065408,Clinical-Apps-Dev-Non-PHI,i-09791b5f840439114,t3.small,running,None,None
+538351320361,Clinical-Medgis-Dev-Non-PHI,i-068f2dd4100572548,t2.medium,running,None,None
+538351320361,Clinical-Medgis-Dev-Non-PHI,i-07e93e1129f56553d,t2.large,running,None,None
+538351320361,Clinical-Medgis-Dev-Non-PHI,i-07e361d0d009c909c,t2.large,running,None,None
+538351320361,Clinical-Medgis-Dev-Non-PHI,i-0652c63734360b101,t2.large,running,None,None
+538351320361,Clinical-Medgis-Dev-Non-PHI,i-0a8b86baedb5c0ff3,t2.large,running,None,None
+538351320361,Clinical-Medgis-Dev-Non-PHI,i-0511a78427d8440f4,t2.large,running,None,None
+538351320361,Clinical-Medgis-Dev-Non-PHI,i-04be4f7d57f926612,t2.large,running,None,None
+538351320361,Clinical-Medgis-Dev-Non-PHI,i-082414373f6b333ed,t2.large,running,None,None
+785174582613,Portal-Test,i-0af0778049e80182a,t2.small,running,None,None
+785174582613,Portal-Test,i-0e64fc207f6ebb12e,t2.large,running,None,None
+785174582613,Portal-Test,i-05487e6004442b6c6,t2.large,running,None,None
+909119180557,Bioinfo-research-Prod,i-07cb19678dc466ff7,c5.2xlarge,running,None,None
+909119180557,Bioinfo-research-Prod,i-02512372733e3e1e1,c4.8xlarge,running,None,None
+909119180557,Bioinfo-research-Prod,i-0159e03d13830a8fb,c5n.4xlarge,running,None,None
+909119180557,Bioinfo-research-Prod,i-0e17768e4dbb29ee9,t2.large,running,None,None
+909119180557,Bioinfo-research-Prod,i-0be1a6863e293256f,t2.medium,running,None,None
+625677570072,Germline-Dev-PHI,i-01739bec2c491d172,t2.small,stopped,None,None
+130530176404,StatisticalGenomics-Dev-Non-PHI,i-05f7331fddfb175de,m4.large,running,sir-17rr64ag,None
+130530176404,StatisticalGenomics-Dev-Non-PHI,i-0ffcd76b585bbad37,m4.large,running,sir-3448675k,None
+862126979168,Clinical-Medgis-Prod,i-00eea65043aa242ce,m4.xlarge,running,None,None
+862126979168,Clinical-Medgis-Prod,i-016cca9ec7fd53eb0,t2.large,running,None,None
+862126979168,Clinical-Medgis-Prod,i-0de6db2119d431542,c4.large,stopped,None,None
+862126979168,Clinical-Medgis-Prod,i-04cfe852bf43ca7df,t2.micro,running,None,None
+862126979168,Clinical-Medgis-Prod,i-097b54ac690ee82f9,t2.xlarge,stopped,None,None
+862126979168,Clinical-Medgis-Prod,i-0b75942871463443a,c4.large,stopped,None,None
+862126979168,Clinical-Medgis-Prod,i-0a3a59db49de315e8,t2.medium,running,None,None
+862126979168,Clinical-Medgis-Prod,i-05d9a3fb3e7109cc0,t2.medium,running,None,None
+862126979168,Clinical-Medgis-Prod,i-05aa128ceea392b34,t2.small,running,None,None
+862126979168,Clinical-Medgis-Prod,i-0dbb7bd6a5f982bc7,t2.micro,running,None,None
+862126979168,Clinical-Medgis-Prod,i-00c2d2c06e8646fee,t2.small,running,None,None
+862126979168,Clinical-Medgis-Prod,i-0d029cfbb0563a812,t2.micro,running,None,None
+862126979168,Clinical-Medgis-Prod,i-02c85a7b437453b10,t2.large,running,None,None
+862126979168,Clinical-Medgis-Prod,i-0b40e182a37a685f7,t2.micro,running,None,None
+862126979168,Clinical-Medgis-Prod,i-0f972a5490562d2e9,t2.micro,running,None,None
+880407937848,Branford-Dev-PHI,i-07dd92a38e97966dd,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0f49a1ddb91144c52,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0423a7f9901d3e0d4,c4.8xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0143de36bfacc4b12,c4.8xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0d6653ff587e6139f,c4.8xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0c49d113b8a41b269,m4.16xlarge,terminated,None,None
+880407937848,Branford-Dev-PHI,i-03f882955b7975ad4,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-092ad5318eff9c2b3,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-03112cfa832ffa22f,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0888d24ba11581a4b,m4.10xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0021474ad02dee2df,r4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0a995455b293d8cda,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-08df68b2759c5d509,c4.8xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0c6c0577625fc2d54,m4.4xlarge,terminated,None,None
+880407937848,Branford-Dev-PHI,i-01aca8ee189bb2f17,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0cd93387f60e452f6,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0b3d9121b1f912a9a,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-02bc0e26df0ba2f96,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0d337e188bfd1babf,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0455daca161ae74e5,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0004b2a5328d677d3,m4.4xlarge,terminated,None,None
+880407937848,Branford-Dev-PHI,i-007130e384cb80433,m4.xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-06e131158f38d36bf,t2.small,running,None,None
+880407937848,Branford-Dev-PHI,i-0c3cb875a10498c37,t2.micro,stopped,None,None
+880407937848,Branford-Dev-PHI,i-0a011cc44d0be7895,t2.2xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0740b8e431a764a48,t2.large,stopped,None,None
+880407937848,Branford-Dev-PHI,i-033f1b385a2cf046a,t2.micro,running,None,None
+880407937848,Branford-Dev-PHI,i-0f9c104ad8221351f,t2.medium,running,None,None
+880407937848,Branford-Dev-PHI,i-0450623dd8194bf58,t2.small,running,None,None
+880407937848,Branford-Dev-PHI,i-0856766909d8fd124,t2.micro,running,None,None
+880407937848,Branford-Dev-PHI,i-09d34fd20cb2ccb11,t2.micro,running,None,None
+880407937848,Branford-Dev-PHI,i-0e5cf242151272d0e,t2.small,stopped,None,None
+880407937848,Branford-Dev-PHI,i-0a8d9a8b1bdfe69d3,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-00d9a6bf3b05577fa,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-089872c57e348fa90,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-0b9d25d31b748e05c,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-02d0e914c7608e3b9,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-0bcb3c1ea0176dfca,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-0378a2ef19d7fd9b0,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-06450da5b68792327,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-06d9abbe8653455d8,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-0e2b586514c7aa9bc,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-0cd8708c0c0e9a246,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-00943e923bf0f246d,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-0294859350befdd0e,c5.4xlarge,stopped,None,None
+880407937848,Branford-Dev-PHI,i-09ae20c51102dbee2,t2.micro,running,None,None
+880407937848,Branford-Dev-PHI,i-03fdb1743c14086fc,c5.18xlarge,terminated,sir-1t8r5j7g,None
+880407937848,Branford-Dev-PHI,i-0f975c2b5940ee29e,r5a.4xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-005421759fcb7b390,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0878c70066f98d28a,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-03193e7c751d14511,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-021f682a0254f1a8a,c4.8xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-04ef19f15fb0a3796,c4.8xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-02d8e716c69ce525f,c4.8xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-08d3af3d49f409e37,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-084f5b7602dd8dc36,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-04be5dd24ccfcea41,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-082bea30b0daf8c0b,r4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-085b7a81a47af4b11,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0c35e746bd63be3be,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-054a8118ce0ca62a2,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-06d009706c9b24f49,m4.4xlarge,terminated,None,None
+880407937848,Branford-Dev-PHI,i-04d393dc4d44717fd,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0d5a1f9333127932b,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-05db66c271c61dbe4,m4.16xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0638164dfc55a5feb,m4.16xlarge,running,sir-p3ar567j,None
+880407937848,Branford-Dev-PHI,i-0e65d722aedab4374,m4.16xlarge,running,sir-g1h84qxk,None
+880407937848,Branford-Dev-PHI,i-00103a46cb525571b,m4.16xlarge,running,sir-g2885axh,None
+880407937848,Branford-Dev-PHI,i-01766ca5959a74dbb,m4.16xlarge,running,sir-tazg43yk,None
+880407937848,Branford-Dev-PHI,i-05ab5845494e045af,m4.16xlarge,terminated,sir-1ga85wcj,None
+880407937848,Branford-Dev-PHI,i-025f15dea0d6001d2,m4.16xlarge,running,sir-tpci6ebg,None
+880407937848,Branford-Dev-PHI,i-0b57ecbed771c5f17,m4.16xlarge,running,sir-ggii65wj,None
+880407937848,Branford-Dev-PHI,i-04cb2389b8cc42219,m4.16xlarge,running,sir-51e86xjk,None
+880407937848,Branford-Dev-PHI,i-0cc57193b403395da,m4.16xlarge,running,sir-kh6g5x4j,None
+880407937848,Branford-Dev-PHI,i-018dc581b731da8ac,c4.8xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-0ec4f0729b53b876e,m4.4xlarge,running,None,None
+880407937848,Branford-Dev-PHI,i-011a789adc575aa65,m4.4xlarge,running,None,None
+890103072311,Sanofi-Dev-Non-PHI,i-048e2add543255b3c,t2.large,running,None,None
+890103072311,Sanofi-Dev-Non-PHI,i-0804782c100a73a43,t2.large,running,None,None
+890103072311,Sanofi-Dev-Non-PHI,i-05daee8a408542bac,m4.xlarge,running,None,None
+890103072311,Sanofi-Dev-Non-PHI,i-0219fd4dab81bef45,t2.medium,running,None,None
+890103072311,Sanofi-Dev-Non-PHI,i-05a98fc9c109776a0,t2.medium,running,None,None
+890103072311,Sanofi-Dev-Non-PHI,i-0920d956a6ee529d7,t2.large,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-00d90633dd7c9ac27,t2.large,stopped,None,None
+267795504649,Somatic-Dev-Non-PHI,i-026f0e746f6afd535,m4.16xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-03a4246e030591397,c4.8xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0ee13b50ade41fc41,c4.8xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-022d3381059f4e901,c4.8xlarge,terminated,None,None
+267795504649,Somatic-Dev-Non-PHI,i-028ef4739ce0c575e,c4.8xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-065bad8c77eff770e,m4.16xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0dde43281f2a19ad7,t2.large,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0673e956cc1155189,t2.medium,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0662f5f535d324410,t2.large,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0961e60a21ffd1604,t2.large,stopped,None,None
+267795504649,Somatic-Dev-Non-PHI,i-08efd3b3b814827de,r5a.4xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0a2867d0bf01fd2f6,r5a.4xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-029cc82ea984d8b1a,m4.10xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0905173a203c6eecb,c4.8xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-048ec5f7ae2e11558,c4.8xlarge,terminated,None,None
+267795504649,Somatic-Dev-Non-PHI,i-07225fef47959159f,m4.16xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0fc05d730b78e399c,m4.16xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-00077e54d94b2b50e,c4.8xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0e552853d8c68d46a,m4.4xlarge,terminated,None,None
+267795504649,Somatic-Dev-Non-PHI,i-07d63fd77c1fe91f1,m4.16xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-0d54f55dc2f8eab37,m4.16xlarge,running,None,None
+267795504649,Somatic-Dev-Non-PHI,i-02185fb87bac12789,m4.4xlarge,terminated,None,None
+267795504649,Somatic-Dev-Non-PHI,i-01dacebbef56bf98e,m5.xlarge,running,None,None
+958715007388,Clinical-Medgis-Test,i-078816775724409ad,t2.large,running,None,None
+958715007388,Clinical-Medgis-Test,i-0a05d71c48b39702e,t2.micro,stopped,None,None
+958715007388,Clinical-Medgis-Test,i-076e47ed21fe12045,c4.large,stopped,None,None
+958715007388,Clinical-Medgis-Test,i-0afaf2d4aefc17fae,t2.medium,running,None,None
+958715007388,Clinical-Medgis-Test,i-09a7a69f987f35aba,t2.medium,running,None,None
+958715007388,Clinical-Medgis-Test,i-070454cfbb7e7602e,t2.small,running,None,None
+958715007388,Clinical-Medgis-Test,i-015903b44462f2ffa,t2.micro,running,None,None
+958715007388,Clinical-Medgis-Test,i-04db3176e02049307,t2.micro,running,None,None
+962995370785,s4-product-portal-dev,i-01078a9aa284ccc32,t2.micro,running,None,None
+962995370785,s4-product-portal-dev,i-0b426a10ea3d19846,t2.micro,running,None,None
+962995370785,s4-product-portal-dev,i-0743b1cea9866c561,c5.large,running,None,None
+962995370785,s4-product-portal-dev,i-01815f1237a91f20c,t2.small,running,None,None
+962995370785,s4-product-portal-dev,i-040fe5bd1d94d3a10,t2.micro,running,None,None
+962995370785,s4-product-portal-dev,i-0810041da1de77c0b,c5.large,running,None,None
+962995370785,s4-product-portal-dev,i-002bd730a619cb24c,t2.micro,running,None,None
+051492874259,Zhu-Dev-Non-PHI-AWS,i-0c4ef8a6185672641,m4.10xlarge,stopped,None,None
+051492874259,Zhu-Dev-Non-PHI-AWS,i-0960c9510720ec20f,m4.large,stopped,None,None
+051492874259,Zhu-Dev-Non-PHI-AWS,i-003729d0a14a47852,r4.large,stopped,None,None
+051492874259,Zhu-Dev-Non-PHI-AWS,i-0da627b1d02238bac,t2.large,stopped,None,None
+051492874259,Zhu-Dev-Non-PHI-AWS,i-067b8f54237ff6e42,z1d.large,stopped,None,None
+359051777659,Bioinfo-production-Test,i-0cb0c634658045d70,t2.large,stopped,None,None
+359051777659,Bioinfo-production-Test,i-061485a1e55f0c37f,t2.medium,running,None,None
+359051777659,Bioinfo-production-Test,i-09c074012c0e4bb03,t2.micro,running,None,None
+359051777659,Bioinfo-production-Test,i-0b813896ba8741a0c,t2.micro,running,None,None
+359051777659,Bioinfo-production-Test,i-0959e11bb4c67b54a,t2.small,running,None,None
+359051777659,Bioinfo-production-Test,i-045577bedf9abc653,m4.xlarge,running,None,None
+359051777659,Bioinfo-production-Test,i-01e82d0975332b855,m4.xlarge,running,None,None
+359051777659,Bioinfo-production-Test,i-0069bed82eb934204,m4.xlarge,running,None,None
+359051777659,Bioinfo-production-Test,i-04b390a8a607c0ae4,t2.micro,running,None,None
+359051777659,Bioinfo-production-Test,i-0b61d5b7fec3505cc,t2.large,running,None,None
+359051777659,Bioinfo-production-Test,i-0e1dc3ee27b31913e,t2.medium,running,None,None
+359051777659,Bioinfo-production-Test,i-0b4e5cd715118527f,r5a.4xlarge,running,None,None
+359051777659,Bioinfo-production-Test,i-0eb86f39be4e6a632,r5a.4xlarge,running,None,None
