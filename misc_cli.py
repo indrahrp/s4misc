@@ -313,24 +313,18 @@ def sharing_transit_gateway():
 
 
 def unused_secgroup(region,delete=False):
-    print "Finding unused Security Group .."
+    print "Finding unused Security Group on region " +region
 
-    print "reg " + region
+
     Account_Session.initialize()
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
+            print "====================\n\n"
             print "checking account : "  + account
-            client=sessinfo['session'].client('ec2')
+            print "===================="
 
-            regions_dict = client.describe_regions()
-
-            region_list = [region['RegionName'] for region in regions_dict['Regions']]
-
-            # parse arguments
-
-
-            client=sessinfo['session'].client('ec2')
-            ec2 = sessinfo['session'].resource('ec2')
+            client=sessinfo['session'].client('ec2',region_name=region)
+            ec2 = sessinfo['session'].resource('ec2',region_name=region)
             all_groups = []
             security_groups_in_use = []
             # Get ALL security groups names
@@ -339,7 +333,7 @@ def unused_secgroup(region,delete=False):
             for groupobj in security_groups:
                 if groupobj['GroupName'] == 'default' or groupobj['GroupName'].startswith('d-') or groupobj['GroupName'].startswith('AWS-OpsWorks-'):
                     security_groups_in_use.append(groupobj['GroupId'])
-            all_groups.append(groupobj['GroupId'])
+                all_groups.append(groupobj['GroupId'])
 
             # Get all security groups used by instances
             instances_dict = client.describe_instances()
@@ -361,7 +355,7 @@ def unused_secgroup(region,delete=False):
                         security_groups_in_use.append(j['GroupId'])
 
             # Security groups used by classic ELBs
-            elb_client = sessinfo['session'].client('elb')
+            elb_client = sessinfo['session'].client('elb',region_name=region)
             elb_dict = elb_client.describe_load_balancers()
             for i in elb_dict['LoadBalancerDescriptions']:
                 for j in i['SecurityGroups']:
@@ -369,7 +363,7 @@ def unused_secgroup(region,delete=False):
                          security_groups_in_use.append(j)
 
             # Security groups used by ALBs
-            elb2_client = sessinfo['session'].client('elbv2')
+            elb2_client = sessinfo['session'].client('elbv2',region_name=region)
             elb2_dict = elb2_client.describe_load_balancers()
             for i in elb2_dict['LoadBalancers']:
             #for j in i['SecurityGroups']:
@@ -378,7 +372,7 @@ def unused_secgroup(region,delete=False):
                         security_groups_in_use.append(j)
 
             # Security groups used by RDS
-            rds_client = sessinfo['session'].client('rds')
+            rds_client = sessinfo['session'].client('rds',region_name=region)
             rds_dict = rds_client.describe_db_instances()
             for i in rds_dict['DBInstances']:
                 for j in i['VpcSecurityGroups']:
@@ -388,7 +382,7 @@ def unused_secgroup(region,delete=False):
             delete_candidates = []
             for group in all_groups:
                 if group not in security_groups_in_use:
-                    print str(delete_candidates)
+                    #print str(delete_candidates)
                     delete_candidates.append(group)
 
             if delete:
@@ -397,7 +391,7 @@ def unused_secgroup(region,delete=False):
                     security_group = ec2.SecurityGroup(group)
                     try:
                         ##security_group.delete()
-                        print "DDDDDD"
+                        print "deleting " + group
                     except Exception as e:
                         print(e)
                         print("{0} requires manual remediation.".format(security_group.group_name))
