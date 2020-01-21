@@ -178,9 +178,6 @@ def main():
     parser.add_argument('--eiplistallsub', type=str, required=False,
                         help='list eip in all sub accounts')
 
-
-
-
     parser.add_argument('--dbclusterparam', type=str, required=False,
                         help='create db cluster parameter group')
 
@@ -189,9 +186,10 @@ def main():
 
     parser.add_argument('--listvpc',action="store_true",required=False, help='list vpc all accounts ')
     parser.add_argument('--unused_secgroup',required=False, help='to find unused security group on all  accounts .i.e ./miscli.py --unused_secgroup us-east-1')
-
+    parser.add_argument('--delete_unused_secgroup',action="store_true",required=False, help='flag to delete unused security group .i.e.  ./miscli.py --unused_secgroup us-east-1 --delete_unused_secgroup')
 
     args = parser.parse_args()
+    print ("arg par ",str(args.delete_unused_secgroup))
     if args.s3list:
         s3listallsub(args.s3list)
     elif args.ssmget:
@@ -199,7 +197,7 @@ def main():
     elif args.ssmupdate and args.ssmupdatevalue:
         update_ssmsub(args.ssmupdate,args.ssmupdatevalue)
     elif args.unused_secgroup:
-        unused_secgroup(args.unused_secgroup)
+        unused_secgroup(args.unused_secgroup,args.delete_unused_secgroup)
     elif args.shareami:
         shareamiallsub(args.shareami)
     elif args.eiplistallsub:
@@ -391,7 +389,11 @@ def unused_secgroup(region,delete=False):
                     security_group = ec2.SecurityGroup(group)
                     try:
                         ##security_group.delete()
-                        print "deleting " + group
+                        print ("deleting ", group)
+                        ans=raw_input('Enter Y to delete or N to cancel :  ')
+                        if ans == 'Y':
+                            print (group," deleted")
+                            security_group.delete()
                     except Exception as e:
                         print(e)
                         print("{0} requires manual remediation.".format(security_group.group_name))
