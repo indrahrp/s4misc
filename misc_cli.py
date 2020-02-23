@@ -255,7 +255,7 @@ def kms_grant(kmsidarn):
             print ("granting account {0}".format(account))
             response = clientses.create_grant(
             # The identity that is given permission to perform the operations specified in the grant.
-            GranteePrincipal=acc,
+            GranteePrincipal=account,
             # The identifier of the CMK to which the grant applies. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
             KeyId=kmsidarn,
             # A list of operations that the grant allows.
