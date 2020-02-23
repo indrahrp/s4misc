@@ -327,7 +327,7 @@ def list_rds(type='All',unencrypted=False):
     Account_Session.initialize()
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print('\n\n\n====================Finding EBS provision Volume on account : ' + account + ' ============================\n\n\n')
+            print('\n\n\n====================Finding RDS resource  on account : ' + account + ' ============================\n\n\n')
             # Define the connection
             rdsc = sessinfo['session'].client('rds', region_name="us-east-1")
 
@@ -344,6 +344,11 @@ def list_rds(type='All',unencrypted=False):
                                    db['Endpoint']['Address'],db['DBInstanceStatus'],str(db['AllocatedStorage']),str(db['InstanceCreateTime']),db['MultiAZ'],db['LicenseModel'],str(db.get('Iops','NA')),
                                    str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db.get('DeletionProtection','NA')))))
 
+                    else:
+                        print(("DBInstanceId,{}, DBInstanceClass,{}, Engine,{}, DBName,{},Endpoint,{},DBInstanceStatus,{},AllocatedStorage,{},InstanceCreateTime,{},MultiAZ,{},LicenseMode,{},Iops,"
+                               "{},PubliclyAccessible,{},StorageType,{},Encrypted,{},DeletionProtection,{}".format(db['DBInstanceIdentifier'],db['DBInstanceClass'],db['Engine'],db.get('DBName','NA'),
+                                                                                                                   db['Endpoint']['Address'],db['DBInstanceStatus'],str(db['AllocatedStorage']),str(db['InstanceCreateTime']),db['MultiAZ'],db['LicenseModel'],str(db.get('Iops','NA')),
+                                                                                                                   str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db.get('DeletionProtection','NA')))))
 
 
 
