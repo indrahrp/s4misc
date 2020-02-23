@@ -327,7 +327,7 @@ def list_rds(type='All',unencrypted=False):
     Account_Session.initialize()
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print('\n\n\n====================Finding RDS resource  on account : ' + account + ' ============================\n\n\n')
+            print('\n\n\n====================Finding RDS resource  on account : ' + account + ' ' + sessinfo['name'] + ' ============================\n\n\n')
             # Define the connection
             rdsc = sessinfo['session'].client('rds', region_name="us-east-1")
 
