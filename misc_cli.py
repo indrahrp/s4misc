@@ -252,7 +252,7 @@ def kms_grant(kmsidarn):
         Account_Session.build_sess_subaccount(rootaccount)
         clientses=Account_Session.SESS_DICT[rootaccount]['session'].client('kms')
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print ("granting account {0}".format(account))
+            print ("granting account {0} for kms key {1}".format(account,kmsidarn))
             response = clientses.create_grant(
             # The identity that is given permission to perform the operations specified in the grant.
             GranteePrincipal=account,
