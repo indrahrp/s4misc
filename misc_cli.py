@@ -270,8 +270,9 @@ def kms_grant(kmsidarn):
                 'ReEncryptFrom',
                 'Sign',
                 'CreateGrant',
-                'ListGrants',
+                'RetireGrants',
                 'RevokeGrant'
+
             ],
             Name='Subaccount-Access-KMS-for-AMI-sharing'
             )
