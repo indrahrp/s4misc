@@ -58,7 +58,7 @@ target_session = role_arn_to_session(
 target_ec2 = target_session.client('ec2', region_name='us-east-1')
 snapshotdict={}
 print str(target_ec2.describe_snapshots)
-for snap in target_ec2.describe_snapshots()['Snapshots']:
+for snap in target_ec2.describe_snapshots(OwnerIds=['909119180557'])['Snapshots']:
     if snap['Description'] in voldict.keys():
         snapshotdict.update({snap['Description'].strip():snap['SnapshotId']})
         print (snap['SnapshotId'], snap['Description'])
