@@ -149,7 +149,7 @@ def stack_list(sess):
 
 
 
-def stack_delete(stack_name,sess,retained):
+def stack_delete(stack_name,sess,retained=False):
     cf = sess.client('cloudformation')
     retained_resources=[]
     try:
@@ -249,16 +249,13 @@ def main():
                         help='True or False to Yes All To deploy to All account.')
 
 
-
-
-
-
     parser.add_argument('--stack_status', type=str, required=False,
                         help='the status of the stack.')
     parser.add_argument('--stack_delete', type=str, required=False,
                         help='to delete a stack. It needs to specify sub account where stack lives off.')
-    parser.add_argument('--retained', type=str, required=False,
-                        help='Resource to retain when deleting the stack.')
+    #parser.add_argument('--retained', type=str, required=False)
+    parser.add_argument('--disable_rollback', action="store_true", required=False,
+                        help='Disable Rollback when failed')
 
     parser.add_argument('--stack_list', action="store_true", default=False,required=False,
                         help='List Of Cloudformation Stack.')
@@ -336,7 +333,7 @@ def main():
                         print "Deleting this stack " + args.stack_delete
                         yn=raw_input('Type Y to delete the stack: ')
                         if yn == 'Y':
-                            stack_delete(args.stack_delete,client_sess,args.retained)
+                            stack_delete(args.stack_delete,client_sess)
                         else:
                             print "Delete Stack Canceled"
 
@@ -359,6 +356,8 @@ def main():
                               'Capabilities' :['CAPABILITY_IAM','CAPABILITY_NAMED_IAM'],
                               'Tags': tags
                           }
+                          if args.disable_rollback:
+				allparams.update({'DisableRollback':True})
                           print "stack name " + args.name
                           if _stack_exists(args.name,clientcf):
                               print('Updating Stack {}'.format(args.name))
@@ -410,6 +409,7 @@ def main():
             except:
               ##catch any failure
               logging.critical("Unexpected error: {0}".format(sys.exc_info()[0]))
+              raise
 
 
 
