@@ -1,0 +1,23 @@
+Resources:
+  VoncRestApiD4E9F635:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: Vonc
+    Metadata:
+      aws:cdk:path: apigateway/VoncRestApi/Resource
+  VoncRestApiDeploymentDEB1B12Fb6fbb2bf87af2b0f44c11e1161599bf1:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      Description: Automatically created by the RestApi construct
+
+
+Outputs:
+  VoncRestApiEndpointF01F1E0C:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: VoncRestApiD4E9F635
+          - .execute-api.us-east-1.

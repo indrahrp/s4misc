@@ -1,0 +1,152 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+from __future__ import print_function
+
+import argparse
+import datetime
+import re
+
+import boto3.session
+import six
+from dateutil.tz import tzutc
+
+parser = argparse.ArgumentParser(
+    description="Shows summary about 'Reserved' and 'On-demand' ec2 instances")
+parser.add_argument("--aws-access-key", type=str, default=None,
+                    help="AWS Access Key ID. Defaults to the value of the "
+                         "AWS_ACCESS_KEY_ID environment variable (if set)")
+parser.add_argument("--aws-secret-key", type=str, default=None,
+                    help="AWS Secret Access Key. Defaults to the value of the "
+                         "AWS_SECRET_ACCESS_KEY environment variable (if set)")
+parser.add_argument("--region", type=str, default="us-east-1",
+                    help="AWS Region name. Default is 'cn-north-1'")
+parser.add_argument("-w", "--warn-time", type=int, default=30,
+                    help="Expire period for reserved instances in days. "
+                         "Default is '30 days'")
+args = parser.parse_args()
+REGION = args.region + ' (Region)'
+
+session = boto3.session.Session(region_name=args.region,
+                                aws_access_key_id=args.aws_access_key,
+                                aws_secret_access_key=args.aws_secret_key)
+ec2 = session.resource('ec2')
+ec2_client = session.client('ec2')
+
+
+IMAGE_PLATFORM_PAT = {
+    'Red Hat': [
+        re.compile(r'.*\b(RHEL|rhel)\b.*'),
+    ],
+}
+image_id_to_platform = {}
+
+# Retrieve instances
+instances = ec2.instances.all()
+running_instances = {}
+for i in instances:
+    if i.state['Name'] != 'running':
+        continue
+
+    image_id = i.image_id
+    if image_id in image_id_to_platform:
+        platform = image_id_to_platform[image_id]
+    else:
+        platform = 'Linux/UNIX'
+        try:
+            image = ec2.Image(image_id)
+            if image.platform:
+                platform = image.platform
+            elif image.image_location.startswith('841258680906/'):
+                platform = 'Red Hat'
+            else:
+                image_name = image.name
+                for plat, pats in six.iteritems(IMAGE_PLATFORM_PAT):
+                    for pat in pats:
+                        if pat.match(image_name):
+                            platform = plat
+                            break
+        except AttributeError:
+            platform = 'Linux/UNIX'
+
+        image_id_to_platform[image_id] = platform
+
+    key = (platform, i.instance_type, i.placement['AvailabilityZone'] if 'AvailabilityZone' in i.placement else REGION)
+    running_instances[key] = running_instances.get(key, 0) + 1
+
+# Retrieve reserved instances
+reserved_instances = {}
+soon_expire_ri = {}
+
+reservations = ec2_client.describe_reserved_instances()
+now = datetime.datetime.utcnow().replace(tzinfo=tzutc())
+for ri in reservations['ReservedInstances']:
+    if ri['State'] not in ('active', 'payment-pending'):
+        continue
+    key = (ri['ProductDescription'], ri['InstanceType'],
+           ri['AvailabilityZone'] if 'AvailabilityZone' in ri else REGION)
+    reserved_instances[key] = \
+        reserved_instances.get(key, 0) + ri['InstanceCount']
+    expire_time = ri['Start'] + datetime.timedelta(seconds=ri['Duration'])
+    if (expire_time - now) < datetime.timedelta(days=args.warn_time):
+        soon_expire_ri[ri['ReservedInstancesId']] = key + (expire_time,)
+
+# Create a dict relating reserved instance keys to running instances.
+# Reserveds get modulated by running.
+diff = dict([(x, reserved_instances[x] - running_instances.get(x, 0))
+             for x in reserved_instances])
+
+# Subtract all region-unspecific RIs.
+for reserved_pkey in reserved_instances:
+    if reserved_pkey[2] == REGION:
+        # Go through all running instances and subtract.
+        for running_pkey in running_instances:
+            if running_pkey[0] == reserved_pkey[0] and running_pkey[1] == reserved_pkey[1]:
+                diff[running_pkey] = diff.get(running_pkey, 0) + running_instances[running_pkey]
+                diff[reserved_pkey] -= running_instances[running_pkey]
+
+# For all other running instances, add a negative amount
+for pkey in running_instances:
+    if pkey not in reserved_instances:
+        diff[pkey] = diff.get(pkey, 0) - running_instances[pkey]
+
+unused_ri = {}
+unreserved_instances = {}
+for k, v in six.iteritems(diff):
+    if v > 0:
+        unused_ri[k] = v
+    elif v < 0:
+        unreserved_instances[k] = -v
+
+# Report
+print("Reserved instances:")
+for k, v in sorted(six.iteritems(reserved_instances), key=lambda x: x[0]):
+    print("\t(%s)\t%12s\t%s\t%s" % ((v,) + k))
+print("")
+
+print("Unused reserved instances:")
+for k, v in sorted(six.iteritems(unused_ri), key=lambda x: x[0]):
+    print("\t(%s)\t%12s\t%s\t%s" % ((v,) + k))
+if not unused_ri:
+    print("\tNone")
+print("")
+
+print("Expiring soon (less than %sd) reserved instances:" % args.warn_time)
+for k, v in sorted(six.iteritems(soon_expire_ri), key=lambda x: x[1][:2]):
+    (platform, instance_type, region, expire_date) = v
+    expire_date = expire_date.strftime('%Y-%m-%d')
+    print("\t%s\t%12s\t%s\t%s\t%s" % (k, platform, instance_type, region,
+                                      expire_date))
+if not soon_expire_ri:
+    print("\tNone")
+print("")
+
+print("On-demand instances, which haven't got a reserved instance:")
+for k, v in sorted(six.iteritems(unreserved_instances), key=lambda x: x[0]):
+    print("\t(%s)\t%12s\t%s\t%s" % ((v,) + k))
+if not unreserved_instances:
+    print("\tNone")
+print("")
+
+print("Running on-demand instances:   %s" % sum(running_instances.values()))
+print("Reserved instances:            %s" % sum(reserved_instances.values()))
+print("")
