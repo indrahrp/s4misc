@@ -1,30 +1,379 @@
-from aws_cdk import (
-    aws_lambda as _lambda,
-    aws_dynamodb as ddb,
-    core,
-)
-
-class HitCounter(core.Construct):
-
-    @property
-    def handler(self):
-        return self._handler
-
-    def __init__(self, scope: core.Construct, id: str, downstream: _lambda.IFunction, **kwargs):
-        super().__init__(scope, id, **kwargs)
-
-        table = ddb.Table(
-            self, 'Hits',
-            partition_key={'name': 'path', 'type': ddb.AttributeType.STRING}
-        )
-
-        self._handler = _lambda.Function(
-            self, 'HitCountHandler',
-            runtime=_lambda.Runtime.PYTHON_3_7,
-            handler='hitcount.handler',
-            code=_lambda.Code.asset('lambda'),
-            environment={
-                'DOWNSTREAM_FUNCTION_NAME': downstream.function_name,
-                'HITS_TABLE_NAME': table.table_name,
+{
+  "Version": "2012-10-17",
+  "Id": "default",
+  "Statement": [
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRC-lambdaManagerBenderPermissions-1EAVX36PJG14P",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-bender-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCXG-lambdaManagerLorePermissions-1Q8SM8NEO0BZ8",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-lore-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCXG-lambdaManagerZeusPermissions-13R1MXCOOZYTS",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-zeus-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRC-lambdaManagerMarvinPermissions-1E6R9CB918N6L",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-marvin-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIR-lambdaManagerOptimusPermissions-756XRDUQV0RT",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-optimus-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCXG-lambdaManagerDraxPermissions-1GOTGEXQ46JEQ",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-drax-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCXG-lambdaManagerAmeePermissions-1FDB9RHIUWW2J",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-amee-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCXG-lambdaManagerPrisPermissions-NIX4XEJVVRXK",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-pris-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCXGK-lambdaManagerZoePermissions-EDX0SBLCYAJ9",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-zoe-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCX-lambdaManagerTitanPermissions-LWDZR5O7IQWW",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-titan-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRC-lambdaManagerUltronPermissions-5XBYZOJ8Z1OU",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-ultron-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRC-lambdaManagerKrytenPermissions-1RUJYIEE43FTQ",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-kryten-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRC-lambdaManagerWatsonPermissions-1D0LMWH2YU86L",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-watson-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRC-lambdaManagerVioletPermissions-13G9FL1HI36LD",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-violet-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCX-lambdaManagerFelixPermissions-1N4D2JUJATUEU",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-felix-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCXG-lambdaManagerYzmaPermissions-181TPHBG0HQXF",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-yzma-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRC-lambdaManagerTaylorPermissions-VGGSQKDPRANA",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-taylor-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCXG-lambdaManagerTempPermissions-LW5K90W5YND5",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-temp-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCXGK-lambdaManagerSidPermissions-SG19KBTDMW1M",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-sid-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRC-lambdaManagerJarvisPermissions-19XA50NS0B6LL",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-jarvis-useast1"
+        }
+      }
+    },
+    {
+      "Sid": "Eywa-Production-Bioinformatics-prod-LambdaStack-1NEJIRCX-lambdaManagerCoreyPermissions-18B9E4KXMKX75",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "544384345841"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-corey-useast1"
+        }
+      }
+    },
+    {
+          "Sid": "s4-pgb-sequeuncer-staging-us-east-1",
+          "Effect": "Allow",
+          "Principal": {
+            "Service": "s3.amazonaws.com"
+          },
+          "Action": "lambda:InvokeFunction",
+          "Resource": "arn:aws:lambda:us-east-1:921279086507:function:s4-production-bioinformatics-eywa-manager-prod",
+          "Condition": {
+            "StringEquals": {
+              "AWS:SourceAccount": "544384345841"
+            },
+            "ArnLike": {
+              "AWS:SourceArn": "arn:aws:s3:::s4-pbg-sequencer-staging-useast1"
             }
-        )
+          }
+  ]
+}
