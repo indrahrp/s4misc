@@ -1,14 +1,8 @@
 #!/usr/bin/python
-"""
-Automate the build of Shared Service Catalog Portfolio, Products and Template baseline_constraint in Child accounts
-"""
 
 # please note that I am not setting the AWS region in this code which means that it will default to the AWS region of my shell where I run this script from.
 # you can specify the region in the client call by setting the region_name parameter/value to the appropriate AWS region
 
-###############
-#Create Template definitions
-###############
 import boto3
 import random
 import time
@@ -28,30 +22,8 @@ session_client = boto3.client('sts')
 # import_portfolios = ['port-rx4vc3kthfxfw']
 # linux_portfolio_id = 'port-rx4vc3kthfxfw'
 
-
-
 account_id = boto3.client('sts').get_caller_identity()['Account']
 print("Yor account id is: " + account_id)
-
-def getsessionv2(acc):
-    print "\n\n========================================"
-    #print "account id " + acc['Id']
-    #print "account name " + acc['Name']
-    #print "========================================"
-    if acc==rootaccount:
-        sess=boto3.Session()
-    else:
-        cred = role_to_session(acc)
-        credentials = cred['Credentials']
-
-
-        sess= boto3.Session(
-            aws_access_key_id=credentials['AccessKeyId'],
-            aws_secret_access_key=credentials['SecretAccessKey'],
-            aws_session_token=credentials['SessionToken'])
-
-    return sess
-
 
 class Account_Session:
     SESS_DICT={}
@@ -142,6 +114,28 @@ def getsession(acc):
 
     return sess
 
+
+def getsessionv2(acc):
+    #print "\n\n========================================"
+    #print "account id " + acc['Id']
+    #print "account name " + acc['Name']
+    #print "========================================"
+    if acc['Id']==rootaccount:
+        sess=boto3.session.Session()
+    else:
+        cred = role_to_session(acc['Id'])
+        credentials = cred['Credentials']
+
+
+        sess= boto3.Session(
+            aws_access_key_id=credentials['AccessKeyId'],
+            aws_secret_access_key=credentials['SecretAccessKey'],
+            aws_session_token=credentials['SessionToken'])
+    #print "\n\n========================================"
+    return sess
+
+
+
 def paginate(method, **kwargs):
     client = method.__self__
     paginator = client.get_paginator(method.__name__)
@@ -157,6 +151,12 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--s3list', type=str, required=False,
                         help='s3 name to search.')
+    parser.add_argument('--s3_probe', type=str, required=False,
+                        help='analyze or probe s3 i.e. ./misc_cli.py --s3_prob s4-bucketname .')
+
+    parser.add_argument('--listuser', type=str, required=False,
+                        help='list all aws account users')
+
 
     parser.add_argument('--subaccount', type=str, required=False,
                         help='a specific account to deploy')
@@ -194,6 +194,10 @@ def main():
     args = parser.parse_args()
     if args.s3list:
         s3listallsub(args.s3list)
+    if args.listuser:
+        listuser(args.listuser)
+    if args.s3_probe:
+        s3_probe(args.s3_probe)
     elif args.ssmget:
         ssmgetallsub(args.ssmget)
     elif args.ssmupdate and args.ssmupdatevalue:
@@ -217,6 +221,63 @@ def main():
         kms_grant(args.kms_grant)
 
 
+
+def listuser(subaccount):
+    client = boto3.client('organizations')
+    for account in paginate(client.list_accounts):
+        #print "result  " + str(account['Id'])
+
+        print "\n\n\n" + account['Id'], account['Name'], account['Arn']
+        print "============================================="
+        ###     #if account['Id'] != rootaccount:
+        #if account['Id'] != rootaccount:
+
+        client_sess = getsessionv2(account)
+        #clientcf=client_sess.client('cloudformation')
+        iam=client_sess.client('iam', region_name='us-east-1')
+        try:
+            #response = sc_client.list_user()
+            paginator = iam.get_paginator('list_users')
+            for response in paginator.paginate():
+                for resp in response['Users']:
+                    #print(resp['UserName'],',',resp['PasswordLastUsed'])
+                    print resp['UserName'] + "," + str(resp.get('PasswordLastUsed','never used'))
+        except:
+            print("Error getting")
+
+
+
+def s3_probe(bucket):
+    client = boto3.client('organizations')
+    for account in paginate(client.list_accounts):
+        #print "result  " + str(account['Id'])
+
+        print "\n\n\n" + account['Id'], account['Name'], account['Arn']
+        print "============================================="
+        ###     #if account['Id'] != rootaccount:
+        #if account['Id'] != rootaccount:
+
+        client_sess = getsessionv2(account)
+        #clientcf=client_sess.client('cloudformation')
+        sc_client=client_sess.client('s3', region_name='us-east-1')
+        try:
+            response = sc_client.list_buckets()
+            for bucket in  response['Buckets']:
+
+                print("bucket name  : " + bucket['Name'])
+                #if s3list == bucket['Name']:
+                #    print "Found in " + account['Id']
+                #    print "Found in " + account['Id']
+                #    inp=raw_input('continue')
+        except:
+            print("Error getting")
+
+
+
+
+
+
+
 def listvpc():
     print "Listing VPC and subnet info on all accounts "
     client = boto3.client('organizations')
@@ -237,7 +298,11 @@ def listvpc():
                     for rp in resp:
                         #if rp['IsDefault']:
                         #    return rp['VpcId']
+<<<<<<< HEAD
                         print rp['CidrBlock'] + " VPC ID " + rp['VpcId'] + " Is Default " + (rp['IsDefault']) + " Tag " + (rp.get('Tags',"NA"))
+=======
+                        print(rp['CidrBlock']) + " VPC ID " + rp['VpcId'] + " Is Default " + str(rp['IsDefault']) + " Tag " + str(rp.get('Tags',"NA"))
+>>>>>>> 8a322bfa0b984e1041b64bfd5f1c616f764d3a9d
                 else:
                     print('No vpcs found')
             except:
