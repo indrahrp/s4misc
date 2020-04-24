@@ -236,8 +236,8 @@ def listvpc():
                 if resp:
                     for rp in resp:
                         #if rp['IsDefault']:
-                            return rp['VpcId']
-                        print(rp['CidrBlock']) + " VPC ID " + rp['VpcId'] + " Is Default " + str(rp['IsDefault']) + " Tag " + str(rp.get('Tags',"NA"))
+                        #    return rp['VpcId']
+                        print rp['CidrBlock'] + " VPC ID " + rp['VpcId'] + " Is Default " + (rp['IsDefault']) + " Tag " + (rp.get('Tags',"NA"))
                 else:
                     print('No vpcs found')
             except:

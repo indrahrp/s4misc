@@ -295,6 +295,8 @@ def main():
 
     client = boto3.client('organizations')
     for account in paginate(client.list_accounts):
+         if 'suspended' in account['Status'].lower():
+             continue
          #print "result  " + str(account['Id'])
          if account['Id'] in deploylist or len(deploylist) == 0:
             #print account['Id'], account['Name'], account['Arn']
