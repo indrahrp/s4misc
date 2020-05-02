@@ -1,0 +1,22 @@
+{
+    "executionRoleArn": "arn:aws:iam::417302553802:role/wes-vistatwonodes-westonetesttaskvistawebTaskRoleD-1V1GRVSNG06NJ",
+    "containerDefinitions": [
+        {
+            "name": "west-onetest-vistaweb",
+            "image": "<IMAGE1_NAME>",
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "containerPort": 80
+                }
+            ]
+        }
+    ],
+    "networkMode": "awsvpc",
+    "cpu": "256",
+    "memory": "512",
+    "family": "wesvistatwonodeswestonetesttaskvistaweb3BCD5AF2"
+}
+
