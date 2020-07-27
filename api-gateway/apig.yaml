@@ -1,0 +1,1443 @@
+Resources:
+  VoncRestApiD4E9F635:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: Vonc
+    Metadata:
+      aws:cdk:path: apigateway/VoncRestApi/Resource
+  VoncRestApiDeploymentDEB1B12Fb6fbb2bf87af2b0f44c11e1161599bf1:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      Description: Automatically created by the RestApi construct
+    DependsOn:
+      - controlcontrolidPost0DB5E68C
+      - controlcontrolid24A93B1D
+      - controlcontrolidsamplesampleidGet099414F4
+      - controlcontrolidsamplesampleidpipelineoutputPostDE4F7711
+      - controlcontrolidsamplesampleidpipelineoutput48464289
+      - controlcontrolidsamplesampleidpipelineGet0CE03614
+      - controlcontrolidsamplesampleidpipeline0CC60F2A
+      - controlcontrolidsamplesampleid47529495
+      - controlcontrolidsample0D5C97B7
+      - controlcontrolidvariantPost0F1A5747
+      - controlcontrolidvariantF6F98803
+      - controlPost0406FEC5
+      - control0499F299
+      - getallpatientsGet1B1CA47A
+      - getallpatientsD56BF908
+      - patientpatientidcasecaseidclosePost34D184AF
+      - patientpatientidcasecaseidclosePut99290DBC
+      - patientpatientidcasecaseidcloseF5B8BDDE
+      - patientpatientidcasecaseidcuratePostC8DCD862
+      - patientpatientidcasecaseidcuratePut20A4C720
+      - patientpatientidcasecaseidcurateB8B1EC86
+      - patientpatientidcasecaseidfailPostF90B870B
+      - patientpatientidcasecaseidfailPut5780E6A8
+      - patientpatientidcasecaseidfail9208C68B
+      - patientpatientidcasecaseidGet085498BB
+      - patientpatientidcasecaseidPutBF0FCCE8
+      - patientpatientidcasecaseidreopenPostE90ACA05
+      - patientpatientidcasecaseidreopenPut1A72135E
+      - patientpatientidcasecaseidreopen7F0A0EE2
+      - patientpatientidcasecaseid3A71B1DE
+      - patientpatientidcasecaseidsamplesampleidfailPost61F23784
+      - patientpatientidcasecaseidsamplesampleidfailPutDFE46722
+      - patientpatientidcasecaseidsamplesampleidfail33140395
+      - patientpatientidcasecaseidsamplesampleidGetB5129ABE
+      - patientpatientidcasecaseidsamplesampleidpipelineoutputGet27C06155
+      - patientpatientidcasecaseidsamplesampleidpipelineoutputPost92D1FEE1
+      - patientpatientidcasecaseidsamplesampleidpipelineoutput27081B81
+      - patientpatientidcasecaseidsamplesampleidBA95871A
+      - patientpatientidcasecaseidsampleD69917C7
+      - patientpatientidcasecaseidvariantPostE2FDF6E1
+      - patientpatientidcasecaseidvariant0B5CCC06
+      - patientpatientidcasePost1B2BDFCB
+      - patientpatientidcase203B21E8
+      - patientpatientidGetB5C69F16
+      - patientpatientidPutC262FE83
+      - patientpatientid149E0963
+      - patientGet2BAF5224
+      - patientPost6D42883E
+      - patientD89C4EC4
+    Metadata:
+      aws:cdk:path: apigateway/VoncRestApi/Deployment/Resource
+  VoncRestApiDeploymentStageprod3E555A8D:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      DeploymentId:
+        Ref: VoncRestApiDeploymentDEB1B12Fb6fbb2bf87af2b0f44c11e1161599bf1
+      StageName: prod
+    Metadata:
+      aws:cdk:path: apigateway/VoncRestApi/DeploymentStage.prod/Resource
+  VoncRestApiCloudWatchRole6ACB2463:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - apigateway.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
+    Metadata:
+      aws:cdk:path: apigateway/VoncRestApi/CloudWatchRole/Resource
+  VoncRestApiAccountFD954A34:
+    Type: AWS::ApiGateway::Account
+    Properties:
+      CloudWatchRoleArn:
+        Fn::GetAtt:
+          - VoncRestApiCloudWatchRole6ACB2463
+          - Arn
+    DependsOn:
+      - VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/VoncRestApi/Account
+  Authorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      Type: COGNITO_USER_POOLS
+      IdentitySource: method.request.header.Authorization
+      Name: Cognito
+      ProviderARNs:
+        - arn:aws:cognito-idp:us-east-1:359051777659:userpool/us-east-1_XtUFkvaeT
+    Metadata:
+      aws:cdk:path: apigateway/Authorizer
+  control0499F299:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - VoncRestApiD4E9F635
+          - RootResourceId
+      PathPart: control
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/control/Resource
+  controlPost0406FEC5:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: control0499F299
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/control
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/control/Post/Resource
+  controlcontrolid24A93B1D:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: control0499F299
+      PathPart: "{controlid}"
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/Resource
+  controlcontrolidPost0DB5E68C:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: controlcontrolid24A93B1D
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/control/{controlid}
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/Post/Resource
+  controlcontrolidsample0D5C97B7:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: controlcontrolid24A93B1D
+      PathPart: sample
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/sample/Resource
+  controlcontrolidsamplesampleid47529495:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: controlcontrolidsample0D5C97B7
+      PathPart: "{sampleid}"
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/sample/{sampleid}/Resource
+  controlcontrolidsamplesampleidGet099414F4:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: controlcontrolidsamplesampleid47529495
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Get
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/control/{controlid}/sample/{sampleid}
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/sample/{sampleid}/Get/Resource
+  controlcontrolidsamplesampleidpipeline0CC60F2A:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: controlcontrolidsamplesampleid47529495
+      PathPart: pipeline
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/sample/{sampleid}/pipeline/Resource
+  controlcontrolidsamplesampleidpipelineGet0CE03614:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: controlcontrolidsamplesampleidpipeline0CC60F2A
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Get
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/control/{controlid}/sample/{sampleid}/pipeline
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/sample/{sampleid}/pipeline/Get/Resource
+  controlcontrolidsamplesampleidpipelineoutput48464289:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: controlcontrolidsamplesampleid47529495
+      PathPart: pipeline-output
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/sample/{sampleid}/pipeline-output/Resource
+  controlcontrolidsamplesampleidpipelineoutputPostDE4F7711:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: controlcontrolidsamplesampleidpipelineoutput48464289
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/control/{controlid}/sample/{sampleid}/pipeline-output
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/sample/{sampleid}/pipeline-output/Post/Resource
+  controlcontrolidvariantF6F98803:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: controlcontrolid24A93B1D
+      PathPart: variant
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/variant/Resource
+  controlcontrolidvariantPost0F1A5747:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: controlcontrolidvariantF6F98803
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/control/{controlid}/variant
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/control/{controlid}/variant/Post/Resource
+  getallpatientsD56BF908:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - VoncRestApiD4E9F635
+          - RootResourceId
+      PathPart: getallpatients
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/getallpatients/Resource
+  getallpatientsGet1B1CA47A:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: getallpatientsD56BF908
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Get
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/getallpatients
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/getallpatients/Get/Resource
+  patientD89C4EC4:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - VoncRestApiD4E9F635
+          - RootResourceId
+      PathPart: patient
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/Resource
+  patientGet2BAF5224:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: patientD89C4EC4
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Get
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/Get/Resource
+  patientPost6D42883E:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: patientD89C4EC4
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/Post/Resource
+  patientpatientid149E0963:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientD89C4EC4
+      PathPart: "{patientid}"
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/Resource
+  patientpatientidGetB5C69F16:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: patientpatientid149E0963
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Get
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/Get/Resource
+  patientpatientidPutC262FE83:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: PUT
+      ResourceId:
+        Ref: patientpatientid149E0963
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Put
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/Put/Resource
+  patientpatientidcase203B21E8:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientid149E0963
+      PathPart: case
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/Resource
+  patientpatientidcasePost1B2BDFCB:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: patientpatientidcase203B21E8
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/Post/Resource
+  patientpatientidcasecaseid3A71B1DE:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcase203B21E8
+      PathPart: "{caseid}"
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/Resource
+  patientpatientidcasecaseidGet085498BB:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: patientpatientidcasecaseid3A71B1DE
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Get
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/Get/Resource
+  patientpatientidcasecaseidPutBF0FCCE8:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: PUT
+      ResourceId:
+        Ref: patientpatientidcasecaseid3A71B1DE
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Put
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/Put/Resource
+  patientpatientidcasecaseidcloseF5B8BDDE:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcasecaseid3A71B1DE
+      PathPart: close
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/close/Resource
+  patientpatientidcasecaseidclosePost34D184AF:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: patientpatientidcasecaseidcloseF5B8BDDE
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/close
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/close/Post/Resource
+  patientpatientidcasecaseidclosePut99290DBC:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: PUT
+      ResourceId:
+        Ref: patientpatientidcasecaseidcloseF5B8BDDE
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Put
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/close
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/close/Put/Resource
+  patientpatientidcasecaseidcurateB8B1EC86:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcasecaseid3A71B1DE
+      PathPart: curate
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/curate/Resource
+  patientpatientidcasecaseidcuratePostC8DCD862:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: patientpatientidcasecaseidcurateB8B1EC86
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/curate
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/curate/Post/Resource
+  patientpatientidcasecaseidcuratePut20A4C720:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: PUT
+      ResourceId:
+        Ref: patientpatientidcasecaseidcurateB8B1EC86
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Put
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/curate
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/curate/Put/Resource
+  patientpatientidcasecaseidfail9208C68B:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcasecaseid3A71B1DE
+      PathPart: fail
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/fail/Resource
+  patientpatientidcasecaseidfailPostF90B870B:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: patientpatientidcasecaseidfail9208C68B
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/fail
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/fail/Post/Resource
+  patientpatientidcasecaseidfailPut5780E6A8:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: PUT
+      ResourceId:
+        Ref: patientpatientidcasecaseidfail9208C68B
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Put
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/fail
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/fail/Put/Resource
+  patientpatientidcasecaseidreopen7F0A0EE2:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcasecaseid3A71B1DE
+      PathPart: reopen
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/reopen/Resource
+  patientpatientidcasecaseidreopenPostE90ACA05:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: patientpatientidcasecaseidreopen7F0A0EE2
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/reopen
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/reopen/Post/Resource
+  patientpatientidcasecaseidreopenPut1A72135E:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: PUT
+      ResourceId:
+        Ref: patientpatientidcasecaseidreopen7F0A0EE2
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Put
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/reopen
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/reopen/Put/Resource
+  patientpatientidcasecaseidsampleD69917C7:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcasecaseid3A71B1DE
+      PathPart: sample
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/sample/Resource
+  patientpatientidcasecaseidsamplesampleidBA95871A:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcasecaseidsampleD69917C7
+      PathPart: "{sampleid}"
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/sample/{sampleid}/Resource
+  patientpatientidcasecaseidsamplesampleidGetB5129ABE:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: patientpatientidcasecaseidsamplesampleidBA95871A
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Get
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/sample/{sampleid}
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/sample/{sampleid}/Get/Resource
+  patientpatientidcasecaseidsamplesampleidfail33140395:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcasecaseidsamplesampleidBA95871A
+      PathPart: fail
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/sample/{sampleid}/fail/Resource
+  patientpatientidcasecaseidsamplesampleidfailPost61F23784:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: patientpatientidcasecaseidsamplesampleidfail33140395
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/sample/{sampleid}/fail
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/sample/{sampleid}/fail/Post/Resource
+  patientpatientidcasecaseidsamplesampleidfailPutDFE46722:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: PUT
+      ResourceId:
+        Ref: patientpatientidcasecaseidsamplesampleidfail33140395
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Put
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/sample/{sampleid}/fail
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/sample/{sampleid}/fail/Put/Resource
+  patientpatientidcasecaseidsamplesampleidpipelineoutput27081B81:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcasecaseidsamplesampleidBA95871A
+      PathPart: pipeline-output
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/sample/{sampleid}/pipeline-output/Resource
+  patientpatientidcasecaseidsamplesampleidpipelineoutputPost92D1FEE1:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: patientpatientidcasecaseidsamplesampleidpipelineoutput27081B81
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/sample/{sampleid}/fail
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/sample/{sampleid}/pipeline-output/Post/Resource
+  patientpatientidcasecaseidsamplesampleidpipelineoutputGet27C06155:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: patientpatientidcasecaseidsamplesampleidpipelineoutput27081B81
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Get
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/sample/{sampleid}/fail
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/sample/{sampleid}/pipeline-output/Get/Resource
+  patientpatientidcasecaseidvariant0B5CCC06:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: patientpatientidcasecaseid3A71B1DE
+      PathPart: variant
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/variant/Resource
+  patientpatientidcasecaseidvariantPostE2FDF6E1:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: patientpatientidcasecaseidvariant0B5CCC06
+      RestApiId:
+        Ref: VoncRestApiD4E9F635
+      AuthorizationType: COGNITO_USER_POOLS
+      AuthorizerId:
+        Ref: Authorizer
+      Integration:
+        IntegrationHttpMethod: Post
+        IntegrationResponses:
+          - StatusCode: "200"
+          - SelectionPattern: "400"
+            StatusCode: "400"
+          - SelectionPattern: "401"
+            StatusCode: "401"
+          - SelectionPattern: "404"
+            StatusCode: "404"
+          - SelectionPattern: "405"
+            StatusCode: "405"
+          - SelectionPattern: "409"
+            StatusCode: "409"
+          - SelectionPattern: "500"
+            StatusCode: "500"
+        Type: HTTP
+        Uri: http://voncwesprod.sema4.com:5000/patient/{patientid}/case/{caseid}/variant
+      MethodResponses:
+        - StatusCode: "200"
+        - StatusCode: "400"
+        - StatusCode: "401"
+        - StatusCode: "404"
+        - StatusCode: "405"
+        - StatusCode: "409"
+        - StatusCode: "500"
+    Metadata:
+      aws:cdk:path: apigateway/patient/{patientid}/case/{caseid}/variant/Post/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Modules: aws-cdk=1.1.0,@aws-cdk/assets=1.4.0,@aws-cdk/aws-apigateway=1.4.0,@aws-cdk/aws-certificatemanager=1.4.0,@aws-cdk/aws-cloudformation=1.4.0,@aws-cdk/aws-cloudwatch=1.4.0,@aws-cdk/aws-ec2=1.4.0,@aws-cdk/aws-elasticloadbalancingv2=1.4.0,@aws-cdk/aws-events=1.4.0,@aws-cdk/aws-iam=1.4.0,@aws-cdk/aws-kms=1.4.0,@aws-cdk/aws-lambda=1.4.0,@aws-cdk/aws-logs=1.4.0,@aws-cdk/aws-route53=1.4.0,@aws-cdk/aws-s3=1.4.0,@aws-cdk/aws-s3-assets=1.4.0,@aws-cdk/aws-sns=1.4.0,@aws-cdk/aws-sqs=1.4.0,@aws-cdk/aws-ssm=1.4.0,@aws-cdk/core=1.4.0,@aws-cdk/cx-api=1.4.0,@aws-cdk/region-info=1.4.0,jsii-runtime=Python/3.6.8
+Outputs:
+  VoncRestApiEndpointF01F1E0C:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: VoncRestApiD4E9F635
+          - .execute-api.us-east-1.
+          - Ref: AWS::URLSuffix
+          - /
+          - Ref: VoncRestApiDeploymentStageprod3E555A8D

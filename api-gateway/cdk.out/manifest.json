@@ -1,0 +1,882 @@
+{
+  "version": "5.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "VoncVStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://417302553802/us-east-1",
+      "properties": {
+        "templateFile": "VoncVStack.template.json"
+      },
+      "metadata": {
+        "/VoncVStack/RestApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApi0C43BF4B",
+            "trace": [
+              "new RestApi (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/restapi.js:32:26)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:49",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "Kernel._create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:26)",
+              "Kernel.create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7666:21)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApiCloudWatchRoleE3ED6605",
+            "trace": [
+              "new Role (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-iam/lib/role.js:42:22)",
+              "RestApi.configureCloudWatchRole (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/restapi.js:218:22)",
+              "new RestApi (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/restapi.js:49:18)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:49",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "Kernel._create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:26)",
+              "Kernel.create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7666:21)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApiAccount7C83CF5A",
+            "trace": [
+              "RestApi.configureCloudWatchRole (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/restapi.js:222:26)",
+              "new RestApi (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/restapi.js:49:18)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:49",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "Kernel._create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:26)",
+              "Kernel.create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7666:21)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/control/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApicontrolDDDFD5A6",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "RootResource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/control/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApicontrolPOSTFE149F68",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/control/{controlid}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApicontrolcontrolidCD758F4A",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/control/{controlid}/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApicontrolcontrolidPOSTB13F4C80",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/control/{controlid}/sample/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApicontrolcontrolidsample5D5A2207",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/control/{controlid}/sample/sampleid/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApicontrolcontrolidsamplesampleid2715133F",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/control/{controlid}/sample/sampleid/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApicontrolcontrolidsamplesampleidGETB5C6CF3A",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/control/{controlid}/sample/sampleid/pipeline_output/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApicontrolcontrolidsamplesampleidpipelineoutputA5D9E58F",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/control/{controlid}/sample/sampleid/pipeline_output/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApicontrolcontrolidsamplesampleidpipelineoutputPOST9AAEF883",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/getallpatients/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApigetallpatients131CD8AD",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "RootResource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/getallpatients/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApigetallpatientsGET7D9B963E",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatient2BDDF037",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "RootResource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientGETADC91D98",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientPOST3BFCE69F",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientid521741F7",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidPUT390EE58D",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidGET78D60112",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcase95E63EA3",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasePOST1F06337B",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseid7A161DD6",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidGETB209E9AF",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidPUTDFF050BF",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/close/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidcloseD84853DC",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/close/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidclosePUT110404A5",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/curate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidcurateBB789EA3",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/curate/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidcuratePOST23678236",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/fail/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidfail60A23324",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/fail/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidfailPOST45E3D70C",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/reopen/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidreopenF6CCFC2F",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/reopen/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidreopenPOST7F579CAD",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidsample3CA9100B",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidsamplesampleidBE3B6209",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidsamplesampleidGETD0DF2879",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/fail/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidsamplesampleidfail3EF315EE",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/fail/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidsamplesampleidfailPOST0D01C856",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/pipeline-output/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidsamplesampleidpipelineoutputDDB5C2F7",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/pipeline-output/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidsamplesampleidpipelineoutputPOST2B74B537",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/variant/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidvariantA8FD0077",
+            "trace": [
+              "new Resource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:170:26)",
+              "Resource.addResource (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:14:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/Default/patient/patientid/case/caseid/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApipatientpatientidcasecaseidPOSTFB0525BD",
+            "trace": [
+              "new Method (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/method.js:46:26)",
+              "Resource.addMethod (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/resource.js:17:16)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:51",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7746:25",
+              "Kernel._ensureSync (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8371:20)",
+              "Kernel.invoke (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7745:26)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/CustomDomain/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApiCustomDomain91FA5E60",
+            "trace": [
+              "new DomainName (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/domain-name.js:22:26)",
+              "RestApi.addDomainName (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/restapi.js:104:28)",
+              "new RestApi (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/restapi.js:54:18)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:49",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "Kernel._create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:26)",
+              "Kernel.create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7666:21)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ],
+        "/VoncVStack/RestApi/CustomDomain/Map:--=>VoncVStackRestApi73E78028/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RestApiCustomDomainMapVoncVStackRestApi73E78028005214B9",
+            "trace": [
+              "new BasePathMapping (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/base-path-mapping.js:27:9)",
+              "DomainName.addBasePathMapping (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/domain-name.js:62:16)",
+              "new DomainName (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/domain-name.js:37:18)",
+              "RestApi.addDomainName (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/restapi.js:104:28)",
+              "new RestApi (/private/var/folders/pn/vcynd15d5vg6tr570b3zntqh0000gp/T/jsii-kernel-S37acV/node_modules/@aws-cdk/aws-apigateway/lib/restapi.js:54:18)",
+              "/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:49",
+              "Kernel._wrapSandboxCode (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:8395:20)",
+              "Kernel._create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7922:26)",
+              "Kernel.create (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7666:21)",
+              "KernelHost.processRequest (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7446:28)",
+              "KernelHost.run (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7384:14)",
+              "Immediate._onImmediate (/Users/indraharahap/PycharmProjects/cdk/.env/lib/python3.7/site-packages/jsii/_embedded/jsii/jsii-runtime.js:7387:37)",
+              "processImmediate (internal/timers.js:456:21)"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "runtime": {
+    "libraries": {
+      "@aws-cdk/cloud-assembly-schema": "1.54.0",
+      "@aws-cdk/cx-api": "1.54.0",
+      "@aws-cdk/core": "1.54.0",
+      "@aws-cdk/region-info": "1.54.0",
+      "@aws-cdk/aws-iam": "1.54.0",
+      "@aws-cdk/aws-cloudwatch": "1.54.0",
+      "@aws-cdk/aws-codeguruprofiler": "1.54.0",
+      "@aws-cdk/aws-kms": "1.54.0",
+      "@aws-cdk/aws-logs": "1.54.0",
+      "@aws-cdk/aws-events": "1.54.0",
+      "@aws-cdk/aws-s3": "1.54.0",
+      "@aws-cdk/aws-ssm": "1.54.0",
+      "@aws-cdk/aws-ec2": "1.54.0",
+      "@aws-cdk/aws-efs": "1.54.0",
+      "@aws-cdk/assets": "1.54.0",
+      "@aws-cdk/aws-s3-assets": "1.54.0",
+      "@aws-cdk/aws-sqs": "1.54.0",
+      "@aws-cdk/aws-lambda": "1.54.0",
+      "@aws-cdk/aws-route53": "1.54.0",
+      "@aws-cdk/aws-certificatemanager": "1.54.0",
+      "@aws-cdk/aws-elasticloadbalancingv2": "1.38.0",
+      "@aws-cdk/aws-apigateway": "1.38.0",
+      "jsii-runtime": "Python/3.7.3"
+    }
+  }
+}

@@ -1,0 +1,3 @@
+{
+  "ami:account=921279086507:filters.image-type.0=machine:filters.name.0=biornd-ecs-ami-unc:filters.state.0=available:region=us-east-1": "ami-044e48e4ba88aeb4c"
+}

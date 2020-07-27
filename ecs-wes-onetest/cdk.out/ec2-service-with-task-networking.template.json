@@ -1,0 +1,1084 @@
+{
+  "Resources": {
+    "Vpc8378EB38": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/Resource"
+      }
+    },
+    "VpcPublicSubnet1Subnet5C2D37C4": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/18",
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PublicSubnet1"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet1/Subnet"
+      }
+    },
+    "VpcPublicSubnet1RouteTable6C95E38E": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet1/RouteTable"
+      }
+    },
+    "VpcPublicSubnet1RouteTableAssociation97140677": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet1RouteTable6C95E38E"
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet1Subnet5C2D37C4"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet1/RouteTableAssociation"
+      }
+    },
+    "VpcPublicSubnet1DefaultRoute3DA9E72A": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet1RouteTable6C95E38E"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "VpcIGWD7BA715C"
+        }
+      },
+      "DependsOn": [
+        "VpcVPCGWBF912B6E"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet1/DefaultRoute"
+      }
+    },
+    "VpcPublicSubnet1EIPD7E02669": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet1/EIP"
+      }
+    },
+    "VpcPublicSubnet1NATGateway4D7517AA": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "VpcPublicSubnet1EIPD7E02669",
+            "AllocationId"
+          ]
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet1Subnet5C2D37C4"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PublicSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet1/NATGateway"
+      }
+    },
+    "VpcPublicSubnet2Subnet691E08A3": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.64.0/18",
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PublicSubnet2"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Public"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet2/Subnet"
+      }
+    },
+    "VpcPublicSubnet2RouteTable94F7E489": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet2/RouteTable"
+      }
+    },
+    "VpcPublicSubnet2RouteTableAssociationDD5762D8": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet2RouteTable94F7E489"
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet2Subnet691E08A3"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet2/RouteTableAssociation"
+      }
+    },
+    "VpcPublicSubnet2DefaultRoute97F91067": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPublicSubnet2RouteTable94F7E489"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "VpcIGWD7BA715C"
+        }
+      },
+      "DependsOn": [
+        "VpcVPCGWBF912B6E"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet2/DefaultRoute"
+      }
+    },
+    "VpcPublicSubnet2EIP3C605A87": {
+      "Type": "AWS::EC2::EIP",
+      "Properties": {
+        "Domain": "vpc",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet2/EIP"
+      }
+    },
+    "VpcPublicSubnet2NATGateway9182C01D": {
+      "Type": "AWS::EC2::NatGateway",
+      "Properties": {
+        "AllocationId": {
+          "Fn::GetAtt": [
+            "VpcPublicSubnet2EIP3C605A87",
+            "AllocationId"
+          ]
+        },
+        "SubnetId": {
+          "Ref": "VpcPublicSubnet2Subnet691E08A3"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PublicSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PublicSubnet2/NATGateway"
+      }
+    },
+    "VpcPrivateSubnet1Subnet536B997A": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.128.0/18",
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PrivateSubnet1"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PrivateSubnet1/Subnet"
+      }
+    },
+    "VpcPrivateSubnet1RouteTableB2C5B500": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PrivateSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PrivateSubnet1/RouteTable"
+      }
+    },
+    "VpcPrivateSubnet1RouteTableAssociation70C59FA6": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPrivateSubnet1RouteTableB2C5B500"
+        },
+        "SubnetId": {
+          "Ref": "VpcPrivateSubnet1Subnet536B997A"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PrivateSubnet1/RouteTableAssociation"
+      }
+    },
+    "VpcPrivateSubnet1DefaultRouteBE02A9ED": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPrivateSubnet1RouteTableB2C5B500"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "VpcPublicSubnet1NATGateway4D7517AA"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PrivateSubnet1/DefaultRoute"
+      }
+    },
+    "VpcPrivateSubnet2Subnet3788AAA1": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.192.0/18",
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": false,
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PrivateSubnet2"
+          },
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "Private"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Private"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PrivateSubnet2/Subnet"
+      }
+    },
+    "VpcPrivateSubnet2RouteTableA678073B": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc/PrivateSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PrivateSubnet2/RouteTable"
+      }
+    },
+    "VpcPrivateSubnet2RouteTableAssociationA89CAD56": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPrivateSubnet2RouteTableA678073B"
+        },
+        "SubnetId": {
+          "Ref": "VpcPrivateSubnet2Subnet3788AAA1"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PrivateSubnet2/RouteTableAssociation"
+      }
+    },
+    "VpcPrivateSubnet2DefaultRoute060D2087": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "VpcPrivateSubnet2RouteTableA678073B"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "NatGatewayId": {
+          "Ref": "VpcPublicSubnet2NATGateway9182C01D"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/PrivateSubnet2/DefaultRoute"
+      }
+    },
+    "VpcIGWD7BA715C": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/Vpc"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/IGW"
+      }
+    },
+    "VpcVPCGWBF912B6E": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        },
+        "InternetGatewayId": {
+          "Ref": "VpcIGWD7BA715C"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/Vpc/VPCGW"
+      }
+    },
+    "awsvpcecsdemoclusterA7FD8C86": {
+      "Type": "AWS::ECS::Cluster",
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceSecurityGroupFF91CD80": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/InstanceSecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup"
+          }
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/InstanceSecurityGroup/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceRoleB36FE662": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "ec2.",
+                      {
+                        "Ref": "AWS::URLSuffix"
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/InstanceRole/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceRoleDefaultPolicy63242A56": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecs:CreateCluster",
+                "ecs:DeregisterContainerInstance",
+                "ecs:DiscoverPollEndpoint",
+                "ecs:Poll",
+                "ecs:RegisterContainerInstance",
+                "ecs:StartTelemetrySession",
+                "ecs:Submit*",
+                "ecr:GetAuthorizationToken",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceRoleDefaultPolicy63242A56",
+        "Roles": [
+          {
+            "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceRoleB36FE662"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/InstanceRole/DefaultPolicy/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceProfileF3361609": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceRoleB36FE662"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/InstanceProfile"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupLaunchConfig067B11BF": {
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "Properties": {
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter"
+        },
+        "InstanceType": "t2.micro",
+        "IamInstanceProfile": {
+          "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceProfileF3361609"
+        },
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceSecurityGroupFF91CD80",
+              "GroupId"
+            ]
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash\necho ECS_CLUSTER=",
+                {
+                  "Ref": "awsvpcecsdemoclusterA7FD8C86"
+                },
+                " >> /etc/ecs/ecs.config\nsudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP\nsudo service iptables save\necho ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config"
+              ]
+            ]
+          }
+        }
+      },
+      "DependsOn": [
+        "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceRoleDefaultPolicy63242A56",
+        "awsvpcecsdemoclusterDefaultAutoScalingGroupInstanceRoleB36FE662"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/LaunchConfig"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupASG7F29632B": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "MaxSize": "1",
+        "MinSize": "1",
+        "LaunchConfigurationName": {
+          "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupLaunchConfig067B11BF"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "PropagateAtLaunch": true,
+            "Value": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup"
+          }
+        ],
+        "VPCZoneIdentifier": [
+          {
+            "Ref": "VpcPrivateSubnet1Subnet536B997A"
+          },
+          {
+            "Ref": "VpcPrivateSubnet2Subnet3788AAA1"
+          }
+        ]
+      },
+      "UpdatePolicy": {
+        "AutoScalingReplacingUpdate": {
+          "WillReplace": true
+        },
+        "AutoScalingScheduledAction": {
+          "IgnoreUnmodifiedGroupSizeProperties": true
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/ASG"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleBC3C9F69": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/DrainECSHook/Function/ServiceRole/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleDefaultPolicy44190D0C": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeInstanceAttribute",
+                "ec2:DescribeInstanceStatus",
+                "ec2:DescribeHosts"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "autoscaling:CompleteLifecycleAction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":autoscaling:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":autoScalingGroup:*:autoScalingGroupName/",
+                    {
+                      "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupASG7F29632B"
+                    }
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "ecs:DescribeContainerInstances",
+                "ecs:DescribeTasks"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "ecs:ListContainerInstances",
+                "ecs:SubmitContainerStateChange",
+                "ecs:SubmitTaskStateChange"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "awsvpcecsdemoclusterA7FD8C86",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "ecs:UpdateContainerInstancesState",
+                "ecs:ListTasks"
+              ],
+              "Condition": {
+                "ArnEquals": {
+                  "ecs:cluster": {
+                    "Fn::GetAtt": [
+                      "awsvpcecsdemoclusterA7FD8C86",
+                      "Arn"
+                    ]
+                  }
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleDefaultPolicy44190D0C",
+        "Roles": [
+          {
+            "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleBC3C9F69"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/DrainECSHook/Function/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionC919C385": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "ZipFile": "import boto3, json, os, time\n\necs = boto3.client('ecs')\nautoscaling = boto3.client('autoscaling')\n\n\ndef lambda_handler(event, context):\n  print(json.dumps(event))\n  cluster = os.environ['CLUSTER']\n  snsTopicArn = event['Records'][0]['Sns']['TopicArn']\n  lifecycle_event = json.loads(event['Records'][0]['Sns']['Message'])\n  instance_id = lifecycle_event.get('EC2InstanceId')\n  if not instance_id:\n    print('Got event without EC2InstanceId: %s', json.dumps(event))\n    return\n\n  instance_arn = container_instance_arn(cluster, instance_id)\n  print('Instance %s has container instance ARN %s' % (lifecycle_event['EC2InstanceId'], instance_arn))\n\n  if not instance_arn:\n    return\n\n  while has_tasks(cluster, instance_arn):\n    time.sleep(10)\n\n  try:\n    print('Terminating instance %s' % instance_id)\n    autoscaling.complete_lifecycle_action(\n        LifecycleActionResult='CONTINUE',\n        **pick(lifecycle_event, 'LifecycleHookName', 'LifecycleActionToken', 'AutoScalingGroupName'))\n  except Exception as e:\n    # Lifecycle action may have already completed.\n    print(str(e))\n\n\ndef container_instance_arn(cluster, instance_id):\n  \"\"\"Turn an instance ID into a container instance ARN.\"\"\"\n  arns = ecs.list_container_instances(cluster=cluster, filter='ec2InstanceId==' + instance_id)['containerInstanceArns']\n  if not arns:\n    return None\n  return arns[0]\n\n\ndef has_tasks(cluster, instance_arn):\n  \"\"\"Return True if the instance is running tasks for the given cluster.\"\"\"\n  instances = ecs.describe_container_instances(cluster=cluster, containerInstances=[instance_arn])['containerInstances']\n  if not instances:\n    return False\n  instance = instances[0]\n\n  if instance['status'] == 'ACTIVE':\n    # Start draining, then try again later\n    set_container_instance_to_draining(cluster, instance_arn)\n    return True\n\n  tasks = instance['runningTasksCount'] + instance['pendingTasksCount']\n  print('Instance %s has %s tasks' % (instance_arn, tasks))\n\n  return tasks > 0\n\n\ndef set_container_instance_to_draining(cluster, instance_arn):\n  ecs.update_container_instances_state(\n      cluster=cluster,\n      containerInstances=[instance_arn], status='DRAINING')\n\n\ndef pick(dct, *keys):\n  \"\"\"Pick a subset of a dict.\"\"\"\n  return {k: v for k, v in dct.items() if k in keys}\n"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleBC3C9F69",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.6",
+        "Environment": {
+          "Variables": {
+            "CLUSTER": {
+              "Ref": "awsvpcecsdemoclusterA7FD8C86"
+            }
+          }
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup"
+          }
+        ],
+        "Timeout": 310
+      },
+      "DependsOn": [
+        "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleDefaultPolicy44190D0C",
+        "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleBC3C9F69"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/DrainECSHook/Function/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionAllowInvokeec2servicewithtasknetworkingawsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookTopic582DD4BEABB08B98": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionC919C385",
+            "Arn"
+          ]
+        },
+        "Principal": "sns.amazonaws.com",
+        "SourceArn": {
+          "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookTopic42EE7A5C"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/DrainECSHook/Function/AllowInvoke:ec2servicewithtasknetworkingawsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookTopic582DD4BE"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionTopicF27EF507": {
+      "Type": "AWS::SNS::Subscription",
+      "Properties": {
+        "Protocol": "lambda",
+        "TopicArn": {
+          "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookTopic42EE7A5C"
+        },
+        "Endpoint": {
+          "Fn::GetAtt": [
+            "awsvpcecsdemoclusterDefaultAutoScalingGroupDrainECSHookFunctionC919C385",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/DrainECSHook/Function/Topic/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookRoleD0498D9C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "autoscaling.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/LifecycleHookDrainHook/Role/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookRoleDefaultPolicy8468BE7A": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookTopic42EE7A5C"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookRoleDefaultPolicy8468BE7A",
+        "Roles": [
+          {
+            "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookRoleD0498D9C"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/LifecycleHookDrainHook/Role/DefaultPolicy/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookTopic42EE7A5C": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/LifecycleHookDrainHook/Topic/Resource"
+      }
+    },
+    "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHook4D2DB763": {
+      "Type": "AWS::AutoScaling::LifecycleHook",
+      "Properties": {
+        "AutoScalingGroupName": {
+          "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupASG7F29632B"
+        },
+        "LifecycleTransition": "autoscaling:EC2_INSTANCE_TERMINATING",
+        "DefaultResult": "CONTINUE",
+        "HeartbeatTimeout": 300,
+        "NotificationTargetARN": {
+          "Ref": "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookTopic42EE7A5C"
+        },
+        "RoleARN": {
+          "Fn::GetAtt": [
+            "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookRoleD0498D9C",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookRoleDefaultPolicy8468BE7A",
+        "awsvpcecsdemoclusterDefaultAutoScalingGroupLifecycleHookDrainHookRoleD0498D9C"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-cluster/DefaultAutoScalingGroup/LifecycleHookDrainHook/Resource"
+      }
+    },
+    "nginxawsvpcTaskRole8168838D": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/nginx-awsvpc/TaskRole/Resource"
+      }
+    },
+    "nginxawsvpc1E436223": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Cpu": 100,
+            "Essential": true,
+            "Image": "nginx:latest",
+            "Memory": 256,
+            "Name": "nginx",
+            "PortMappings": [
+              {
+                "ContainerPort": 80,
+                "Protocol": "tcp"
+              }
+            ]
+          }
+        ],
+        "Family": "ec2servicewithtasknetworkingnginxawsvpc39D42627",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "EC2"
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "nginxawsvpcTaskRole8168838D",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/nginx-awsvpc/Resource"
+      }
+    },
+    "nginx76230F353007": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "ec2-service-with-task-networking/nginx--7623",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "255.255.255.255/32",
+            "Description": "Disallow all traffic",
+            "FromPort": 252,
+            "IpProtocol": "icmp",
+            "ToPort": 86
+          }
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80
+          }
+        ],
+        "VpcId": {
+          "Ref": "Vpc8378EB38"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/nginx--7623/Resource"
+      }
+    },
+    "awsvpcecsdemoserviceServiceFC4BE5C7": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "awsvpcecsdemoclusterA7FD8C86"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "LaunchType": "EC2",
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "nginx76230F353007",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Ref": "VpcPrivateSubnet1Subnet536B997A"
+              },
+              {
+                "Ref": "VpcPrivateSubnet2Subnet3788AAA1"
+              }
+            ]
+          }
+        },
+        "SchedulingStrategy": "REPLICA",
+        "TaskDefinition": {
+          "Ref": "nginxawsvpc1E436223"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "ec2-service-with-task-networking/awsvpc-ecs-demo-service/Service"
+      }
+    }
+  },
+  "Parameters": {
+    "SsmParameterValueawsserviceecsoptimizedamiamazonlinux2recommendedimageidC96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+      "Default": "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
+    }
+  }
+}

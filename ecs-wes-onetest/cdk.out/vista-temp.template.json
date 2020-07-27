@@ -1,0 +1,1042 @@
+{
+  "Resources": {
+    "appsecuritygroupfrom00000inboundtocontainerinstances3F00E943": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "CidrIp": "0.0.0.0/0",
+        "Description": "in bound to container instances",
+        "FromPort": 22,
+        "GroupId": "sg-072a5e0e3cadbbaa5",
+        "ToPort": 22
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/app_security_group/from 0.0.0.0_0:inbound to container instances"
+      }
+    },
+    "VONCVISTAsgA899C501": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "vista-temp/VONC_VISTA-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:8080",
+            "FromPort": 8080,
+            "IpProtocol": "tcp",
+            "ToPort": 8080
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:2049",
+            "FromPort": 2049,
+            "IpProtocol": "tcp",
+            "ToPort": 2049
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:5000",
+            "FromPort": 5000,
+            "IpProtocol": "tcp",
+            "ToPort": 5000
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:3000",
+            "FromPort": 3000,
+            "IpProtocol": "tcp",
+            "ToPort": 3000
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA-sg/Resource"
+      }
+    },
+    "VONCVISTAsgfromvistatempVONCVISTAlbvistaSecurityGroupAC7EB173803507FC67": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VONCVISTAsgA899C501",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VONCVISTAlbvistaSecurityGroupC043224A",
+            "GroupId"
+          ]
+        },
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA-sg/from vistatempVONCVISTAlbvistaSecurityGroupAC7EB173:80"
+      }
+    },
+    "wesecs53ACC98E": {
+      "Type": "AWS::ECS::Cluster",
+      "Properties": {
+        "ClusterName": "vista_temp"
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupInstanceSecurityGroupEA4105AF": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "vista-temp/wes-ecs/DefaultAutoScalingGroup/InstanceSecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "in bound to container instances",
+            "FromPort": 22,
+            "IpProtocol": "tcp",
+            "ToPort": 22
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "vista-temp/wes-ecs/DefaultAutoScalingGroup"
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/InstanceSecurityGroup/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupInstanceRole89DB23F7": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "vista-temp/wes-ecs/DefaultAutoScalingGroup"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/InstanceRole/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupInstanceRoleDefaultPolicy81D697EA": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecs:CreateCluster",
+                "ecs:DeregisterContainerInstance",
+                "ecs:DiscoverPollEndpoint",
+                "ecs:Poll",
+                "ecs:RegisterContainerInstance",
+                "ecs:StartTelemetrySession",
+                "ecs:Submit*",
+                "ecr:GetAuthorizationToken",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "wesecsDefaultAutoScalingGroupInstanceRoleDefaultPolicy81D697EA",
+        "Roles": [
+          {
+            "Ref": "wesecsDefaultAutoScalingGroupInstanceRole89DB23F7"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/InstanceRole/DefaultPolicy/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupInstanceProfileA12F33A0": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "wesecsDefaultAutoScalingGroupInstanceRole89DB23F7"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/InstanceProfile"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupLaunchConfigB94D1790": {
+      "Type": "AWS::AutoScaling::LaunchConfiguration",
+      "Properties": {
+        "ImageId": "ami-044e48e4ba88aeb4c",
+        "InstanceType": "c5.xlarge",
+        "IamInstanceProfile": {
+          "Ref": "wesecsDefaultAutoScalingGroupInstanceProfileA12F33A0"
+        },
+        "KeyName": "Vonc-Prod-Key",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "wesecsDefaultAutoScalingGroupInstanceSecurityGroupEA4105AF",
+              "GroupId"
+            ]
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": {
+            "Fn::Join": [
+              "",
+              [
+                "#!/bin/bash\necho ECS_CLUSTER=",
+                {
+                  "Ref": "wesecs53ACC98E"
+                },
+                " >> /etc/ecs/ecs.config\nsudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP\nsudo service iptables save\necho ECS_AWSVPC_BLOCK_IMDS=true >> /etc/ecs/ecs.config"
+              ]
+            ]
+          }
+        }
+      },
+      "DependsOn": [
+        "wesecsDefaultAutoScalingGroupInstanceRoleDefaultPolicy81D697EA",
+        "wesecsDefaultAutoScalingGroupInstanceRole89DB23F7"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/LaunchConfig"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupASGCE27C9A0": {
+      "Type": "AWS::AutoScaling::AutoScalingGroup",
+      "Properties": {
+        "MaxSize": "4",
+        "MinSize": "2",
+        "DesiredCapacity": "2",
+        "LaunchConfigurationName": {
+          "Ref": "wesecsDefaultAutoScalingGroupLaunchConfigB94D1790"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "PropagateAtLaunch": true,
+            "Value": "vista-temp/wes-ecs/DefaultAutoScalingGroup"
+          }
+        ],
+        "VPCZoneIdentifier": [
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet1ID"
+          },
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet2ID"
+          }
+        ]
+      },
+      "UpdatePolicy": {
+        "AutoScalingReplacingUpdate": {
+          "WillReplace": true
+        },
+        "AutoScalingScheduledAction": {
+          "IgnoreUnmodifiedGroupSizeProperties": true
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/ASG"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupDrainECSHookFunctionServiceRole11837673": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "vista-temp/wes-ecs/DefaultAutoScalingGroup"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/DrainECSHook/Function/ServiceRole/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleDefaultPolicyEF134C34": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ec2:DescribeInstances",
+                "ec2:DescribeInstanceAttribute",
+                "ec2:DescribeInstanceStatus",
+                "ec2:DescribeHosts"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "autoscaling:CompleteLifecycleAction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":autoscaling:us-east-1:921279086507:autoScalingGroup:*:autoScalingGroupName/",
+                    {
+                      "Ref": "wesecsDefaultAutoScalingGroupASGCE27C9A0"
+                    }
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "ecs:DescribeContainerInstances",
+                "ecs:DescribeTasks"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "ecs:ListContainerInstances",
+                "ecs:SubmitContainerStateChange",
+                "ecs:SubmitTaskStateChange"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "wesecs53ACC98E",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "ecs:UpdateContainerInstancesState",
+                "ecs:ListTasks"
+              ],
+              "Condition": {
+                "ArnEquals": {
+                  "ecs:cluster": {
+                    "Fn::GetAtt": [
+                      "wesecs53ACC98E",
+                      "Arn"
+                    ]
+                  }
+                }
+              },
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "wesecsDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleDefaultPolicyEF134C34",
+        "Roles": [
+          {
+            "Ref": "wesecsDefaultAutoScalingGroupDrainECSHookFunctionServiceRole11837673"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/DrainECSHook/Function/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupDrainECSHookFunctionCB500843": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "ZipFile": "import boto3, json, os, time\n\necs = boto3.client('ecs')\nautoscaling = boto3.client('autoscaling')\n\n\ndef lambda_handler(event, context):\n  print(json.dumps(event))\n  cluster = os.environ['CLUSTER']\n  snsTopicArn = event['Records'][0]['Sns']['TopicArn']\n  lifecycle_event = json.loads(event['Records'][0]['Sns']['Message'])\n  instance_id = lifecycle_event.get('EC2InstanceId')\n  if not instance_id:\n    print('Got event without EC2InstanceId: %s', json.dumps(event))\n    return\n\n  instance_arn = container_instance_arn(cluster, instance_id)\n  print('Instance %s has container instance ARN %s' % (lifecycle_event['EC2InstanceId'], instance_arn))\n\n  if not instance_arn:\n    return\n\n  while has_tasks(cluster, instance_arn):\n    time.sleep(10)\n\n  try:\n    print('Terminating instance %s' % instance_id)\n    autoscaling.complete_lifecycle_action(\n        LifecycleActionResult='CONTINUE',\n        **pick(lifecycle_event, 'LifecycleHookName', 'LifecycleActionToken', 'AutoScalingGroupName'))\n  except Exception as e:\n    # Lifecycle action may have already completed.\n    print(str(e))\n\n\ndef container_instance_arn(cluster, instance_id):\n  \"\"\"Turn an instance ID into a container instance ARN.\"\"\"\n  arns = ecs.list_container_instances(cluster=cluster, filter='ec2InstanceId==' + instance_id)['containerInstanceArns']\n  if not arns:\n    return None\n  return arns[0]\n\n\ndef has_tasks(cluster, instance_arn):\n  \"\"\"Return True if the instance is running tasks for the given cluster.\"\"\"\n  instances = ecs.describe_container_instances(cluster=cluster, containerInstances=[instance_arn])['containerInstances']\n  if not instances:\n    return False\n  instance = instances[0]\n\n  if instance['status'] == 'ACTIVE':\n    # Start draining, then try again later\n    set_container_instance_to_draining(cluster, instance_arn)\n    return True\n\n  tasks = instance['runningTasksCount'] + instance['pendingTasksCount']\n  print('Instance %s has %s tasks' % (instance_arn, tasks))\n\n  return tasks > 0\n\n\ndef set_container_instance_to_draining(cluster, instance_arn):\n  ecs.update_container_instances_state(\n      cluster=cluster,\n      containerInstances=[instance_arn], status='DRAINING')\n\n\ndef pick(dct, *keys):\n  \"\"\"Pick a subset of a dict.\"\"\"\n  return {k: v for k, v in dct.items() if k in keys}\n"
+        },
+        "Handler": "index.lambda_handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "wesecsDefaultAutoScalingGroupDrainECSHookFunctionServiceRole11837673",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.6",
+        "Environment": {
+          "Variables": {
+            "CLUSTER": {
+              "Ref": "wesecs53ACC98E"
+            }
+          }
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "vista-temp/wes-ecs/DefaultAutoScalingGroup"
+          }
+        ],
+        "Timeout": 310
+      },
+      "DependsOn": [
+        "wesecsDefaultAutoScalingGroupDrainECSHookFunctionServiceRoleDefaultPolicyEF134C34",
+        "wesecsDefaultAutoScalingGroupDrainECSHookFunctionServiceRole11837673"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/DrainECSHook/Function/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupDrainECSHookFunctionAllowInvokevistatempwesecsDefaultAutoScalingGroupLifecycleHookDrainHookTopicDC26BF03FAEE14D1": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "wesecsDefaultAutoScalingGroupDrainECSHookFunctionCB500843",
+            "Arn"
+          ]
+        },
+        "Principal": "sns.amazonaws.com",
+        "SourceArn": {
+          "Ref": "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookTopic85588E32"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/DrainECSHook/Function/AllowInvoke:vistatempwesecsDefaultAutoScalingGroupLifecycleHookDrainHookTopicDC26BF03"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupDrainECSHookFunctionTopicE221A35F": {
+      "Type": "AWS::SNS::Subscription",
+      "Properties": {
+        "Protocol": "lambda",
+        "TopicArn": {
+          "Ref": "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookTopic85588E32"
+        },
+        "Endpoint": {
+          "Fn::GetAtt": [
+            "wesecsDefaultAutoScalingGroupDrainECSHookFunctionCB500843",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/DrainECSHook/Function/Topic/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookRole5563D9E8": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "autoscaling.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "vista-temp/wes-ecs/DefaultAutoScalingGroup"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/LifecycleHookDrainHook/Role/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookRoleDefaultPolicy690798F0": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookTopic85588E32"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookRoleDefaultPolicy690798F0",
+        "Roles": [
+          {
+            "Ref": "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookRole5563D9E8"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/LifecycleHookDrainHook/Role/DefaultPolicy/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookTopic85588E32": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "vista-temp/wes-ecs/DefaultAutoScalingGroup"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/LifecycleHookDrainHook/Topic/Resource"
+      }
+    },
+    "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookCF09CCE2": {
+      "Type": "AWS::AutoScaling::LifecycleHook",
+      "Properties": {
+        "AutoScalingGroupName": {
+          "Ref": "wesecsDefaultAutoScalingGroupASGCE27C9A0"
+        },
+        "LifecycleTransition": "autoscaling:EC2_INSTANCE_TERMINATING",
+        "DefaultResult": "CONTINUE",
+        "HeartbeatTimeout": 300,
+        "NotificationTargetARN": {
+          "Ref": "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookTopic85588E32"
+        },
+        "RoleARN": {
+          "Fn::GetAtt": [
+            "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookRole5563D9E8",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookRoleDefaultPolicy690798F0",
+        "wesecsDefaultAutoScalingGroupLifecycleHookDrainHookRole5563D9E8"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/wes-ecs/DefaultAutoScalingGroup/LifecycleHookDrainHook/Resource"
+      }
+    },
+    "VONCVISTAtaskvistawebTaskRole34CD8EE7": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA-task-vistaweb/TaskRole/Resource"
+      }
+    },
+    "VONCVISTAtaskvistawebTaskRoleDefaultPolicy08515BBC": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VONCVISTAtaskvistawebTaskRoleDefaultPolicy08515BBC",
+        "Roles": [
+          {
+            "Ref": "VONCVISTAtaskvistawebTaskRole34CD8EE7"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA-task-vistaweb/TaskRole/DefaultPolicy/Resource"
+      }
+    },
+    "VONCVISTAtaskvistaweb487B6F7B": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Cpu": 16,
+            "Environment": [
+              {
+                "Name": "HG19",
+                "Value": "/var/www/html/mydo/hg19/ucsc.hg19.fasta"
+              },
+              {
+                "Name": "refSeqVer",
+                "Value": "GRCH37"
+              },
+              {
+                "Name": "MYDO_DIR",
+                "Value": "/var/www/html/mydo/LAGI"
+              },
+              {
+                "Name": "TMPDIR",
+                "Value": "/tmp"
+              }
+            ],
+            "Essential": true,
+            "Image": "921279086507.dkr.ecr.us-east-1.amazonaws.com/s4-hc-vista-farget-ecr-s",
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "VONCVISTAtaskvistawebVONCVISTAvistawebcontainerLogGroup38BC72BA"
+                },
+                "awslogs-stream-prefix": "VONC_VISTA_vista_logs",
+                "awslogs-region": "us-east-1"
+              }
+            },
+            "Memory": 256,
+            "Name": "VONC_VISTA-vistaweb-container",
+            "PortMappings": [
+              {
+                "ContainerPort": 80,
+                "Protocol": "tcp"
+              }
+            ],
+            "Privileged": true
+          }
+        ],
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "VONCVISTAtaskvistawebExecutionRole699BAA62",
+            "Arn"
+          ]
+        },
+        "Family": "VONC_VISTA-Vista",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "EC2"
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "VONCVISTAtaskvistawebTaskRole34CD8EE7",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA-task-vistaweb/Resource"
+      }
+    },
+    "VONCVISTAtaskvistawebExecutionRole699BAA62": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA-task-vistaweb/ExecutionRole/Resource"
+      }
+    },
+    "VONCVISTAtaskvistawebExecutionRoleDefaultPolicy3D76E235": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "VONCVISTAtaskvistawebVONCVISTAvistawebcontainerLogGroup38BC72BA",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VONCVISTAtaskvistawebExecutionRoleDefaultPolicy3D76E235",
+        "Roles": [
+          {
+            "Ref": "VONCVISTAtaskvistawebExecutionRole699BAA62"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA-task-vistaweb/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "VONCVISTAtaskvistawebVONCVISTAvistawebcontainerLogGroup38BC72BA": {
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA-task-vistaweb/VONC_VISTA-vistaweb-container/LogGroup/Resource"
+      }
+    },
+    "VONCVISTAecsservicevistawebServiceB3179452": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "wesecs53ACC98E"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DeploymentController": {
+          "Type": "CODE_DEPLOY"
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "EC2",
+        "LoadBalancers": [
+          {
+            "ContainerName": "VONC_VISTA-vistaweb-container",
+            "ContainerPort": 80,
+            "TargetGroupArn": {
+              "Ref": "VONCVISTAlbvistavistalistenervistawebtargetGroup60F7D836"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "VONCVISTAsgA899C501",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet1ID"
+              },
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet2ID"
+              }
+            ]
+          }
+        },
+        "SchedulingStrategy": "REPLICA",
+        "ServiceName": "VONC_VISTA-Vista",
+        "TaskDefinition": {
+          "Ref": "VONCVISTAtaskvistaweb487B6F7B"
+        }
+      },
+      "DependsOn": [
+        "VONCVISTAlbvistavistalistener9E18FEAD",
+        "VONCVISTAlbvistavistalistenervistawebtargetGroup60F7D836"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA-ecs-service-vistaweb/Service"
+      }
+    },
+    "VONCVISTAlbvistaE1AFC6A7": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "Name": "Vista-temp-ELB",
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "VONCVISTAlbvistaSecurityGroupC043224A",
+              "GroupId"
+            ]
+          }
+        ],
+        "Subnets": [
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet1ID"
+          },
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet2ID"
+          }
+        ],
+        "Type": "application"
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA_lb_vista/Resource"
+      }
+    },
+    "VONCVISTAlbvistaSecurityGroupC043224A": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB vistatempVONCVISTAlbvista91E18107",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 8443",
+            "FromPort": 8443,
+            "IpProtocol": "tcp",
+            "ToPort": 8443
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA_lb_vista/SecurityGroup/Resource"
+      }
+    },
+    "VONCVISTAlbvistaSecurityGrouptovistatempVONCVISTAsgD2CF64A080148C9F73": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VONCVISTAlbvistaSecurityGroupC043224A",
+            "GroupId"
+          ]
+        },
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VONCVISTAsgA899C501",
+            "GroupId"
+          ]
+        },
+        "FromPort": 80,
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA_lb_vista/SecurityGroup/to vistatempVONCVISTAsgD2CF64A0:80"
+      }
+    },
+    "VONCVISTAlbvistavistalistener9E18FEAD": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "VONCVISTAlbvistavistalistenervistawebtargetGroup60F7D836"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VONCVISTAlbvistaE1AFC6A7"
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA_lb_vista/vistalistener/Resource"
+      }
+    },
+    "VONCVISTAlbvistavistalistenervistawebtargetGroup60F7D836": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "Vista-temp-blue",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA_lb_vista/vistalistener/vistaweb_targetGroup/Resource"
+      }
+    },
+    "VONCVISTAlbvistavistalistenergreen4603E588": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "vistawebtargetgreenF9E6AACF"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VONCVISTAlbvistaE1AFC6A7"
+        },
+        "Port": 8443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/VONC_VISTA_lb_vista/vistalistener_green/Resource"
+      }
+    },
+    "vistawebtargetgreenF9E6AACF": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "Vista-temp-Green",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "vista-temp/vistaweb_target_green/Resource"
+      }
+    }
+  },
+  "Outputs": {
+    "VistatempLoadBalancerDNSvista": {
+      "Value": {
+        "Fn::GetAtt": [
+          "VONCVISTAlbvistaE1AFC6A7",
+          "DNSName"
+        ]
+      }
+    }
+  }
+}

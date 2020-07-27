@@ -1,0 +1,2497 @@
+{
+  "Resources": {
+    "appsecuritygroupfrom00000inboundtocontainerinstances3F00E943": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "CidrIp": "0.0.0.0/0",
+        "Description": "in bound to container instances",
+        "FromPort": 22,
+        "GroupId": "sg-072a5e0e3cadbbaa5",
+        "ToPort": 22
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/app_security_group/from 0.0.0.0_0:inbound to container instances"
+      }
+    },
+    "VoncVHCPsg6AD8B826": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "VoncV-HC-P/VoncV-HC-P-sg",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:80",
+            "FromPort": 80,
+            "IpProtocol": "tcp",
+            "ToPort": 80
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:8080",
+            "FromPort": 8080,
+            "IpProtocol": "tcp",
+            "ToPort": 8080
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:2049",
+            "FromPort": 2049,
+            "IpProtocol": "tcp",
+            "ToPort": 2049
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:UDP 111",
+            "FromPort": 111,
+            "IpProtocol": "udp",
+            "ToPort": 111
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:5000",
+            "FromPort": 5000,
+            "IpProtocol": "tcp",
+            "ToPort": 5000
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:3000",
+            "FromPort": 3000,
+            "IpProtocol": "tcp",
+            "ToPort": 3000
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "from 0.0.0.0/0:7000",
+            "FromPort": 7000,
+            "IpProtocol": "tcp",
+            "ToPort": 7000
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-sg/Resource"
+      }
+    },
+    "VoncVHCPsgfromVoncVHCPVoncVHCPlbvoncwebSecurityGroupE7C7927230000D87BF48": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 3000,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbvoncwebSecurityGroup89A3E6B5",
+            "GroupId"
+          ]
+        },
+        "ToPort": 3000
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-sg/from VoncVHCPVoncVHCPlbvoncwebSecurityGroupE7C79272:3000"
+      }
+    },
+    "VoncVHCPsgfromVoncVHCPVoncVHCPlbdispatcherSecurityGroupBCF7C07630002D4D2DC5": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 3000,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbdispatcherSecurityGroup2932D9B6",
+            "GroupId"
+          ]
+        },
+        "ToPort": 3000
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-sg/from VoncVHCPVoncVHCPlbdispatcherSecurityGroupBCF7C076:3000"
+      }
+    },
+    "VoncVHCPsgfromVoncVHCPVoncVHCPlbvistaSecurityGroupA33D717B809E05CE8A": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbvistaSecurityGroup2CE4FD08",
+            "GroupId"
+          ]
+        },
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-sg/from VoncVHCPVoncVHCPlbvistaSecurityGroupA33D717B:80"
+      }
+    },
+    "VoncVHCPsgfromVoncVHCPVoncVHCPlbvarleuthSecurityGroup9F59AAEA809DE61948": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbvarleuthSecurityGroup85C068E6",
+            "GroupId"
+          ]
+        },
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-sg/from VoncVHCPVoncVHCPlbvarleuthSecurityGroup9F59AAEA:80"
+      }
+    },
+    "VoncVHCPsgfromVoncVHCPVoncVHCPlbspliceaiSecurityGroupF8BC2AF3809EE9F9CB": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbspliceaiSecurityGroupDF7BBB59",
+            "GroupId"
+          ]
+        },
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-sg/from VoncVHCPVoncVHCPlbspliceaiSecurityGroupF8BC2AF3:80"
+      }
+    },
+    "VoncVHCPefsvolume0BADA401": {
+      "Type": "AWS::EFS::FileSystem",
+      "Properties": {
+        "FileSystemTags": [
+          {
+            "Key": "Name",
+            "Value": "wes"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_efsvolume/Resource"
+      }
+    },
+    "VoncVHCPefsvolumeEfsMountTarget1B45C43DF": {
+      "Type": "AWS::EFS::MountTarget",
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "VoncVHCPefsvolume0BADA401"
+        },
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "VoncVHCPsg6AD8B826",
+              "GroupId"
+            ]
+          }
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet1ID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_efsvolume/EfsMountTarget1"
+      }
+    },
+    "VoncVHCPefsvolumeEfsMountTarget2FFFB481C": {
+      "Type": "AWS::EFS::MountTarget",
+      "Properties": {
+        "FileSystemId": {
+          "Ref": "VoncVHCPefsvolume0BADA401"
+        },
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "VoncVHCPsg6AD8B826",
+              "GroupId"
+            ]
+          }
+        ],
+        "SubnetId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet2ID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_efsvolume/EfsMountTarget2"
+      }
+    },
+    "wesecs53ACC98E": {
+      "Type": "AWS::ECS::Cluster",
+      "Properties": {
+        "ClusterName": "VoncV-HC-P"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/wes-ecs/Resource"
+      }
+    },
+    "VoncVHCPtaskvistawebTaskRoleEE1FD04E": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-vistaweb/TaskRole/Resource"
+      }
+    },
+    "VoncVHCPtaskvistawebTaskRoleDefaultPolicy56A22764": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskvistawebTaskRoleDefaultPolicy56A22764",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskvistawebTaskRoleEE1FD04E"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-vistaweb/TaskRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskvistaweb1B9A68FF": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Environment": [
+              {
+                "Name": "HG19",
+                "Value": "/var/www/html/mydo/hg19/ucsc.hg19.fasta"
+              },
+              {
+                "Name": "refSeqVer",
+                "Value": "GRCH37"
+              },
+              {
+                "Name": "MYDO_DIR",
+                "Value": "/var/www/html/mydo/LAGI"
+              },
+              {
+                "Name": "TMPDIR",
+                "Value": "/tmp"
+              }
+            ],
+            "Essential": true,
+            "Image": "921279086507.dkr.ecr.us-east-1.amazonaws.com/vistaweb-ecr:latest",
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "VoncVHCPtaskvistawebVoncVHCPvistawebcontainerLogGroup118D1DA4"
+                },
+                "awslogs-stream-prefix": "VoncV-HC-P_vista_logs",
+                "awslogs-region": "us-east-1"
+              }
+            },
+            "Name": "VoncV-HC-P-vistaweb-container",
+            "PortMappings": [
+              {
+                "ContainerPort": 80,
+                "Protocol": "tcp"
+              }
+            ]
+          }
+        ],
+        "Cpu": "4096",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskvistawebExecutionRole96C5F850",
+            "Arn"
+          ]
+        },
+        "Family": "VoncV-HC-P-Vista",
+        "Memory": "8192",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskvistawebTaskRoleEE1FD04E",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-vistaweb/Resource"
+      }
+    },
+    "VoncVHCPtaskvistawebExecutionRole96C5F850": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-vistaweb/ExecutionRole/Resource"
+      }
+    },
+    "VoncVHCPtaskvistawebExecutionRoleDefaultPolicy6297577D": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "VoncVHCPtaskvistawebVoncVHCPvistawebcontainerLogGroup118D1DA4",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskvistawebExecutionRoleDefaultPolicy6297577D",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskvistawebExecutionRole96C5F850"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-vistaweb/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskvistawebVoncVHCPvistawebcontainerLogGroup118D1DA4": {
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-vistaweb/VoncV-HC-P-vistaweb-container/LogGroup/Resource"
+      }
+    },
+    "VoncVHCPtaskvarsleuthTaskRole8D11B253": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-varsleuth/TaskRole/Resource"
+      }
+    },
+    "VoncVHCPtaskvarsleuthTaskRoleDefaultPolicyA64D70AB": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskvarsleuthTaskRoleDefaultPolicyA64D70AB",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskvarsleuthTaskRole8D11B253"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-varsleuth/TaskRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskvarsleuth766015A1": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Essential": true,
+            "Image": "921279086507.dkr.ecr.us-east-1.amazonaws.com/vistaweb-ecr:latest",
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "VoncVHCPtaskvarsleuthVoncVHCPvarsleuthcontainerLogGroupA0FF4954"
+                },
+                "awslogs-stream-prefix": "VoncV-HC-P_varsleuth_logs",
+                "awslogs-region": "us-east-1"
+              }
+            },
+            "Name": "VoncV-HC-P-varsleuth-container",
+            "PortMappings": [
+              {
+                "ContainerPort": 80,
+                "Protocol": "tcp"
+              }
+            ]
+          }
+        ],
+        "Cpu": "4096",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskvarsleuthExecutionRoleBB8F19A2",
+            "Arn"
+          ]
+        },
+        "Family": "VoncV-HC-P-VarSleuth",
+        "Memory": "8192",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskvarsleuthTaskRole8D11B253",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-varsleuth/Resource"
+      }
+    },
+    "VoncVHCPtaskvarsleuthExecutionRoleBB8F19A2": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-varsleuth/ExecutionRole/Resource"
+      }
+    },
+    "VoncVHCPtaskvarsleuthExecutionRoleDefaultPolicy73422C50": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "VoncVHCPtaskvarsleuthVoncVHCPvarsleuthcontainerLogGroupA0FF4954",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskvarsleuthExecutionRoleDefaultPolicy73422C50",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskvarsleuthExecutionRoleBB8F19A2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-varsleuth/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskvarsleuthVoncVHCPvarsleuthcontainerLogGroupA0FF4954": {
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-varsleuth/VoncV-HC-P-varsleuth-container/LogGroup/Resource"
+      }
+    },
+    "VoncVHCPtaskvoncwebTaskRoleB30624C4": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-voncweb/TaskRole/Resource"
+      }
+    },
+    "VoncVHCPtaskvoncwebTaskRoleDefaultPolicy923A2D6B": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskvoncwebTaskRoleDefaultPolicy923A2D6B",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskvoncwebTaskRoleB30624C4"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-voncweb/TaskRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskvoncweb80A63FD1": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Essential": true,
+            "Image": "921279086507.dkr.ecr.us-east-1.amazonaws.com/voncweb-ecr:latest",
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "VoncVHCPtaskvoncwebVoncVHCPvonccontainerLogGroupD902D79E"
+                },
+                "awslogs-stream-prefix": "VoncV-HC-P_vonc_logs",
+                "awslogs-region": "us-east-1"
+              }
+            },
+            "Name": "VoncV-HC-P-vonc-container",
+            "PortMappings": [
+              {
+                "ContainerPort": 3000,
+                "Protocol": "tcp"
+              }
+            ]
+          }
+        ],
+        "Cpu": "4096",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskvoncwebExecutionRoleF9C97807",
+            "Arn"
+          ]
+        },
+        "Family": "VoncV-HC-P-VISTA-Web",
+        "Memory": "8192",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskvoncwebTaskRoleB30624C4",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-voncweb/Resource"
+      }
+    },
+    "VoncVHCPtaskvoncwebExecutionRoleF9C97807": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-voncweb/ExecutionRole/Resource"
+      }
+    },
+    "VoncVHCPtaskvoncwebExecutionRoleDefaultPolicy850C1121": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "VoncVHCPtaskvoncwebVoncVHCPvonccontainerLogGroupD902D79E",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskvoncwebExecutionRoleDefaultPolicy850C1121",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskvoncwebExecutionRoleF9C97807"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-voncweb/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskvoncwebVoncVHCPvonccontainerLogGroupD902D79E": {
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-voncweb/VoncV-HC-P-vonc-container/LogGroup/Resource"
+      }
+    },
+    "VoncVHCPtaskdispatcherTaskRoleCEB6AF0E": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-dispatcher/TaskRole/Resource"
+      }
+    },
+    "VoncVHCPtaskdispatcherTaskRoleDefaultPolicy34E43362": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskdispatcherTaskRoleDefaultPolicy34E43362",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskdispatcherTaskRoleCEB6AF0E"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-dispatcher/TaskRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskdispatcherE1962B7A": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Essential": true,
+            "Image": "921279086507.dkr.ecr.us-east-1.amazonaws.com/dispatcherapi-ecr:latest",
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "VoncVHCPtaskdispatcherVoncVHCPdispatchercontainerLogGroup2E297CEF"
+                },
+                "awslogs-stream-prefix": "VoncV-HC-P_dispatcher_logs",
+                "awslogs-region": "us-east-1"
+              }
+            },
+            "Name": "VoncV-HC-P-dispatcher-container",
+            "PortMappings": [
+              {
+                "ContainerPort": 3000,
+                "Protocol": "tcp"
+              }
+            ]
+          }
+        ],
+        "Cpu": "4096",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskdispatcherExecutionRoleE644FC4C",
+            "Arn"
+          ]
+        },
+        "Family": "VoncV-HC-P-Dispatcher",
+        "Memory": "8192",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskdispatcherTaskRoleCEB6AF0E",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-dispatcher/Resource"
+      }
+    },
+    "VoncVHCPtaskdispatcherExecutionRoleE644FC4C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-dispatcher/ExecutionRole/Resource"
+      }
+    },
+    "VoncVHCPtaskdispatcherExecutionRoleDefaultPolicy40F991BD": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "VoncVHCPtaskdispatcherVoncVHCPdispatchercontainerLogGroup2E297CEF",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskdispatcherExecutionRoleDefaultPolicy40F991BD",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskdispatcherExecutionRoleE644FC4C"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-dispatcher/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskdispatcherVoncVHCPdispatchercontainerLogGroup2E297CEF": {
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-dispatcher/VoncV-HC-P-dispatcher-container/LogGroup/Resource"
+      }
+    },
+    "VoncVHCPtaskspliceaiTaskRole010E98E3": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-spliceai/TaskRole/Resource"
+      }
+    },
+    "VoncVHCPtaskspliceaiTaskRoleDefaultPolicy93F6B7BC": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskspliceaiTaskRoleDefaultPolicy93F6B7BC",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskspliceaiTaskRole010E98E3"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-spliceai/TaskRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskspliceaiA6EC3D1E": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Essential": true,
+            "Image": "921279086507.dkr.ecr.us-east-1.amazonaws.com/vistaweb-ecr:latest",
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "VoncVHCPtaskspliceaiVoncVHCPspliceaicontainerLogGroupA38FECD4"
+                },
+                "awslogs-stream-prefix": "VoncV-HC-P_spliceai_logs",
+                "awslogs-region": "us-east-1"
+              }
+            },
+            "Name": "VoncV-HC-P-spliceai-container",
+            "PortMappings": [
+              {
+                "ContainerPort": 80,
+                "Protocol": "tcp"
+              }
+            ]
+          }
+        ],
+        "Cpu": "4096",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskspliceaiExecutionRoleDC2A7EEE",
+            "Arn"
+          ]
+        },
+        "Family": "VoncV-HC-P-Spliceai",
+        "Memory": "8192",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "VoncVHCPtaskspliceaiTaskRole010E98E3",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-spliceai/Resource"
+      }
+    },
+    "VoncVHCPtaskspliceaiExecutionRoleDC2A7EEE": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-spliceai/ExecutionRole/Resource"
+      }
+    },
+    "VoncVHCPtaskspliceaiExecutionRoleDefaultPolicy21A86516": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:GetLifecyclePolicy",
+                "ecr:GetLifecyclePolicyPreview",
+                "ecr:ListTagsForResource",
+                "ecr:DescribeImageScanFindings",
+                "kms:*",
+                "ecr:*",
+                "secretsmanager:*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "VoncVHCPtaskspliceaiVoncVHCPspliceaicontainerLogGroupA38FECD4",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "VoncVHCPtaskspliceaiExecutionRoleDefaultPolicy21A86516",
+        "Roles": [
+          {
+            "Ref": "VoncVHCPtaskspliceaiExecutionRoleDC2A7EEE"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-spliceai/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "VoncVHCPtaskspliceaiVoncVHCPspliceaicontainerLogGroupA38FECD4": {
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-task-spliceai/VoncV-HC-P-spliceai-container/LogGroup/Resource"
+      }
+    },
+    "VoncVHCPecsservicevoncwebServiceF8049BEB": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "wesecs53ACC98E"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DeploymentController": {
+          "Type": "CODE_DEPLOY"
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": [
+          {
+            "ContainerName": "VoncV-HC-P-vonc-container",
+            "ContainerPort": 3000,
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbvoncwebvoncweblistenervoncwebGroupF9144490"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "VoncVHCPsg6AD8B826",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet1ID"
+              },
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet2ID"
+              }
+            ]
+          }
+        },
+        "PlatformVersion": "1.4.0",
+        "ServiceName": "VoncV-HC-P-Vonc",
+        "TaskDefinition": {
+          "Ref": "VoncVHCPtaskvoncweb80A63FD1"
+        }
+      },
+      "DependsOn": [
+        "VoncVHCPlbvoncwebvoncweblistener0CDC2067",
+        "VoncVHCPlbvoncwebvoncweblistenervoncwebGroupF9144490"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-ecs-service-voncweb/Service"
+      }
+    },
+    "VoncVHCPecsservicedispatcherService054EF571": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "wesecs53ACC98E"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DeploymentController": {
+          "Type": "CODE_DEPLOY"
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": [
+          {
+            "ContainerName": "VoncV-HC-P-dispatcher-container",
+            "ContainerPort": 3000,
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbdispatcherdispatcherlistenerdispatcherGroup0ECE5B39"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "VoncVHCPsg6AD8B826",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet1ID"
+              },
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet2ID"
+              }
+            ]
+          }
+        },
+        "PlatformVersion": "1.4.0",
+        "ServiceName": "VoncV-HC-P-Dispatcher",
+        "TaskDefinition": {
+          "Ref": "VoncVHCPtaskdispatcherE1962B7A"
+        }
+      },
+      "DependsOn": [
+        "VoncVHCPlbdispatcherdispatcherlistenerdispatcherGroup0ECE5B39",
+        "VoncVHCPlbdispatcherdispatcherlistenerA4B29540"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-ecs-service-dispatcher/Service"
+      }
+    },
+    "VoncVHCPecsservicevistawebService03AEF772": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "wesecs53ACC98E"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DeploymentController": {
+          "Type": "CODE_DEPLOY"
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": [
+          {
+            "ContainerName": "VoncV-HC-P-vistaweb-container",
+            "ContainerPort": 80,
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbvistavistalistenervistawebtargetGroup0D6EBA3D"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "VoncVHCPsg6AD8B826",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet1ID"
+              },
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet2ID"
+              }
+            ]
+          }
+        },
+        "PlatformVersion": "1.4.0",
+        "ServiceName": "VoncV-HC-P-Vista",
+        "TaskDefinition": {
+          "Ref": "VoncVHCPtaskvistaweb1B9A68FF"
+        }
+      },
+      "DependsOn": [
+        "VoncVHCPlbvistavistalistener19C3892F",
+        "VoncVHCPlbvistavistalistenervistawebtargetGroup0D6EBA3D"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-ecs-service-vistaweb/Service"
+      }
+    },
+    "VoncVHCPecsservicevarsleuthServiceD61C2504": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "wesecs53ACC98E"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DeploymentController": {
+          "Type": "CODE_DEPLOY"
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": [
+          {
+            "ContainerName": "VoncV-HC-P-varsleuth-container",
+            "ContainerPort": 80,
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbvarleuthvarsleuthlistenervarsleuthtargetGroup4613A15D"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "VoncVHCPsg6AD8B826",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet1ID"
+              },
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet2ID"
+              }
+            ]
+          }
+        },
+        "PlatformVersion": "1.4.0",
+        "ServiceName": "VoncV-HC-P-VarSleuth",
+        "TaskDefinition": {
+          "Ref": "VoncVHCPtaskvarsleuth766015A1"
+        }
+      },
+      "DependsOn": [
+        "VoncVHCPlbvarleuthvarsleuthlistener81C1FE3A",
+        "VoncVHCPlbvarleuthvarsleuthlistenervarsleuthtargetGroup4613A15D"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-ecs-service-varsleuth/Service"
+      }
+    },
+    "VoncVHCPecsservicespliceaiService568F9891": {
+      "Type": "AWS::ECS::Service",
+      "Properties": {
+        "Cluster": {
+          "Ref": "wesecs53ACC98E"
+        },
+        "DeploymentConfiguration": {
+          "MaximumPercent": 200,
+          "MinimumHealthyPercent": 50
+        },
+        "DeploymentController": {
+          "Type": "CODE_DEPLOY"
+        },
+        "DesiredCount": 1,
+        "EnableECSManagedTags": false,
+        "HealthCheckGracePeriodSeconds": 60,
+        "LaunchType": "FARGATE",
+        "LoadBalancers": [
+          {
+            "ContainerName": "VoncV-HC-P-spliceai-container",
+            "ContainerPort": 80,
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbspliceaispliceailistenerspliceaitargetGroup922AFF65"
+            }
+          }
+        ],
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "AssignPublicIp": "DISABLED",
+            "SecurityGroups": [
+              {
+                "Fn::GetAtt": [
+                  "VoncVHCPsg6AD8B826",
+                  "GroupId"
+                ]
+              }
+            ],
+            "Subnets": [
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet1ID"
+              },
+              {
+                "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PrivateSubnet2ID"
+              }
+            ]
+          }
+        },
+        "PlatformVersion": "1.4.0",
+        "ServiceName": "VoncV-HC-P-SpliceAI",
+        "TaskDefinition": {
+          "Ref": "VoncVHCPtaskspliceaiA6EC3D1E"
+        }
+      },
+      "DependsOn": [
+        "VoncVHCPlbspliceaispliceailistener3D5BF139",
+        "VoncVHCPlbspliceaispliceailistenerspliceaitargetGroup922AFF65"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P-ecs-service-spliceai/Service"
+      }
+    },
+    "VoncVHCPlbvoncweb3EFFFB5F": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
+            "Key": "access_logs.s3.enabled",
+            "Value": "true"
+          },
+          {
+            "Key": "access_logs.s3.bucket",
+            "Value": "s4-voncv-hc-elb-logs"
+          },
+          {
+            "Key": "access_logs.s3.prefix",
+            "Value": "VoncV-HC-P-Vonc-ELB"
+          }
+        ],
+        "Name": "VoncV-HC-P-Vonc-ELB",
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "VoncVHCPlbvoncwebSecurityGroup89A3E6B5",
+              "GroupId"
+            ]
+          }
+        ],
+        "Subnets": [
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet1ID"
+          },
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet2ID"
+          }
+        ],
+        "Type": "application"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_voncweb/Resource"
+      }
+    },
+    "VoncVHCPlbvoncwebSecurityGroup89A3E6B5": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB VoncVHCPVoncVHCPlbvoncwebA5021413",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 8443",
+            "FromPort": 8443,
+            "IpProtocol": "tcp",
+            "ToPort": 8443
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_voncweb/SecurityGroup/Resource"
+      }
+    },
+    "VoncVHCPlbvoncwebSecurityGrouptoVoncVHCPVoncVHCPsg7DFB665F30003C41D220": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbvoncwebSecurityGroup89A3E6B5",
+            "GroupId"
+          ]
+        },
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "FromPort": 3000,
+        "ToPort": 3000
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_voncweb/SecurityGroup/to VoncVHCPVoncVHCPsg7DFB665F:3000"
+      }
+    },
+    "VoncVHCPlbvoncwebvoncweblistener0CDC2067": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbvoncwebvoncweblistenervoncwebGroupF9144490"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbvoncweb3EFFFB5F"
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_voncweb/voncweblistener/Resource"
+      }
+    },
+    "VoncVHCPlbvoncwebvoncweblistenervoncwebGroupF9144490": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-VoncWeb-Bl",
+        "Port": 443,
+        "Protocol": "HTTPS",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_voncweb/voncweblistener/voncwebGroup/Resource"
+      }
+    },
+    "VoncVHCPlbvoncwebvoncweblistenergreen9D9650BD": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "voncwebtargetgreen2BA94744"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbvoncweb3EFFFB5F"
+        },
+        "Port": 8443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_voncweb/voncweblistener_green/Resource"
+      }
+    },
+    "VoncVHCPlbdispatcher939E4214": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
+            "Key": "access_logs.s3.enabled",
+            "Value": "true"
+          },
+          {
+            "Key": "access_logs.s3.bucket",
+            "Value": "s4-voncv-hc-elb-logs"
+          },
+          {
+            "Key": "access_logs.s3.prefix",
+            "Value": "VoncV-HC-P-Dispatcher-ELB"
+          }
+        ],
+        "Name": "VoncV-HC-P-Dispatcher-ELB",
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "VoncVHCPlbdispatcherSecurityGroup2932D9B6",
+              "GroupId"
+            ]
+          }
+        ],
+        "Subnets": [
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet1ID"
+          },
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet2ID"
+          }
+        ],
+        "Type": "application"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_dispatcher/Resource"
+      }
+    },
+    "VoncVHCPlbdispatcherSecurityGroup2932D9B6": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB VoncVHCPVoncVHCPlbdispatcherE8950796",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 5000",
+            "FromPort": 5000,
+            "IpProtocol": "tcp",
+            "ToPort": 5000
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 7000",
+            "FromPort": 7000,
+            "IpProtocol": "tcp",
+            "ToPort": 7000
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_dispatcher/SecurityGroup/Resource"
+      }
+    },
+    "VoncVHCPlbdispatcherSecurityGrouptoVoncVHCPVoncVHCPsg7DFB665F3000557A58B3": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbdispatcherSecurityGroup2932D9B6",
+            "GroupId"
+          ]
+        },
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "FromPort": 3000,
+        "ToPort": 3000
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_dispatcher/SecurityGroup/to VoncVHCPVoncVHCPsg7DFB665F:3000"
+      }
+    },
+    "VoncVHCPlbdispatcherdispatcherlistenerA4B29540": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbdispatcherdispatcherlistenerdispatcherGroup0ECE5B39"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbdispatcher939E4214"
+        },
+        "Port": 5000,
+        "Protocol": "HTTP"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_dispatcher/dispatcherlistener/Resource"
+      }
+    },
+    "VoncVHCPlbdispatcherdispatcherlistenerdispatcherGroup0ECE5B39": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/getallpatients",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-Dispatcher-Bl",
+        "Port": 3000,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_dispatcher/dispatcherlistener/dispatcherGroup/Resource"
+      }
+    },
+    "VoncVHCPlbdispatcherdispatcherlistenergreen801BADBD": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "dispatchertargetgreen70EC072B"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbdispatcher939E4214"
+        },
+        "Port": 7000,
+        "Protocol": "HTTP"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_dispatcher/dispatcherlistener_green/Resource"
+      }
+    },
+    "VoncVHCPlbvistaC50D8786": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
+            "Key": "access_logs.s3.enabled",
+            "Value": "true"
+          },
+          {
+            "Key": "access_logs.s3.bucket",
+            "Value": "s4-voncv-hc-elb-logs"
+          },
+          {
+            "Key": "access_logs.s3.prefix",
+            "Value": "VoncV-HC-PVoncV-HC-P-Vista-ELB"
+          }
+        ],
+        "Name": "VoncV-HC-P-Vista-ELB",
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "VoncVHCPlbvistaSecurityGroup2CE4FD08",
+              "GroupId"
+            ]
+          }
+        ],
+        "Subnets": [
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet1ID"
+          },
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet2ID"
+          }
+        ],
+        "Type": "application"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_vista/Resource"
+      }
+    },
+    "VoncVHCPlbvistaSecurityGroup2CE4FD08": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB VoncVHCPVoncVHCPlbvista243A0C54",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 8443",
+            "FromPort": 8443,
+            "IpProtocol": "tcp",
+            "ToPort": 8443
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_vista/SecurityGroup/Resource"
+      }
+    },
+    "VoncVHCPlbvistaSecurityGrouptoVoncVHCPVoncVHCPsg7DFB665F80655D1786": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbvistaSecurityGroup2CE4FD08",
+            "GroupId"
+          ]
+        },
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "FromPort": 80,
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_vista/SecurityGroup/to VoncVHCPVoncVHCPsg7DFB665F:80"
+      }
+    },
+    "VoncVHCPlbvistavistalistener19C3892F": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbvistavistalistenervistawebtargetGroup0D6EBA3D"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbvistaC50D8786"
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_vista/vistalistener/Resource"
+      }
+    },
+    "VoncVHCPlbvistavistalistenervistawebtargetGroup0D6EBA3D": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-Vista-Bl",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_vista/vistalistener/vistaweb_targetGroup/Resource"
+      }
+    },
+    "VoncVHCPlbvistavistalistenergreen463B8EFD": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "vistawebtargetgreenF9E6AACF"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbvistaC50D8786"
+        },
+        "Port": 8443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_vista/vistalistener_green/Resource"
+      }
+    },
+    "VoncVHCPlbvarleuth0BACADBA": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
+            "Key": "access_logs.s3.enabled",
+            "Value": "true"
+          },
+          {
+            "Key": "access_logs.s3.bucket",
+            "Value": "s4-voncv-hc-elb-logs"
+          },
+          {
+            "Key": "access_logs.s3.prefix",
+            "Value": "VoncV-HC-P_lb_varleuth"
+          }
+        ],
+        "Name": "VoncV-HC-P-Varsleuth-ELB",
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "VoncVHCPlbvarleuthSecurityGroup85C068E6",
+              "GroupId"
+            ]
+          }
+        ],
+        "Subnets": [
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet1ID"
+          },
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet2ID"
+          }
+        ],
+        "Type": "application"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_varleuth/Resource"
+      }
+    },
+    "VoncVHCPlbvarleuthSecurityGroup85C068E6": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB VoncVHCPVoncVHCPlbvarleuth2A0C8030",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 8443",
+            "FromPort": 8443,
+            "IpProtocol": "tcp",
+            "ToPort": 8443
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_varleuth/SecurityGroup/Resource"
+      }
+    },
+    "VoncVHCPlbvarleuthSecurityGrouptoVoncVHCPVoncVHCPsg7DFB665F8090AA7953": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbvarleuthSecurityGroup85C068E6",
+            "GroupId"
+          ]
+        },
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "FromPort": 80,
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_varleuth/SecurityGroup/to VoncVHCPVoncVHCPsg7DFB665F:80"
+      }
+    },
+    "VoncVHCPlbvarleuthvarsleuthlistener81C1FE3A": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbvarleuthvarsleuthlistenervarsleuthtargetGroup4613A15D"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbvarleuth0BACADBA"
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_varleuth/varsleuthlistener/Resource"
+      }
+    },
+    "VoncVHCPlbvarleuthvarsleuthlistenervarsleuthtargetGroup4613A15D": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-Varsleuth-Bl",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_varleuth/varsleuthlistener/varsleuth_targetGroup/Resource"
+      }
+    },
+    "VoncVHCPlbvarleuthvarsleuthlistenergreen1031ADF4": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "varsleuthtargetgreenD84BC8C4"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbvarleuth0BACADBA"
+        },
+        "Port": 8443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_varleuth/varsleuthlistener_green/Resource"
+      }
+    },
+    "VoncVHCPlbspliceai098A099D": {
+      "Type": "AWS::ElasticLoadBalancingV2::LoadBalancer",
+      "Properties": {
+        "LoadBalancerAttributes": [
+          {
+            "Key": "access_logs.s3.enabled",
+            "Value": "true"
+          },
+          {
+            "Key": "access_logs.s3.bucket",
+            "Value": "s4-voncv-hc-elb-logs"
+          },
+          {
+            "Key": "access_logs.s3.prefix",
+            "Value": "VoncV-HC-P-SpliceAI-ELB"
+          }
+        ],
+        "Name": "VoncV-HC-P-SpliceAI-ELB",
+        "Scheme": "internet-facing",
+        "SecurityGroups": [
+          {
+            "Fn::GetAtt": [
+              "VoncVHCPlbspliceaiSecurityGroupDF7BBB59",
+              "GroupId"
+            ]
+          }
+        ],
+        "Subnets": [
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet1ID"
+          },
+          {
+            "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-PublicSubnet2ID"
+          }
+        ],
+        "Type": "application"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_spliceai/Resource"
+      }
+    },
+    "VoncVHCPlbspliceaiSecurityGroupDF7BBB59": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "Automatically created Security Group for ELB VoncVHCPVoncVHCPlbspliceai864DA0E6",
+        "SecurityGroupIngress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 443",
+            "FromPort": 443,
+            "IpProtocol": "tcp",
+            "ToPort": 443
+          },
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow from anyone on port 8443",
+            "FromPort": 8443,
+            "IpProtocol": "tcp",
+            "ToPort": 8443
+          }
+        ],
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_spliceai/SecurityGroup/Resource"
+      }
+    },
+    "VoncVHCPlbspliceaiSecurityGrouptoVoncVHCPVoncVHCPsg7DFB665F808567C91C": {
+      "Type": "AWS::EC2::SecurityGroupEgress",
+      "Properties": {
+        "GroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPlbspliceaiSecurityGroupDF7BBB59",
+            "GroupId"
+          ]
+        },
+        "IpProtocol": "tcp",
+        "Description": "Load balancer to target",
+        "DestinationSecurityGroupId": {
+          "Fn::GetAtt": [
+            "VoncVHCPsg6AD8B826",
+            "GroupId"
+          ]
+        },
+        "FromPort": 80,
+        "ToPort": 80
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_spliceai/SecurityGroup/to VoncVHCPVoncVHCPsg7DFB665F:80"
+      }
+    },
+    "VoncVHCPlbspliceaispliceailistener3D5BF139": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "VoncVHCPlbspliceaispliceailistenerspliceaitargetGroup922AFF65"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbspliceai098A099D"
+        },
+        "Port": 443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_spliceai/spliceailistener/Resource"
+      }
+    },
+    "VoncVHCPlbspliceaispliceailistenerspliceaitargetGroup922AFF65": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-SpliceAI-Bl",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_spliceai/spliceailistener/spliceai_targetGroup/Resource"
+      }
+    },
+    "VoncVHCPlbspliceaispliceailistenergreenD39FDA96": {
+      "Type": "AWS::ElasticLoadBalancingV2::Listener",
+      "Properties": {
+        "DefaultActions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "spliceaitargetgreen5AFC799B"
+            },
+            "Type": "forward"
+          }
+        ],
+        "LoadBalancerArn": {
+          "Ref": "VoncVHCPlbspliceai098A099D"
+        },
+        "Port": 8443,
+        "Protocol": "HTTPS",
+        "Certificates": [
+          {
+            "CertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/VoncV-HC-P_lb_spliceai/spliceailistener_green/Resource"
+      }
+    },
+    "voncwebtargetgreen2BA94744": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-VoncWeb-Gr",
+        "Port": 443,
+        "Protocol": "HTTPS",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/voncweb_target_green/Resource"
+      }
+    },
+    "dispatchertargetgreen70EC072B": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/getallpatients",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-Dispatcher-Gr",
+        "Port": 3000,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/dispatcher_target_green/Resource"
+      }
+    },
+    "vistawebtargetgreenF9E6AACF": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-Vista-Gr",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/vistaweb_target_green/Resource"
+      }
+    },
+    "varsleuthtargetgreenD84BC8C4": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-Varsleuth-Gr",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/varsleuth_target_green/Resource"
+      }
+    },
+    "spliceaitargetgreen5AFC799B": {
+      "Type": "AWS::ElasticLoadBalancingV2::TargetGroup",
+      "Properties": {
+        "HealthCheckIntervalSeconds": 60,
+        "HealthCheckPath": "/",
+        "HealthCheckTimeoutSeconds": 5,
+        "Name": "VoncV-HC-P-SpliceAI-Gr",
+        "Port": 80,
+        "Protocol": "HTTP",
+        "TargetType": "ip",
+        "VpcId": {
+          "Fn::ImportValue": "SC-921279086507-pp-y3a2eii4lnfzc-VpcID"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncV-HC-P/spliceai_target_green/Resource"
+      }
+    }
+  },
+  "Outputs": {
+    "VoncVHCPLoadBalancerDNSvoncweb": {
+      "Value": {
+        "Fn::GetAtt": [
+          "VoncVHCPlbvoncweb3EFFFB5F",
+          "DNSName"
+        ]
+      }
+    },
+    "VoncVHCPLoadBalancerDNSdispatcher": {
+      "Value": {
+        "Fn::GetAtt": [
+          "VoncVHCPlbdispatcher939E4214",
+          "DNSName"
+        ]
+      }
+    },
+    "VoncVHCPLoadBalancerDNSvista": {
+      "Value": {
+        "Fn::GetAtt": [
+          "VoncVHCPlbvistaC50D8786",
+          "DNSName"
+        ]
+      }
+    },
+    "VoncVHCPLoadBalancerDNSvarsleuth": {
+      "Value": {
+        "Fn::GetAtt": [
+          "VoncVHCPlbvarleuth0BACADBA",
+          "DNSName"
+        ]
+      }
+    },
+    "VoncVHCPLoadBalancerDNSspliceai": {
+      "Value": {
+        "Fn::GetAtt": [
+          "VoncVHCPlbvarleuth0BACADBA",
+          "DNSName"
+        ]
+      }
+    }
+  }
+}

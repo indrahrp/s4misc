@@ -1,0 +1,1327 @@
+{
+  "Resources": {
+    "RestApi0C43BF4B": {
+      "Type": "AWS::ApiGateway::RestApi",
+      "Properties": {
+        "Name": "voncv"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Resource"
+      }
+    },
+    "RestApiCloudWatchRoleE3ED6605": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+              ]
+            ]
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/CloudWatchRole/Resource"
+      }
+    },
+    "RestApiAccount7C83CF5A": {
+      "Type": "AWS::ApiGateway::Account",
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "RestApiCloudWatchRoleE3ED6605",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "RestApi0C43BF4B"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Account"
+      }
+    },
+    "RestApicontrolDDDFD5A6": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "RestApi0C43BF4B",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "control",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/control/Resource"
+      }
+    },
+    "RestApicontrolPOSTFE149F68": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApicontrolDDDFD5A6"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/control/POST/Resource"
+      }
+    },
+    "RestApicontrolcontrolidCD758F4A": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApicontrolDDDFD5A6"
+        },
+        "PathPart": "{controlid}",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/control/{controlid}/Resource"
+      }
+    },
+    "RestApicontrolcontrolidPOSTB13F4C80": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApicontrolcontrolidCD758F4A"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/control/{controlid}/POST/Resource"
+      }
+    },
+    "RestApicontrolcontrolidsample5D5A2207": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApicontrolcontrolidCD758F4A"
+        },
+        "PathPart": "sample",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/control/{controlid}/sample/Resource"
+      }
+    },
+    "RestApicontrolcontrolidsamplesampleid2715133F": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApicontrolcontrolidsample5D5A2207"
+        },
+        "PathPart": "sampleid",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/control/{controlid}/sample/sampleid/Resource"
+      }
+    },
+    "RestApicontrolcontrolidsamplesampleidGETB5C6CF3A": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "ResourceId": {
+          "Ref": "RestApicontrolcontrolidsamplesampleid2715133F"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        },
+        "MethodResponses": [
+          {
+            "StatusCode": "200"
+          },
+          {
+            "StatusCode": "400"
+          },
+          {
+            "StatusCode": "401"
+          },
+          {
+            "StatusCode": "404"
+          },
+          {
+            "StatusCode": "405"
+          },
+          {
+            "StatusCode": "500"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/control/{controlid}/sample/sampleid/GET/Resource"
+      }
+    },
+    "RestApicontrolcontrolidsamplesampleidpipelineoutputA5D9E58F": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApicontrolcontrolidsamplesampleid2715133F"
+        },
+        "PathPart": "pipeline_output",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/control/{controlid}/sample/sampleid/pipeline_output/Resource"
+      }
+    },
+    "RestApicontrolcontrolidsamplesampleidpipelineoutputPOST9AAEF883": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApicontrolcontrolidsamplesampleidpipelineoutputA5D9E58F"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/control/{controlid}/sample/sampleid/pipeline_output/POST/Resource"
+      }
+    },
+    "RestApigetallpatients131CD8AD": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "RestApi0C43BF4B",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "getallpatients",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/getallpatients/Resource"
+      }
+    },
+    "RestApigetallpatientsGET7D9B963E": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "ResourceId": {
+          "Ref": "RestApigetallpatients131CD8AD"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/getallpatients/GET/Resource"
+      }
+    },
+    "RestApipatient2BDDF037": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "RestApi0C43BF4B",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "patient",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/Resource"
+      }
+    },
+    "RestApipatientGETADC91D98": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "ResourceId": {
+          "Ref": "RestApipatient2BDDF037"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/GET/Resource"
+      }
+    },
+    "RestApipatientPOST3BFCE69F": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApipatient2BDDF037"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/POST/Resource"
+      }
+    },
+    "RestApipatientpatientid521741F7": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatient2BDDF037"
+        },
+        "PathPart": "patientid",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/Resource"
+      }
+    },
+    "RestApipatientpatientidPUT390EE58D": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "PUT",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientid521741F7"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/PUT/Resource"
+      }
+    },
+    "RestApipatientpatientidGET78D60112": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientid521741F7"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/GET/Resource"
+      }
+    },
+    "RestApipatientpatientidcase95E63EA3": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientid521741F7"
+        },
+        "PathPart": "case",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/Resource"
+      }
+    },
+    "RestApipatientpatientidcasePOST1F06337B": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcase95E63EA3"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/POST/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseid7A161DD6": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcase95E63EA3"
+        },
+        "PathPart": "caseid",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidGETB209E9AF": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseid7A161DD6"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/GET/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidPUTDFF050BF": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "PUT",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseid7A161DD6"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/PUT/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidcloseD84853DC": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcasecaseid7A161DD6"
+        },
+        "PathPart": "close",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/close/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidclosePUT110404A5": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "PUT",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseidcloseD84853DC"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/close/PUT/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidcurateBB789EA3": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcasecaseid7A161DD6"
+        },
+        "PathPart": "curate",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/curate/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidcuratePOST23678236": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseidcurateBB789EA3"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/curate/POST/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidfail60A23324": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcasecaseid7A161DD6"
+        },
+        "PathPart": "fail",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/fail/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidfailPOST45E3D70C": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseidfail60A23324"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/fail/POST/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidreopenF6CCFC2F": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcasecaseid7A161DD6"
+        },
+        "PathPart": "reopen",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/reopen/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidreopenPOST7F579CAD": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseidreopenF6CCFC2F"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/reopen/POST/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidsample3CA9100B": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcasecaseid7A161DD6"
+        },
+        "PathPart": "sample",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidsamplesampleidBE3B6209": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcasecaseidsample3CA9100B"
+        },
+        "PathPart": "sampleid",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidsamplesampleidGETD0DF2879": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseidsamplesampleidBE3B6209"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/GET/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidsamplesampleidfail3EF315EE": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcasecaseidsamplesampleidBE3B6209"
+        },
+        "PathPart": "fail",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/fail/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidsamplesampleidfailPOST0D01C856": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseidsamplesampleidfail3EF315EE"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/fail/POST/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidsamplesampleidpipelineoutputDDB5C2F7": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcasecaseidsamplesampleidBE3B6209"
+        },
+        "PathPart": "pipeline-output",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/pipeline-output/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidsamplesampleidpipelineoutputPOST2B74B537": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseidsamplesampleidpipelineoutputDDB5C2F7"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/sample/sampleid/pipeline-output/POST/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidvariantA8FD0077": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Ref": "RestApipatientpatientidcasecaseid7A161DD6"
+        },
+        "PathPart": "variant",
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/variant/Resource"
+      }
+    },
+    "RestApipatientpatientidcasecaseidPOSTFB0525BD": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "ResourceId": {
+          "Ref": "RestApipatientpatientidcasecaseid7A161DD6"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200"
+            },
+            {
+              "SelectionPattern": "400",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "401",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "404",
+              "StatusCode": "400"
+            },
+            {
+              "SelectionPattern": "405",
+              "StatusCode": "401"
+            },
+            {
+              "SelectionPattern": "500",
+              "StatusCode": "401"
+            }
+          ],
+          "Type": "HTTP",
+          "Uri": "http://voncwesprod.sema4.com:3000"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/Default/patient/patientid/case/caseid/POST/Resource"
+      }
+    },
+    "RestApiCustomDomain91FA5E60": {
+      "Type": "AWS::ApiGateway::DomainName",
+      "Properties": {
+        "DomainName": "voncv.sema4.com",
+        "EndpointConfiguration": {
+          "Types": [
+            "REGIONAL"
+          ]
+        },
+        "RegionalCertificateArn": "arn:aws:acm:us-east-1:921279086507:certificate/1cdc5fa6-0978-4c3c-96fa-ced4188b4fd0"
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/CustomDomain/Resource"
+      }
+    },
+    "RestApiCustomDomainMapVoncVStackRestApi73E78028005214B9": {
+      "Type": "AWS::ApiGateway::BasePathMapping",
+      "Properties": {
+        "DomainName": {
+          "Ref": "RestApiCustomDomain91FA5E60"
+        },
+        "RestApiId": {
+          "Ref": "RestApi0C43BF4B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "VoncVStack/RestApi/CustomDomain/Map:--=>VoncVStackRestApi73E78028/Resource"
+      }
+    }
+  }
+}
