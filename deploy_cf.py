@@ -112,7 +112,7 @@ def stack_status(stack_name,sess):
     cfobj= cf.Stack(stack_name)
     #print "status of the stack " + stack_name
     #print str(cfobj.stack_name)
-    print str(cfobj.stack_status)
+    # print str(cfobj.stack_status)
     print str(cfobj.stack_status_reason)
     events=cfobj.events.all()
     #print "events " + str(events)
@@ -411,7 +411,10 @@ def main():
             except:
               ##catch any failure
               logging.critical("Unexpected error: {0}".format(sys.exc_info()[0]))
-              raise
+              if args.deploy_all:
+                  pass
+              else:
+                  raise
 
 
 

@@ -322,12 +322,14 @@ def checking_provision_disk(iotype, available=False):
 
 
 
-def list_rds(type='All',unencrypted=False):
+def list_rds(type='All',unencrypted=None):
     print("################Listing RDS ################")
     Account_Session.initialize()
+    fout=open('/tmp/rds_list','w')
     try:
         for account,sessinfo in Account_Session.SESS_DICT.items():
-            print('\n\n\n====================Finding EBS provision Volume on account : ' + account + ' ============================\n\n\n')
+            print('\n\n\n====================Finding RDS on account : ' + account + ":" + sessinfo['name'] + ' ============================\n\n\n')
+
             # Define the connection
             rdsc = sessinfo['session'].client('rds', region_name="us-east-1")
 
@@ -335,14 +337,25 @@ def list_rds(type='All',unencrypted=False):
             if type == 'All':
                 resp=rdsc.describe_db_instances()
                 dbiter=resp['DBInstances']
+                #print ("in here {:}".format(str(dbiter)))
+
                 #print str(dbiter)
+                if dbiter:
+                    fout.write("\n\nAccount :  {:}  {:}, \n\n".format(account, sessinfo['name']))
+
                 for db in dbiter:
-                    if unencrypted:
-                        if not db['StorageEncrypted']:
-                            print(("DBInstanceId,{}, DBInstanceClass,{}, Engine,{}, DBName,{},Endpoint,{},DBInstanceStatus,{},AllocatedStorage,{},InstanceCreateTime,{},MultiAZ,{},LicenseMode,{},Iops,"
-                                   "{},PubliclyAccessible,{},StorageType,{},Encrypted,{},DeletionProtection,{}".format(db['DBInstanceIdentifier'],db['DBInstanceClass'],db['Engine'],db.get('DBName','NA'),
-                                   db['Endpoint']['Address'],db['DBInstanceStatus'],str(db['AllocatedStorage']),str(db['InstanceCreateTime']),db['MultiAZ'],db['LicenseModel'],str(db.get('Iops','NA')),
-                                   str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db.get('DeletionProtection','NA')))))
+
+                    #if not unencrypted:
+                    #if not db['StorageEncrypted']:
+                    '''
+                    print(("DBInstanceId,{}, DBInstanceClass,{}, Engine,{}, DBName,{},Endpoint,{},DBInstanceStatus,{},AllocatedStorage,{},InstanceCreateTime,{},MultiAZ,{},LicenseMode,{},Iops,"
+                           "{},PubliclyAccessible,{},StorageType,{},Encrypted,{},DeletionProtection,{}".format(db['DBInstanceIdentifier'],db['DBInstanceClass'],db['Engine'],db.get('DBName','NA'),
+                           db['Endpoint']['Address'],db['DBInstanceStatus'],str(db['AllocatedStorage']),str(db['InstanceCreateTime']),db['MultiAZ'],db['LicenseModel'],str(db.get('Iops','NA')),
+                           str(db['PubliclyAccessible']),db['StorageType'],str(db['StorageEncrypted']),str(db.get('DeletionProtection','NA')))))
+                    '''
+                    print ("db instance : {:}, Auto Minor Version Upgrade : {:} ,  Maintanance Window : {:}". format(db['DBInstanceIdentifier'],db['AutoMinorVersionUpgrade'],db['PreferredMaintenanceWindow']))
+                    #fout.write("db instance ,{:}, Auto Minor Version Upgrade ,{:} ,  Maintanance Window ,{:} \n". format(db['DBInstanceIdentifier'],db['AutoMinorVersionUpgrade'],db['PreferredMaintenanceWindow']))
+                    fout.write(" ,{:},{:},{:} \n". format(db['DBInstanceIdentifier'],db['AutoMinorVersionUpgrade'],db['PreferredMaintenanceWindow']))
 
 
 

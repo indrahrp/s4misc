@@ -103,14 +103,18 @@ def getsession(acc):
     print "account id " + acc['Id']
     print "account name " + acc['Name']
     print "========================================"
-    cred = role_to_session(acc['Id'])
-    credentials = cred['Credentials']
 
+    #credentials = cred['Credentials']
+    if acc['Id'] == rootaccount:
 
-    sess= boto3.Session(
-        aws_access_key_id=credentials['AccessKeyId'],
-        aws_secret_access_key=credentials['SecretAccessKey'],
-        aws_session_token=credentials['SessionToken'])
+        sess=boto3.session.Session()
+    else:
+        cred = role_to_session(acc['Id'])
+        credentials = cred['Credentials']
+        sess= boto3.Session(
+            aws_access_key_id=credentials['AccessKeyId'],
+            aws_secret_access_key=credentials['SecretAccessKey'],
+            aws_session_token=credentials['SessionToken'])
 
     return sess
 
@@ -120,10 +124,15 @@ def getsessionv2(acc):
     #print "account id " + acc['Id']
     #print "account name " + acc['Name']
     #print "========================================"
-    if acc['Id']==rootaccount:
+    #if acc['Id']==rootaccount:
+    if acc==rootaccount:
+
         sess=boto3.session.Session()
     else:
-        cred = role_to_session(acc['Id'])
+        #cred = role_to_session(acc['Id'])
+        cred = role_to_session(acc)
+
+
         credentials = cred['Credentials']
 
 
@@ -151,6 +160,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--s3list', type=str, required=False,
                         help='s3 name to search.')
+
+    parser.add_argument('--natgateway', action="store_true", required=False,
+                        help='--natgateway')
     parser.add_argument('--s3_probe', type=str, required=False,
                         help='analyze or probe s3 i.e. ./misc_cli.py --s3_prob s4-bucketname .')
 
@@ -194,6 +206,8 @@ def main():
     args = parser.parse_args()
     if args.s3list:
         s3listallsub(args.s3list)
+    if args.natgateway:
+        natgateway()
     if args.listuser:
         listuser(args.listuser)
     if args.s3_probe:
@@ -226,24 +240,24 @@ def listuser(subaccount):
     client = boto3.client('organizations')
     for account in paginate(client.list_accounts):
         #print "result  " + str(account['Id'])
+        if 'suspend' not in account['Status'].lower():
+       	    print "\n\n\n" + account['Id'], account['Name'], account['Arn']
+            print "============================================="
+            ###     #if account['Id'] != rootaccount:
+            #if account['Id'] != rootaccount:
 
-        print "\n\n\n" + account['Id'], account['Name'], account['Arn']
-        print "============================================="
-        ###     #if account['Id'] != rootaccount:
-        #if account['Id'] != rootaccount:
-
-        client_sess = getsessionv2(account)
-        #clientcf=client_sess.client('cloudformation')
-        iam=client_sess.client('iam', region_name='us-east-1')
-        try:
-            #response = sc_client.list_user()
-            paginator = iam.get_paginator('list_users')
-            for response in paginator.paginate():
-                for resp in response['Users']:
-                    #print(resp['UserName'],',',resp['PasswordLastUsed'])
-                    print resp['UserName'] + "," + str(resp.get('PasswordLastUsed','never used'))
-        except:
-            print("Error getting")
+            client_sess = getsession(account)
+            #clientcf=client_sess.client('cloudformation')
+            iam=client_sess.client('iam', region_name='us-east-1')
+            try:
+                #response = sc_client.list_user()
+                paginator = iam.get_paginator('list_users')
+                for response in paginator.paginate():
+                    for resp in response['Users']:
+                        #print(resp['UserName'],',',resp['PasswordLastUsed'])
+                        print resp['UserName'] + "," + str(resp.get('PasswordLastUsed','never used'))
+            except:
+                print("Error getting")
 
 
 
@@ -286,7 +300,7 @@ def listvpc():
 
         print account['Id'], account['Name'], account['Arn']
         ###     #if account['Id'] != rootaccount:
-        if account['Id'] != rootaccount:
+        if account['Id'] != rootaccount and 'suspend' not in account['Status'].lower():
 
             client_sess = getsession(account)
             #clientcf=client_sess.client('cloudformation')
@@ -298,16 +312,34 @@ def listvpc():
                     for rp in resp:
                         #if rp['IsDefault']:
                         #    return rp['VpcId']
-<<<<<<< HEAD
-                        print rp['CidrBlock'] + " VPC ID " + rp['VpcId'] + " Is Default " + (rp['IsDefault']) + " Tag " + (rp.get('Tags',"NA"))
-=======
                         print(rp['CidrBlock']) + " VPC ID " + rp['VpcId'] + " Is Default " + str(rp['IsDefault']) + " Tag " + str(rp.get('Tags',"NA"))
->>>>>>> 8a322bfa0b984e1041b64bfd5f1c616f764d3a9d
                 else:
                     print('No vpcs found')
             except:
                 print("Error getting")
                 raise
+
+
+def natgateway():
+    print ("Finding Nat Gateway IP address" )
+    Account_Session.initialize()
+    try:
+
+        for account,sessinfo in Account_Session.SESS_DICT.items():
+            print "checking nat gateway on account : "  + account
+            client=sessinfo['session'].client('ec2')
+            natgatewaylist=client.describe_nat_gateways()['NatGateways']
+            for natg in natgatewaylist:
+                #print "Nat-Gaweway IP " + natg['NatGatewayAddresses'][0]['PublicIp '] + ' On VPC :  ' + natg['VpcId']
+                print "Nat " + str(natg['NatGatewayAddresses'][0]['PublicIp'])
+                #Nat [{u'PublicIp': '3.223.101.188', u'NetworkInterfaceId': 'eni-0c5d59863fe1e78cd', u'AllocationId': 'eipalloc-0bfb8fcd5b89c4517', u'PrivateIp': '10.70.76.134'}]
+
+
+
+    except Exception as err:
+        print str(err)
+        raise
+
 
 
 def kms_grant(kmsidarn):
@@ -430,6 +462,7 @@ def unused_secgroup(region,delete=False):
             elb_dict = elb_client.describe_load_balancers()
             for i in elb_dict['LoadBalancerDescriptions']:
                 for j in i['SecurityGroups']:
+                    print "SEC GROUP In Use " + str()
                     if j not in security_groups_in_use:
                          security_groups_in_use.append(j)
 
@@ -449,6 +482,9 @@ def unused_secgroup(region,delete=False):
                 for j in i['VpcSecurityGroups']:
                      if j['VpcSecurityGroupId'] not in security_groups_in_use:
                          security_groups_in_use.append(j['VpcSecurityGroupId'])
+            print "SEC GROUP In Use " + str()
+
+
 
             delete_candidates = []
             for group in all_groups:
@@ -597,7 +633,7 @@ def eiplistallsub(eip):
 
         print account['Id'], account['Name'], account['Arn']
         ###     #if account['Id'] != rootaccount:
-        if account['Id'] != rootaccount:
+        if account['Id'] != rootaccount and "suspend" not in  account['Status'].lower():
 
             client_sess = getsession(account)
             #clientcf=client_sess.client('cloudformation')
@@ -760,6 +796,7 @@ def shareamiallsub(ami):
                 print "error " + str(err)
 
 
+fadsf='d:\\fdaf\\'
 
 
 
