@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 ##############
 import boto3
 import random
@@ -53,8 +54,10 @@ def main():
                         help='--list_rds All ,  check whether standard, spot or reserved instances, default is All')
     parser.add_argument('--list_snapshot',required=False,
                         help='--list_snapshot All ,  list snapshot, default is All accounts')
+    parser.add_argument('--tag_snapshot',required=False,nargs=7,
+                        help='--tag_snapshot snap_xxxxxxxx  nickmaster Hui.Li  BioinfoResearch Text-Mining 114  Prod - snapshot_description snapshotid owner department project FundNo environment ')
     parser.add_argument('--encr_unencrypted_snap',required=False,action="store_true",default=False,
-                        help='--encr_unencrypted_snap  ,  encrypt unecrypte snapshot and delete unncrypted ones after')
+                       help='--encr_unencrypted_snap  ,  encrypt unecrypte snapshot and delete unncrypted ones after')
 
 
 
@@ -73,6 +76,8 @@ def main():
         list_ami(args.list_ami)
     if args.encr_unencrypted_snap:
         encr_unencrypted_snap()
+    if args.tag_snapshot:
+        tag_snapshot(args.tag_snapshot)
 
 
 
@@ -82,21 +87,32 @@ def get_aws_account_id(session):
     return user_arn.split(":")[4]
 
 
+
+
 def getsessionv2(acc):
-    print ("\n\n========================================")
+    #print "\n\n========================================"
     #print "account id " + acc['Id']
     #print "account name " + acc['Name']
-    #print "========================================="
-    cred = role_to_session(acc)
-    credentials = cred['Credentials']
+    #print "========================================"
+    #if acc['Id']==rootaccount:
+    if acc==rootaccount:
+
+        sess=boto3.session.Session()
+    else:
+        #cred = role_to_session(acc['Id'])
+        cred = role_to_session(acc)
 
 
-    sess= boto3.Session(
-        aws_access_key_id=credentials['AccessKeyId'],
-        aws_secret_access_key=credentials['SecretAccessKey'],
-        aws_session_token=credentials['SessionToken'])
+        credentials = cred['Credentials']
 
+
+        sess= boto3.Session(
+            aws_access_key_id=credentials['AccessKeyId'],
+            aws_secret_access_key=credentials['SecretAccessKey'],
+            aws_session_token=credentials['SessionToken'])
+    #print "\n\n========================================"
     return sess
+
 
 
 class Account_Session:
@@ -212,6 +228,25 @@ def paginate(method, **kwargs):
         for result in page:
             yield result
 
+
+def tag_snapshot(args):
+    #print (str(args))
+    Account_Session.build_sess_subaccount(args[0])
+    sess=Account_Session.SESS_DICT[args[0]]
+    ec2 = sess['session'].resource('ec2', region_name="us-east-1")
+    resp=ec2.snapshots.filter(OwnerIds=['self'])
+    snap_dict={}
+    for snapshot in resp:
+        #print(("snapshotid,{},start_time,{},state,{},volume_id,{},owner_id,{},encrypted,{},volumesize,{},description,{} ".
+        #                   format(snapshot.id,str(snapshot.start_time),snapshot.state,snapshot.volume_id,snapshot.owner_id,str(snapshot.encrypted),
+        #                          str(snapshot.volume_size),snapshot.description)))
+        snap_dict.update({snapshot.id.strip():snapshot.description.strip()})
+        #print('sanpddict',str(snap_dict))
+
+    for key,value in snap_dict.items():
+        print(key,value)
+        if args[1] in value:
+            print (str(key),str(value))
 
 
 def encr_unencrypted_snap(subaccount='All',ami_snap=False,unencrypted=False):
@@ -404,7 +439,7 @@ def list_snapshot(subaccount='All',ami_snap=False,unencrypted=False,age=120):
                 total_account_sub_dict.update({sessinfo['name']:total_size_sub})
 
 
-            print('Total account : ' + account + ' ' + sessinfo['name'] + ' Snapshot Size ' + str(total_account_sub_dict[sessinfo['name']]) )
+            ###print('Total account : ' + account + ' ' + sessinfo['name'] + ' Snapshot Size ' + str(total_account_sub_dict[sessinfo['name']]) )
 
 
     except Exception as err :

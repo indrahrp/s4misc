@@ -1,0 +1,400 @@
+{
+    "SecurityGroups": [
+        {
+            "Description": "Enable access to the bastion host",
+            "GroupName": "germline-dash-skaro-prod-VpcStack-1RM21CF7YGC8O-BastionSecurityGroup-13NRGZ1UHGMHR",
+            "IpPermissions": [
+                {
+                    "FromPort": 80,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "146.203.0.0/16"
+                        },
+                        {
+                            "CidrIp": "35.173.21.157/32",
+                            "Description": "openvpn"
+                        },
+                        {
+                            "CidrIp": "34.202.124.161/32",
+                            "Description": "OpenVPN IT Admin"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 80,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 22,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "146.203.121.18/32"
+                        },
+                        {
+                            "CidrIp": "109.230.199.67/32",
+                            "Description": "daniil lapshin"
+                        },
+                        {
+                            "CidrIp": "35.173.21.157/32",
+                            "Description": "openvpn"
+                        },
+                        {
+                            "CidrIp": "146.203.0.0/16",
+                            "Description": "sinai "
+                        },
+                        {
+                            "CidrIp": "74.88.89.75/32",
+                            "Description": "Brent home"
+                        },
+                        {
+                            "CidrIp": "108.46.243.28/32",
+                            "Description": "bino home"
+                        },
+                        {
+                            "CidrIp": "47.19.96.152/29",
+                            "Description": "SLAB"
+                        },
+                        {
+                            "CidrIp": "4.35.28.64/29",
+                            "Description": "SLAB"
+                        },
+                        {
+                            "CidrIp": "34.202.124.161/32",
+                            "Description": "openvpn"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 22,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 443,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "35.173.21.157/32",
+                            "Description": "openvpn"
+                        },
+                        {
+                            "CidrIp": "146.203.0.0/16"
+                        },
+                        {
+                            "CidrIp": "74.88.89.75/32",
+                            "Description": "Brent home"
+                        },
+                        {
+                            "CidrIp": "108.46.243.28/32",
+                            "Description": "bino home"
+                        },
+                        {
+                            "CidrIp": "4.35.28.64/29",
+                            "Description": "SLAB"
+                        },
+                        {
+                            "CidrIp": "47.19.96.152/29",
+                            "Description": "SLAB"
+                        },
+                        {
+                            "CidrIp": "18.205.99.110/32"
+                        },
+                        {
+                            "CidrIp": "34.202.124.161/32",
+                            "Description": "OpenVPN IT Admin"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 443,
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "OwnerId": "680255642622",
+            "GroupId": "sg-0351ff3b786d95df3",
+            "IpPermissionsEgress": [
+                {
+                    "FromPort": 80,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 80,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 22,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0",
+                            "Description": ""
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 22,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 3306,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 5432,
+                    "UserIdGroupPairs": [
+                        {
+                            "GroupId": "sg-0ae540551dc9095b7",
+                            "UserId": "680255642622"
+                        }
+                    ]
+                },
+                {
+                    "FromPort": 53,
+                    "IpProtocol": "udp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 53,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 123,
+                    "IpProtocol": "udp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 123,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 587,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "13.107.6.152/31",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "13.107.18.10/31",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "13.107.128.0/22",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "23.103.160.0/20",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "40.96.0.0/13",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "40.104.0.0/15",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "52.96.0.0/14",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "131.253.33.215/32",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "132.245.0.0/16",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "150.171.32.0/22",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "191.234.140.0/22",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIp": "204.79.197.215/32",
+                            "Description": "smtp.office365.com:587"
+                        }
+                    ],
+                    "Ipv6Ranges": [
+                        {
+                            "CidrIpv6": "2603:1006::/40",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1016::/36",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1026::/36",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1036::/36",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1046::/36",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1056::/36",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1096::/38",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1096:400::/40",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1096:600::/40",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1096:a00::/39",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:1096:c00::/40",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:10a6:200::/40",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:10a6:400::/40",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:10a6:600::/40",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:10a6:800::/40",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2603:10d6:200::/40",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:4::152/128",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:4::153/128",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:c::10/128",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:c::11/128",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:d::10/128",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:d::11/128",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:8f0::/46",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:900::/46",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:a92::152/128",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2620:1ec:a92::153/128",
+                            "Description": "smtp.office365.com:587"
+                        },
+                        {
+                            "CidrIpv6": "2a01:111:f400::/48",
+                            "Description": "smtp.office365.com:587"
+                        }
+                    ],
+                    "PrefixListIds": [],
+                    "ToPort": 587,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 445,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "10.80.172.0/24",
+                            "Description": "adminprod-vpc"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 445,
+                    "UserIdGroupPairs": []
+                },
+                {
+                    "FromPort": 443,
+                    "IpProtocol": "tcp",
+                    "IpRanges": [
+                        {
+                            "CidrIp": "0.0.0.0/0"
+                        }
+                    ],
+                    "Ipv6Ranges": [],
+                    "PrefixListIds": [],
+                    "ToPort": 443,
+                    "UserIdGroupPairs": []
+                }
+            ],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "germline-dash-skaro-prod-VpcStack-1RM21CF7YGC8O-BastionSecurityGroup"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "BastionSecurityGroup"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "germline-dash-skaro-prod-VpcStack-1RM21CF7YGC8O"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-east-1:680255642622:stack/germline-dash-skaro-prod-VpcStack-1RM21CF7YGC8O/faae20a0-6ab2-11ea-8ffc-0a3238f55eb3"
+                }
+            ],
+            "VpcId": "vpc-0838492290c037042"
+        }
+    ]
+}
